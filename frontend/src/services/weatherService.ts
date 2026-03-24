@@ -1,0 +1,60 @@
+const BASE_URL = 'https://api.open-meteo.com/v1/forecast'
+
+export interface HourlyWeather {
+  time: string[]
+  precipitation: number[]
+  relativeHumidity2m: number[]
+  windSpeed10m: number[]
+}
+
+export interface DailyWeather {
+  time: string[]
+  precipitationSum: number[]
+  precipitationProbabilityMax: number[]
+  temperature2mMax: number[]
+  temperature2mMin: number[]
+}
+
+export interface WeatherData {
+  hourly: HourlyWeather
+  daily: DailyWeather
+  latitude: number
+  longitude: number
+}
+
+export async function fetchWeather(lat: number, lon: number): Promise<WeatherData> {
+  const params = new URLSearchParams({
+    latitude: lat.toString(),
+    longitude: lon.toString(),
+    hourly: 'precipitation,relative_humidity_2m,wind_speed_10m',
+    daily: 'precipitation_sum,precipitation_probability_max,temperature_2m_max,temperature_2m_min',
+    timezone: 'America/Sao_Paulo',
+    forecast_days: '7',
+  })
+
+  const response = await fetch(`${BASE_URL}?${params}`)
+
+  if (!response.ok) {
+    throw new Error(`Weather API error: ${response.status}`)
+  }
+
+  const data = await response.json()
+
+  return {
+    latitude: data.latitude,
+    longitude: data.longitude,
+    hourly: {
+      time: data.hourly.time,
+      precipitation: data.hourly.precipitation,
+      relativeHumidity2m: data.hourly.relative_humidity_2m,
+      windSpeed10m: data.hourly.wind_speed_10m,
+    },
+    daily: {
+      time: data.daily.time,
+      precipitationSum: data.daily.precipitation_sum,
+      precipitationProbabilityMax: data.daily.precipitation_probability_max,
+      temperature2mMax: data.daily.temperature_2m_max,
+      temperature2mMin: data.daily.temperature_2m_min,
+    },
+  }
+}

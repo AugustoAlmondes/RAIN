@@ -1,7 +1,6 @@
 import { motion } from "motion/react"
-// import { Button } from "@/components/ui/button"
 import { Map } from "lucide-react"
-// import { Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 export function MapPreview() {
   return (
@@ -52,17 +51,19 @@ export function MapPreview() {
         </div>
 
         <div className="flex items-center justify-center">
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 1 }}
-            whileHover={{ scale: 1.02 }}
-            className='mt-10 relative px-10 py-3.5 bg-surface text-slate-300 font-medium rounded-full overflow-hidden transition-all cursor-pointer active:scale-95 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/25 border border-border-custom hover:border-blue-500/50 hover:text-white flex items-center gap-2 group'
-          >
-            <div className={`absolute inset-0 bg-linear-to-tr from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`} />
-            <Map className="w-5 h-5 text-blue-500 group-hover:text-cyan-400 transition-colors" />
-            <span className="relative z-10">Explorar Mapa em Tempo Real</span>
-          </motion.button>
+          <Link to="/mapa">
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 1 }}
+              whileHover={{ scale: 1.02 }}
+              className='mt-10 relative px-10 py-3.5 bg-surface text-slate-300 font-medium rounded-full overflow-hidden transition-all cursor-pointer active:scale-95 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/25 border border-border-custom hover:border-blue-500/50 hover:text-white flex items-center gap-2 group'
+            >
+              <div className={`absolute inset-0 bg-linear-to-tr from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`} />
+              <Map className="w-5 h-5 text-blue-500 group-hover:text-cyan-400 transition-colors" />
+              <span className="relative z-10">Explorar Mapa em Tempo Real</span>
+            </motion.button>
+          </Link>
         </div>
       </motion.div>
     </section >
