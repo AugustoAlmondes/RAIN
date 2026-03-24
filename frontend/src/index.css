@@ -12,6 +12,10 @@
   --color-primary-custom: #3b82f6;
   --color-accent-custom: #06b6d4;
 
+  --color-gradient-text-primary: #4277C0;
+  --color-gradient-text-secondary: #03285B;
+  --color-gradient-text-tertiary: #000000;
+
   --color-risk-low: #22c55e;
   --color-risk-moderate: #eab308;
   --color-risk-high: #f97316;
@@ -21,7 +25,20 @@
   --color-gradient-button: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
 
   --font-inter: "Inter", sans-serif;
+
+  --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 80px -20px rgba(59, 130, 246, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 100px -10px rgba(59, 130, 246, 0.35);
+    }
+  }
 }
+
+
 
 :root {
   font-family: var(--font-inter);
@@ -140,9 +157,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }
