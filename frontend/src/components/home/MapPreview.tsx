@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 
 export function MapPreview() {
   return (
-    <section className="py-24 px-6 md:px-12 relative w-full overflow-hidden flex flex-col items-center">
+    <section className="py-24 px-6 md:px-12 relative w-full h-screen overflow-hidden flex flex-col items-center">
       {/* Decorative gradient blur behind the map */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-blue-600/20 rounded-[100px] blur-[120px] pointer-events-none" />
 

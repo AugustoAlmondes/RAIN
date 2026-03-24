@@ -1,5 +1,6 @@
 import { motion } from "motion/react"
 import { MapPin, Activity, BellRing } from "lucide-react"
+import WorldMap from "/images/map.jpg"
 
 const steps = [
   {
@@ -24,7 +25,15 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section className="py-24 relative overflow-hidden bg-surface/30">
+    <section
+      style={{
+        backgroundImage: `url(${WorldMap})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundBlendMode: "overlay"
+      }}
+      className="py-20 relative overflow-hidden bg-surface">
       {/* Decorative background gradients */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />
@@ -48,7 +57,7 @@ export function HowItWorks() {
           {steps.map((step, index) => {
             const Icon = step.icon
             return (
-              <motion.div 
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -59,13 +68,13 @@ export function HowItWorks() {
                 <div className="w-24 h-24 mb-8 rounded-full bg-surface border border-border-custom flex items-center justify-center shadow-[0_0_40px_-10px_rgba(59,130,246,0.3)] relative">
                   <div className={`absolute inset-0 rounded-full bg-linear-to-tr ${step.gradient} opacity-20 blur-md`} />
                   <Icon className="w-10 h-10 text-white relative z-10" />
-                  
+
                   {/* Step number badge */}
                   <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-blue-600 border-4 border-bg text-white font-bold flex items-center justify-center text-sm">
                     {index + 1}
                   </div>
                 </div>
-                
+
                 <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
                 <p className="text-slate-400 max-w-sm leading-relaxed">
                   {step.description}
