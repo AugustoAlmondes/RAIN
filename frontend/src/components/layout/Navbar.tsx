@@ -18,11 +18,8 @@ export function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="fixed top-0 left-0 right-0 z-50 h-16 bg-bg/80 backdrop-blur-xl border-b border-border-custom flex items-center px-6 md:px-12"
+      className="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl flex items-center justify-center px-6 md:px-12"
     >
-      <Link to="/" className="flex items-center gap-2 mr-10 flex-shrink-0">
-        <img src="/logo.svg" alt="RAIN" className="h-7 w-auto" />
-      </Link>
 
       <div className="flex items-center gap-1 ml-auto md:ml-0">
         {links.map(({ to, label, icon: Icon }) => {

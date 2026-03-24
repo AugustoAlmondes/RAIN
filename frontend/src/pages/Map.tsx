@@ -100,7 +100,7 @@ export default function MapPage() {
       </div>
 
       {/* Main layout */}
-      <div className="flex-1 flex overflow-hidden pt-16">
+      <div className="flex-1 flex overflow-hidden pt-16 bg-black">
         {/* Map fills remaining space */}
         <div className="relative flex-1 overflow-hidden">
           <MapView
@@ -134,7 +134,7 @@ export default function MapPage() {
               animate={{ width: 340, opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ duration: 0.35, ease: 'easeInOut' }}
-              className="hidden md:flex h-full overflow-hidden flex-shrink-0"
+              className="hidden md:flex h-full overflow-hidden shrink-0"
             >
               <RiskPanel
                 risk={risk}

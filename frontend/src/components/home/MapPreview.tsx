@@ -41,11 +41,12 @@ export function MapPreview() {
           </div>
 
           {/* Fictitious Map Image */}
-          <img
-            src="/image_map.png"
+          {/* <img
+            src="/image_map2.png"
             alt="Preview do Mapa Interativo"
             className="w-full h-full object-cover hover:scale-102 transition-transform duration-700 ease-in-out border"
-          />
+          /> */}
+          <video src="/video/map.mp4" autoPlay loop muted className="w-full h-full object-cover hover:scale-102 transition-transform duration-700 ease-in-out border"></video>
 
 
         </div>

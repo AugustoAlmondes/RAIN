@@ -49,12 +49,12 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
       className="w-full h-full bg-surface/95 backdrop-blur-xl border-l border-border-custom flex flex-col overflow-hidden"
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-border-custom flex-shrink-0">
+      <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-border-custom shrink-0">
         <div className="min-w-0">
           <h2 className="text-base font-bold text-white truncate">Painel de Risco</h2>
           <p className="text-xs text-slate-500 truncate mt-0.5">{locationName || 'Selecione uma localização'}</p>
         </div>
-        <div className="flex items-center gap-2 ml-2 flex-shrink-0">
+        <div className="flex items-center gap-2 ml-2 shrink-0">
           <button onClick={() => setExpanded(e => !e)} className="p-1.5 rounded-lg hover:bg-white/5 text-slate-500 hover:text-white transition-all cursor-pointer">
             <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${expanded ? '' : '-rotate-90'}`} />
           </button>
@@ -84,7 +84,7 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
               <div className="p-5 flex flex-col gap-6">
                 {/* Risk Badge */}
                 <div className={`flex items-center gap-3 p-4 rounded-2xl border ${risk.bgColor} ${risk.borderColor}`}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: `${risk.color}22`, border: `1.5px solid ${risk.color}55` }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ background: `${risk.color}22`, border: `1.5px solid ${risk.color}55` }}>
                     <AlertTriangle className="w-5 h-5" style={{ color: risk.color }} />
                   </div>
                   <div>
@@ -147,7 +147,7 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                   <ul className="flex flex-col gap-2.5">
                     {risk.recommendations.map((rec, i) => (
                       <li key={i} className="flex items-start gap-2.5 text-sm text-slate-300">
-                        <span className="mt-0.5 w-5 h-5 rounded-full bg-blue-500/20 text-blue-400 text-[10px] font-bold flex items-center justify-center flex-shrink-0">
+                        <span className="mt-0.5 w-5 h-5 rounded-full bg-blue-500/20 text-blue-400 text-[10px] font-bold flex items-center justify-center shrink-0">
                           {i + 1}
                         </span>
                         {rec}
