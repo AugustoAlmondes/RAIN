@@ -1,5 +1,5 @@
 import { motion } from 'motion/react'
-import { Droplets, Wind, Thermometer, CloudRain, Loader2 } from 'lucide-react'
+import { Droplets, Wind, Thermometer, CloudRain, Loader2, Zap, Sun, Mountain } from 'lucide-react'
 import type { RiskInfo } from '@/utils/riskLevels'
 
 interface WeatherWidgetProps {
@@ -23,6 +23,19 @@ function Stat({ icon: Icon, label, value, unit }: { icon: React.ElementType; lab
 }
 
 export function WeatherWidget({ risk, locationName, loading }: WeatherWidgetProps) {
+  const getDisasterIcon = () => {
+    if (!risk) return CloudRain
+    switch (risk.disasterType) {
+      case 'flood': return CloudRain
+      case 'landslide': return Mountain
+      case 'storm': return Zap
+      case 'drought': return Sun
+      default: return CloudRain
+    }
+  }
+
+  const DisasterIcon = getDisasterIcon()
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -40,7 +53,7 @@ export function WeatherWidget({ risk, locationName, loading }: WeatherWidgetProp
         <>
           {/* Risk badge */}
           <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-semibold mb-4 ${risk.bgColor} ${risk.borderColor} ${risk.textColor}`}>
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: risk.color }} />
+            <DisasterIcon className="w-3.5 h-3.5" />
             {risk.label}
           </div>
 

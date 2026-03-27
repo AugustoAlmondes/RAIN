@@ -64,7 +64,7 @@ export function SearchBar({ onLocationSelect }: SearchBarProps) {
     <div ref={containerRef} className="relative w-full max-w-sm">
       {/* Input */}
       <div className="relative flex items-center bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl overflow-hidden shadow-lg shadow-black/30 focus-within:border-blue-500/50 transition-colors">
-        <Search className="absolute left-3 w-4 h-4 text-slate-500 flex-shrink-0" />
+        <Search className="absolute left-3 w-4 h-4 text-slate-500 shrink-0" />
         <input
           type="text"
           value={query}
@@ -98,12 +98,12 @@ export function SearchBar({ onLocationSelect }: SearchBarProps) {
                   onClick={() => handleSelect(loc)}
                   className="w-full text-left flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors group"
                 >
-                  <MapPin className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
+                  <MapPin className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
                   <div className="min-w-0">
                     <p className="text-sm text-white font-medium truncate group-hover:text-blue-100 transition-colors">
                       {loc.name}
                     </p>
-                    <p className="text-xs text-slate-500 truncate mt-0.5">{loc.displayName}</p>
+                    <p className="text-xs text-slate-500 truncate mt-0.5">{loc.address.state} - {loc.address.country}</p>
                   </div>
                 </button>
               </li>

@@ -1,10 +1,21 @@
 const USER_AGENT = 'AlertaClima/1.0'
 
+export interface Address {
+city_district: string
+country: string
+country_code: string
+state: string
+state_district: string
+town?: string
+village?: string
+}
+
 export interface GeoLocation {
   lat: number
   lon: number
   name: string
-  displayName: string
+  address: Address
+
 }
 
 export async function searchCity(query: string): Promise<GeoLocation[]> {
@@ -20,12 +31,14 @@ export async function searchCity(query: string): Promise<GeoLocation[]> {
 
   const data = await response.json()
 
-  return data.map((item: Record<string, string>) => ({
+  const result = data.map((item: any) => ({
     lat: parseFloat(item.lat),
     lon: parseFloat(item.lon),
     name: item.name || item.display_name.split(',')[0],
-    displayName: item.display_name,
+    address: item.address
   }))
+
+  return result
 }
 
 export async function reverseGeocode(lat: number, lon: number): Promise<string> {

@@ -1,8 +1,32 @@
 import { motion, AnimatePresence } from 'motion/react'
-import { X, AlertTriangle, Droplets, Wind, Thermometer, CloudRain, TrendingUp, ChevronDown } from 'lucide-react'
+import { X, AlertTriangle, Droplets, Wind, Thermometer, CloudRain, Zap, Sun, Mountain, TrendingUp, ChevronDown } from 'lucide-react'
 import type { RiskInfo } from '@/utils/riskLevels'
 import type { WeatherData } from '@/services/weatherService'
 import { useState } from 'react'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+} from 'chart.js'
+import { Line } from 'react-chartjs-2'
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+)
 
 interface RiskPanelProps {
   risk: RiskInfo | null
@@ -12,23 +36,56 @@ interface RiskPanelProps {
   onClose?: () => void
 }
 
-function BarChart({ values, labels, color }: { values: number[]; labels: string[]; color: string }) {
-  const max = Math.max(...values, 1)
+function Chart({ values, labels, color, label = 'Precipitação' }: { values: number[]; labels: string[]; color: string; label?: string }) {
+  const data = {
+    labels: labels.map(l => l.slice(5)), // Format labels to show only MM-DD
+    datasets: [
+      {
+        label: label,
+        data: values,
+        borderColor: color,
+        backgroundColor: `${color}33`,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 2,
+      },
+    ],
+  }
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(255, 255, 255, 0.05)',
+        },
+        ticks: {
+          color: 'rgba(255, 255, 255, 0.5)',
+          font: { size: 9 },
+        },
+      },
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          color: 'rgba(255, 255, 255, 0.5)',
+          font: { size: 9 },
+        },
+      },
+    },
+  }
+
   return (
-    <div className="flex items-end gap-1.5 h-16">
-      {values.slice(0, 7).map((v, i) => (
-        <div key={i} className="flex-1 flex flex-col items-center gap-1">
-          <div
-            className="w-full rounded-t-sm transition-all duration-500"
-            style={{
-              height: `${(v / max) * 52}px`,
-              minHeight: 2,
-              background: `${color}99`,
-            }}
-          />
-          <span className="text-[9px] text-slate-600 truncate">{labels[i]?.slice(5)}</span>
-        </div>
-      ))}
+    <div className="h-32">
+      <Line data={data} options={options} />
     </div>
   )
 }
@@ -39,6 +96,28 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
   const dailyLabels = weather?.daily.time ?? []
   const dailyPrecip = weather?.daily.precipitationSum ?? []
   const dailyProb = weather?.daily.precipitationProbabilityMax ?? []
+
+  const getDisasterIcon = () => {
+    if (!risk) return AlertTriangle
+    switch (risk.disasterType) {
+      case 'flood': return CloudRain
+      case 'landslide': return Mountain
+      case 'storm': return Zap
+      case 'drought': return Sun
+      default: return AlertTriangle
+    }
+  }
+
+  const getChartTitle = () => {
+    if (!risk) return 'Precipitação'
+    switch (risk.disasterType) {
+      case 'drought': return 'Temperatura Máxima'
+      case 'storm': return 'Velocidade do Vento'
+      default: return 'Precipitação'
+    }
+  }
+
+  const DisasterIcon = getDisasterIcon()
 
   return (
     <motion.div
@@ -83,9 +162,9 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
             ) : risk ? (
               <div className="p-5 flex flex-col gap-6">
                 {/* Risk Badge */}
-                <div className={`flex items-center gap-3 p-4 rounded-2xl border ${risk.bgColor} ${risk.borderColor}`}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ background: `${risk.color}22`, border: `1.5px solid ${risk.color}55` }}>
-                    <AlertTriangle className="w-5 h-5" style={{ color: risk.color }} />
+                <div className={`flex items-center gap-3 p-4 border ${risk.bgColor} ${risk.borderColor}`}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 animate-pulse" style={{ background: `${risk.color}22`, border: `1.5px solid ${risk.color}55` }}>
+                    <DisasterIcon className="w-5 h-5" style={{ color: risk.color }} />
                   </div>
                   <div>
                     <p className="text-xs text-slate-400 font-medium mb-0.5">Nível de Risco</p>
@@ -99,18 +178,18 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                 </div>
 
                 {/* Key stats */}
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-[1fr_1fr] gap-3">
                   {[
                     { icon: CloudRain, label: 'Precipitação 24h', value: `${risk.precipNext24h} mm` },
                     { icon: Droplets, label: 'Umidade', value: `${risk.humidity}%` },
                     { icon: Wind, label: 'Vento', value: `${risk.windSpeed} km/h` },
                     { icon: Thermometer, label: 'Temp. máx', value: `${risk.tempMax}°C` },
                   ].map(({ icon: Icon, label, value }) => (
-                    <div key={label} className="bg-bg/60 rounded-xl p-3 border border-border-custom">
-                      <div className="flex items-center gap-1.5 text-slate-500 text-[10px] uppercase tracking-wider font-semibold mb-1.5">
-                        <Icon className="w-3 h-3" />{label}
+                    <div key={label} className="bg-bg/60 rounded-xl p-3 border flex flex-col justify-between border-border-custom">
+                      <div className="flex items-center justify-between gap-1.5 text-slate-500 text-[10px] uppercase tracking-wider font-semibold mb-1.5">
+                        <Icon className="w-4 h-4" />{label}
                       </div>
-                      <p className="text-white font-semibold text-sm">{value}</p>
+                      <p className="text-white font-semibold text-md">{value}</p>
                     </div>
                   ))}
                 </div>
@@ -120,10 +199,15 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                   <div>
                     <div className="flex items-center gap-2 mb-3">
                       <TrendingUp className="w-4 h-4 text-blue-400" />
-                      <p className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Precipitação — Próximos 7 dias</p>
+                      <p className="text-xs font-semibold text-slate-300 uppercase tracking-wider">{getChartTitle()} — Próximos 7 dias</p>
                     </div>
                     <div className="bg-bg/60 rounded-xl p-3 border border-border-custom">
-                      <BarChart values={dailyPrecip} labels={dailyLabels} color="#3b82f6" />
+                      <Chart 
+                        values={risk.disasterType === 'drought' ? (weather?.daily.temperature2mMax ?? []) : (risk.disasterType === 'storm' ? (weather?.hourly.windSpeed10m.slice(0, 168) ?? []) : dailyPrecip)} 
+                        labels={dailyLabels} 
+                        color={risk.disasterType === 'drought' ? '#f97316' : (risk.disasterType === 'storm' ? '#a855f7' : '#3b82f6')} 
+                        label={getChartTitle()} 
+                      />
                     </div>
                   </div>
                 )}
@@ -136,7 +220,7 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                       <p className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Prob. de Chuva (%)</p>
                     </div>
                     <div className="bg-bg/60 rounded-xl p-3 border border-border-custom">
-                      <BarChart values={dailyProb} labels={dailyLabels} color="#06b6d4" />
+                      <Chart values={dailyProb} labels={dailyLabels} color="#06b6d4" />
                     </div>
                   </div>
                 )}
