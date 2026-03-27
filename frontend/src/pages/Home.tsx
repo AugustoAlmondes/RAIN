@@ -64,8 +64,8 @@ export default function Home() {
 
             {/* Content Sections */}
             <div className="relative z-20 flex flex-col gap-8 pb-32">
-                <DisasterTypes />
                 <MapPreview />
+                <DisasterTypes />
                 <HowItWorks />
                 <NewsPreview />
             </div>

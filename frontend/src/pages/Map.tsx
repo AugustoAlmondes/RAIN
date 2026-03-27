@@ -9,7 +9,8 @@ import { useLocation } from '@/hooks/useLocation'
 import { useWeather } from '@/hooks/useWeather'
 import { computeRisk, type DisasterType, type Period } from '@/utils/riskLevels'
 import { reverseGeocode, type GeoLocation } from '@/services/geocodingService'
-import { Locate, PanelRight } from 'lucide-react'
+import { ArrowLeftIcon, Home, Locate, NotepadText, PanelRight } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 // Default: Brazil center
 const BRAZIL_CENTER: [number, number] = [-14.235, -51.925]
@@ -29,6 +30,7 @@ export default function MapPage() {
   const { data: weatherData, loading: weatherLoading } = useWeather({ lat: selectedLat, lon: selectedLon })
 
   const risk = weatherData ? computeRisk(weatherData, selectedPeriod) : null
+  const navigate = useNavigate()
 
   // Markers: selected location + simulated region markers around it
   const markers: MapMarker[] = selectedLat && selectedLon && risk ? [
@@ -74,6 +76,18 @@ export default function MapPage() {
       <div className="fixed inset-0 bg-bg flex flex-col">
         {/* Top overlay bar */}
         <div className="absolute top-0 left-0 right-0 z-30 flex items-center gap-3 px-4 pt-10 pb-4 pointer-events-none">
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/')}
+            title="Voltar"
+            className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+          >
+            <ArrowLeftIcon className="w-4 h-4 mr-2" />
+            <Home className="w-4 h-4" />
+          </motion.button>
+
           <div className="flex-1 max-w-sm pointer-events-auto">
             <SearchBar onLocationSelect={handleLocationSelect} />
           </div>
@@ -84,9 +98,19 @@ export default function MapPage() {
             whileTap={{ scale: 0.95 }}
             onClick={handleGeolocate}
             title="Usar minha localização"
-            className="pointer-events-auto flex items-center justify-center w-10 h-10 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+            className="pointer-events-auto flex items-center justify-center w-11 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
           >
             <Locate className="w-4 h-4" />
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/news')}
+            title="Notícias"
+            className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+          >
+            <NotepadText className="w-4 h-4" />
           </motion.button>
 
           {/* Toggle panel (mobile) */}
@@ -95,7 +119,7 @@ export default function MapPage() {
             whileTap={{ scale: 0.95 }}
             onClick={() => setPanelOpen(o => !o)}
             title="Painel de risco"
-            className="pointer-events-auto md:hidden flex items-center justify-center w-10 h-10 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+            className="pointer-events-auto md:hidden flex items-center justify-center w-11 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
           >
             <PanelRight className="w-4 h-4" />
           </motion.button>

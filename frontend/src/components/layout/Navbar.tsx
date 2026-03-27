@@ -21,8 +21,8 @@ export function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl flex items-center justify-center px-6 md:px-12"
     >
 
-      <div className="flex items-center gap-1 ml-auto md:ml-0">
-        {links.map(({ to, label, icon: Icon }) => {
+      <div className="flex items-center gap-6 ml-auto md:ml-0">
+        {links.map(({ to, label }) => {
           const isActive = location.pathname === to
           return (
             <Link
@@ -30,17 +30,17 @@ export function Navbar() {
               to={to}
               className={`relative flex items-center gap-1.5 px-3 md:px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 group
                 ${isActive
-                  ? 'text-white bg-white/8'
+                  ? 'text-white'
                   : 'text-slate-400 hover:text-white hover:bg-white/5'
                 }
               `}
             >
-              <Icon className={`w-4 h-4 ${isActive ? 'text-blue-400' : 'group-hover:text-blue-400'} transition-colors`} />
+              {/* <Icon className={`w-4 h-4 ${isActive ? 'text-blue-400' : 'group-hover:text-blue-400'} transition-colors`} /> */}
               <span className="hidden md:inline">{label}</span>
               {isActive && (
                 <motion.div
                   layoutId="navbar-indicator"
-                  className="absolute bottom-0 left-2 right-2 h-[2px] bg-linear-to-r from-blue-500 to-cyan-400 rounded-full"
+                  className="absolute bottom-0 left-2 right-2 h-[2px] bg-linear-to-r from-gradient-text-secondary via-gradient-text-primary to-gradient-text-secondary rounded-full"
                   transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 />
               )}

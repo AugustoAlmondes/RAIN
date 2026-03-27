@@ -24,7 +24,7 @@ export function MapPreview() {
         transition={{ duration: 0.8 }}
         className="w-full max-w-5xl relative z-10 group"
       >
-        <div className="relative rounded-2xl overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_200px_-20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface animate-glow-pulse">
+        <div className="relative rounded-2xl overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface animate-glow-pulse">
 
           <div className="absolute inset-0 bg-linear-to-t from-bg via-transparent to-transparent z-10 pointer-events-none"></div>
           {/* Glassmorphism Top Bar */}
@@ -46,7 +46,7 @@ export function MapPreview() {
             alt="Preview do Mapa Interativo"
             className="w-full h-full object-cover hover:scale-102 transition-transform duration-700 ease-in-out border"
           /> */}
-          <video src="/video/map.mp4" autoPlay loop muted className="w-full h-full object-cover hover:scale-102 transition-transform duration-700 ease-in-out border"></video>
+          <video src="/video/map.mp4" autoPlay loop muted className="w-full h-full object-cover transition-transform duration-700 ease-in-out border"></video>
 
 
         </div>
@@ -60,8 +60,6 @@ export function MapPreview() {
               whileHover={{ scale: 1.02 }}
               className='mt-10 relative px-10 py-3.5 bg-surface text-slate-300 font-medium rounded-full overflow-hidden transition-all cursor-pointer active:scale-95 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/25 border border-border-custom hover:border-blue-500/50 hover:text-white flex items-center gap-2 group'
             >
-              <div className={`absolute inset-0 bg-linear-to-tr from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`} />
-              <Map className="w-5 h-5 text-blue-500 group-hover:text-cyan-400 transition-colors" />
               <span className="relative z-10">Explorar Mapa em Tempo Real</span>
             </motion.button>
           </Link>

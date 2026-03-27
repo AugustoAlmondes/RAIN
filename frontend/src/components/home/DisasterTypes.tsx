@@ -1,35 +1,38 @@
-import { Droplets, MountainSnow, SunMedium, Tornado } from "lucide-react"
+import { Droplets, Image, MountainSnow, SunMedium, Tornado } from "lucide-react"
 import { motion } from "motion/react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-
+import ALAGAMENTO_IMAGE from "/images/alagamento.png"
+import SECA from "/images/seca.png"
+import TORNADO from "/images/tornado.png"
+import DESLIZAMENTO from "/images/deslizamento.png"
 const disasters = [
   {
     title: "Enchentes e Alagamentos",
     description: "Elevação do nível de rios e riachos que transbordam, inundando áreas urbanas e rurais.",
     icon: Droplets,
     color: "text-blue-500",
-    gradient: "from-blue-500 to-cyan-400",
+    image: ALAGAMENTO_IMAGE,
   },
   {
     title: "Deslizamentos de Terra",
     description: "Movimento rápido de solo e rochas em encostas, frequentemente desencadeado por chuvas intensas.",
     icon: MountainSnow,
     color: "text-orange-500",
-    gradient: "from-orange-500 to-yellow-400",
+    image: DESLIZAMENTO,
   },
   {
     title: "Secas Severas",
     description: "Períodos prolongados de precipitação abaixo do normal, causando escassez de água e impactos agrícolas.",
     icon: SunMedium,
     color: "text-yellow-500",
-    gradient: "from-yellow-500 to-orange-400",
+    image: SECA,
   },
   {
     title: "Ciclones e Vendavais",
     description: "Ventos em altíssima velocidade capazes de destruir infraestruturas e causar interrupção de serviços.",
     icon: Tornado,
     color: "text-cyan-500",
-    gradient: "from-cyan-500 to-blue-400",
+    image: TORNADO,
   },
 ]
 
@@ -49,31 +52,59 @@ export function DisasterTypes() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="flex flex-col gap-12 w-full max-w-5xl mx-auto px-4 md:px-0">
         {disasters.map((disaster, index) => {
           const Icon = disaster.icon
+          const isReversed = index % 2 !== 0
+
           return (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              initial={{ opacity: 0, y: 30, x: isReversed ? 20 : -20 }}
+              whileInView={{ opacity: 1, y: 0, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }}
+              className="w-full"
             >
-              <Card className="bg-surface/30 backdrop-blur-xl border-border-custom h-full hover:border-slate-500/50 hover:bg-surface/40 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
-                <div className="absolute inset-0 bg-linear-to-b from-white/2 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <CardHeader>
-                  <div className={`w-14 h-14 rounded-2xl bg-surface border border-border-custom flex items-center justify-center mb-4 relative shadow-[0_0_20px_-5px_rgba(59,130,246,0.1)]`}>
-                    <div className={`absolute inset-0 rounded-2xl bg-linear-to-tr ${disaster.gradient} opacity-20 blur-md`} />
-                    <Icon className={`w-7 h-7 ${disaster.color} relative z-10`} />
+              <Card className={`bg-surface/30 backdrop-blur-xl border-border-custom hover:border-slate-500/50 hover:bg-surface/40 transition-all duration-500 relative overflow-hidden group flex flex-col md:flex-row min-h-[400px] ${isReversed ? 'md:flex-row-reverse' : ''}`}>
+                {/* Image Section */}
+                <div className="md:w-1/2 relative overflow-hidden h-64 md:h-auto">
+                  <div className="absolute inset-0 bg-linear-to-t from-surface/80 to-transparent z-10 md:hidden" />
+                  <img 
+                    src={disaster.image} 
+                    alt={disaster.title} 
+                    className="w-full h-full object-cover transition-transform duration-700" 
+                  />
+                  <div className={`absolute top-6 ${isReversed ? 'left-6' : 'right-6'} z-20 md:hidden`}>
+                    <div className={`w-12 h-12 rounded-xl bg-surface/80 backdrop-blur-md border border-border-custom flex items-center justify-center`}>
+                      <Icon className={`w-6 h-6 ${disaster.color}`} />
+                    </div>
                   </div>
-                  <CardTitle className="text-xl text-white group-hover:text-blue-100 transition-colors delay-75">{disaster.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-slate-400 text-base leading-relaxed group-hover:text-slate-300 transition-colors delay-75">
-                    {disaster.description}
-                  </CardDescription>
-                </CardContent>
+                </div>
+
+                {/* Content Section */}
+                <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center relative z-10">
+                  
+                  <CardHeader className="p-0 mb-4">
+                    <CardTitle className="text-2xl md:text-3xl text-white group-hover:text-blue-100 transition-colors duration-300">
+                      {disaster.title}
+                    </CardTitle>
+                  </CardHeader>
+                  
+                  <CardContent className="p-0">
+                    <CardDescription className="text-slate-400 text-lg md:text-xl leading-relaxed group-hover:text-slate-300 transition-colors duration-300">
+                      {disaster.description}
+                    </CardDescription>
+                    
+                    <button className="mt-8 flex items-center gap-2 text-blue-400 font-semibold group/btn cursor-pointer hover:text-blue-300 transition-colors">
+                      Saiba mais 
+                      <span className="group-hover/btn:translate-x-1 transition-transform">→</span>
+                    </button>
+                  </CardContent>
+                </div>
+
+                {/* Hover decorative element */}
+                <div className={`absolute bottom-0 ${isReversed ? 'left-0' : 'right-0'} w-1/2 h-1 bg-linear-to-r from-gradient-text-tertiary via-gradient-text-primary to-gradient-text-tertiary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-${isReversed ? 'left' : 'right'}`} />
               </Card>
             </motion.div>
           )
