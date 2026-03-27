@@ -14,7 +14,7 @@ export function Navbar() {
   const location = useLocation()
 
   return (
-    <motion.nav
+    <motion.nav 
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
