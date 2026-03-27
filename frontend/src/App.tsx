@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import Home from "./pages/Home"
 import { Navbar } from "@/components/layout/Navbar"
+import { Footer } from "@/components/layout/Footer"
 
 const MapPage = lazy(() => import('./pages/Map'))
 
@@ -27,6 +28,7 @@ function App() {
             </Suspense>
           } />
         </Routes>
+        <Footer />
       </Router>
     </>
   )
