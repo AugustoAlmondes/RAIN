@@ -126,7 +126,7 @@ export default function MapPage() {
               <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/news')}
+            onClick={() => navigate('/noticias')}
             className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
           >
             <NotepadText className="w-4 h-4" />

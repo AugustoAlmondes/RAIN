@@ -6,17 +6,23 @@ import {
 } from 'react-router-dom'
 import Home from "./pages/Home"
 import { Layout } from './Layout'
+import News from './pages/News'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const MapPage = lazy(() => import('./pages/Map'))
 
-function App() {
+const queryClient = new QueryClient();
 
+function App() {
   return (
     <>
+    <QueryClientProvider client={queryClient}>
+
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
+            <Route path='/noticias' element={<News />} />
           </Route>
           <Route path="mapa" element={
             <Suspense fallback={
@@ -29,6 +35,7 @@ function App() {
           } />
         </Routes>
       </Router>
+          </QueryClientProvider>
     </>
   )
 }
