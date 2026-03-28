@@ -7,25 +7,21 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
-  Filler,
 } from 'chart.js'
-import { Line } from 'react-chartjs-2'
+import { Bar } from 'react-chartjs-2'
 
 // Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
+  BarElement,
   Title,
   Tooltip,
-  Legend,
-  Filler
+  Legend
 )
 
 interface RiskPanelProps {
@@ -36,18 +32,16 @@ interface RiskPanelProps {
   onClose?: () => void
 }
 
-function Chart({ values, labels, color, label = 'Precipitação' }: { values: number[]; labels: string[]; color: string; label?: string }) {
+function Chart({ values, labels, color, label = 'Precipitação (%)' }: { values: number[]; labels: string[]; color: string; label?: string }) {
   const data = {
-    labels: labels.map(l => l.slice(5)), // Format labels to show only MM-DD
+    labels: labels.map(l => l.slice(5)),
     datasets: [
       {
         label: label,
         data: values,
-        borderColor: color,
-        backgroundColor: `${color}33`,
-        fill: true,
-        tension: 0.4,
-        pointRadius: 2,
+        backgroundColor: `${color}cc`,
+        borderRadius: 4,
+        borderWidth: 0,
       },
     ],
   }
@@ -77,15 +71,15 @@ function Chart({ values, labels, color, label = 'Precipitação' }: { values: nu
         },
         ticks: {
           color: 'rgba(255, 255, 255, 0.5)',
-          font: { size: 9 },
+          font: { size: 10 },
         },
       },
     },
   }
 
   return (
-    <div className="h-32">
-      <Line data={data} options={options} />
+    <div className="h-40">
+      <Bar data={data} options={options} />
     </div>
   )
 }
@@ -109,11 +103,11 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
   }
 
   const getChartTitle = () => {
-    if (!risk) return 'Precipitação'
+    if (!risk) return 'Precipitação (%)'
     switch (risk.disasterType) {
       case 'drought': return 'Temperatura Máxima'
       case 'storm': return 'Velocidade do Vento'
-      default: return 'Precipitação'
+      default: return 'Precipitação (%)'
     }
   }
 
@@ -201,12 +195,12 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                       <TrendingUp className="w-4 h-4 text-blue-400" />
                       <p className="text-xs font-semibold text-slate-300 uppercase tracking-wider">{getChartTitle()} — Próximos 7 dias</p>
                     </div>
-                    <div className="bg-bg/60 rounded-xl p-3 border border-border-custom">
-                      <Chart 
-                        values={risk.disasterType === 'drought' ? (weather?.daily.temperature2mMax ?? []) : (risk.disasterType === 'storm' ? (weather?.hourly.windSpeed10m.slice(0, 168) ?? []) : dailyPrecip)} 
-                        labels={dailyLabels} 
-                        color={risk.disasterType === 'drought' ? '#f97316' : (risk.disasterType === 'storm' ? '#a855f7' : '#3b82f6')} 
-                        label={getChartTitle()} 
+                    <div className="bg-bg/60 rounded p-3 border border-border-custom">
+                      <Chart
+                        values={risk.disasterType === 'drought' ? (weather?.daily.temperature2mMax ?? []) : (risk.disasterType === 'storm' ? (weather?.hourly.windSpeed10m.slice(0, 168) ?? []) : dailyPrecip)}
+                        labels={dailyLabels}
+                        color={risk.disasterType === 'drought' ? '#f97316' : (risk.disasterType === 'storm' ? '#a855f7' : '#3b82f6')}
+                        label={getChartTitle()}
                       />
                     </div>
                   </div>
@@ -219,7 +213,7 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                       <CloudRain className="w-4 h-4 text-cyan-400" />
                       <p className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Prob. de Chuva (%)</p>
                     </div>
-                    <div className="bg-bg/60 rounded-xl p-3 border border-border-custom">
+                    <div className="bg-bg/60 rounded p-3 border border-border-custom">
                       <Chart values={dailyProb} labels={dailyLabels} color="#06b6d4" />
                     </div>
                   </div>

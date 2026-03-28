@@ -16,7 +16,7 @@ function Stat({ icon: Icon, label, value, unit }: { icon: React.ElementType; lab
         {label}
       </div>
       <div className="text-white font-semibold text-sm">
-        {value}<span className="text-slate-500 text-xs font-normal ml-0.5">{unit}</span>
+        {value}<span className="text-slate-500 text-xs font-normal ml-0.5"> {unit}</span>
       </div>
     </div>
   )
@@ -41,7 +41,7 @@ export function WeatherWidget({ risk, locationName, loading }: WeatherWidgetProp
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.4, duration: 0.5 }}
-      className="bg-surface/90 backdrop-blur-xl border border-border-custom rounded-2xl p-4 shadow-xl shadow-black/30 min-w-[220px]"
+      className="bg-surface/90 backdrop-blur-xl border border-border-custom rounded-2xl p-4 shadow-xl shadow-black/30 min-w-[320px]"
     >
       {/* Location header */}
       <div className="flex items-center justify-between mb-3">
@@ -67,8 +67,12 @@ export function WeatherWidget({ risk, locationName, loading }: WeatherWidgetProp
         </>
       ) : (
         <div className="flex flex-col items-center py-4 gap-2 text-slate-500">
-          <Loader2 className="w-5 h-5 animate-spin" />
-          <p className="text-xs">Carregando dados...</p>
+          {/* <Loader2 className="w-5 h-5 animate-spin" /> */}
+          {
+            loading?
+            <p className="text-xs">Carregando dados...</p> :
+            <p className="text-xs">Selecione uma localização</p>
+          }
         </div>
       )}
     </motion.div>

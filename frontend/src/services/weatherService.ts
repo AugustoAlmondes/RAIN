@@ -5,6 +5,8 @@ export interface HourlyWeather {
   precipitation: number[]
   relativeHumidity2m: number[]
   windSpeed10m: number[]
+  precipitationProbability: number[]
+  windGusts10m: number[]
 }
 
 export interface DailyWeather {
@@ -26,7 +28,7 @@ export async function fetchWeather(lat: number, lon: number): Promise<WeatherDat
   const params = new URLSearchParams({
     latitude: lat.toString(),
     longitude: lon.toString(),
-    hourly: 'precipitation,relative_humidity_2m,wind_speed_10m',
+    hourly: 'precipitation,relative_humidity_2m,wind_speed_10m,precipitation_probability,wind_gusts_10m',
     daily: 'precipitation_sum,precipitation_probability_max,temperature_2m_max,temperature_2m_min',
     timezone: 'America/Sao_Paulo',
     forecast_days: '7',
@@ -48,6 +50,8 @@ export async function fetchWeather(lat: number, lon: number): Promise<WeatherDat
       precipitation: data.hourly.precipitation,
       relativeHumidity2m: data.hourly.relative_humidity_2m,
       windSpeed10m: data.hourly.wind_speed_10m,
+      precipitationProbability: data.hourly.precipitation_probability,
+      windGusts10m: data.hourly.wind_gusts_10m,
     },
     daily: {
       time: data.daily.time,

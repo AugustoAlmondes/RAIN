@@ -16,6 +16,7 @@ export function useWeather({ lat, lon }: UseWeatherOptions) {
     setError(null)
     try {
       const result = await fetchWeather(latitude, longitude)
+      console.log("result", result)
       setData(result)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro ao buscar dados climáticos.')

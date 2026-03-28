@@ -11,6 +11,7 @@ import { computeRisk, type DisasterType, type Period } from '@/utils/riskLevels'
 import { reverseGeocode, type GeoLocation } from '@/services/geocodingService'
 import { ArrowLeftIcon, Home, Locate, NotepadText, PanelRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 
 // Default: Brazil center
 const BRAZIL_CENTER: [number, number] = [-14.235, -51.925]
@@ -77,41 +78,66 @@ export default function MapPage() {
         {/* Top overlay bar */}
         <div className="absolute top-0 left-0 right-0 z-30 flex items-center gap-3 px-4 pt-10 pb-4 pointer-events-none">
 
-          <motion.button
+          <HoverCard>
+            <HoverCardTrigger>
+                        <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate('/')}
-            title="Voltar"
             className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
           >
             <ArrowLeftIcon className="w-4 h-4 mr-2" />
             <Home className="w-4 h-4" />
           </motion.button>
+            </HoverCardTrigger>
+            <HoverCardContent 
+            side='bottom'
+            className='bg-surface/40 mt-1 backdrop-blur-xl rounded-xl shadow-lg text-slate-400 w-max'>
+              <p>Voltar</p>
+            </HoverCardContent>
+          </HoverCard>
 
           <div className="flex-1 max-w-sm pointer-events-auto">
             <SearchBar onLocationSelect={handleLocationSelect} />
           </div>
 
           {/* Geolocate button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleGeolocate}
-            title="Usar minha localização"
-            className="pointer-events-auto flex items-center justify-center w-11 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
-          >
-            <Locate className="w-4 h-4" />
-          </motion.button>
+          <HoverCard openDelay={300} closeDelay={100} >
+            <HoverCardTrigger>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleGeolocate}
+                className="pointer-events-auto flex items-center justify-center w-11 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+              >
+                <Locate className="w-4 h-4" />
+              </motion.button>
+            </HoverCardTrigger>
+            <HoverCardContent 
+            side='bottom'
+            className='bg-surface/40 backdrop-blur-xl mt-1 rounded-xl shadow-lg text-slate-400 w-max'>
+              <p>Usar minha localização</p>
+            </HoverCardContent>
+          </HoverCard>
 
-          <motion.button
+
+          <HoverCard openDelay={300} closeDelay={100} >
+            <HoverCardTrigger>
+              <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => navigate('/news')}
-            title="Notícias"
             className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
           >
             <NotepadText className="w-4 h-4" />
           </motion.button>
+            </HoverCardTrigger>
+            <HoverCardContent 
+            side='bottom'
+            className='bg-surface/40 mt-1 backdrop-blur-xl rounded-xl shadow-lg text-slate-400 w-max'>
+              <p>Notícias</p>
+            </HoverCardContent>
+          </HoverCard>
 
           {/* Toggle panel (mobile) */}
           <motion.button
@@ -135,16 +161,6 @@ export default function MapPage() {
               onMarkerClick={handleMarkerClick}
             />
 
-            {/* Filters — bottom-left overlay */}
-            <div className="absolute bottom-6 left-4 z-20">
-              <MapFilters
-                selectedType={selectedType}
-                selectedPeriod={selectedPeriod}
-                onTypeChange={setSelectedType}
-                onPeriodChange={setSelectedPeriod}
-              />
-            </div>
-
             {/* WeatherWidget — top-right overlay (inside map, only on desktop) */}
             <div className="hidden md:block absolute top-4 right-4 z-20">
               <WeatherWidget risk={risk} locationName={locationName} loading={weatherLoading} />
@@ -155,11 +171,11 @@ export default function MapPage() {
           <AnimatePresence>
             {panelOpen && (
               <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 340, opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
+                initial={{ width: 'auto', opacity: 0 }}
+                animate={{ width: 'auto', opacity: 1 }}
+                exit={{ width: 'auto', opacity: 0 }}
                 transition={{ duration: 0.35, ease: 'easeInOut' }}
-                className="hidden md:flex h-full overflow-hidden shrink-0"
+                className="hidden md:flex h-full overflow-hidden shrink-0 "
               >
                 <RiskPanel
                   risk={risk}

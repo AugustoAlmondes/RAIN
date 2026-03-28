@@ -56,7 +56,7 @@ export function MapView({ center, zoom = 11, markers = [], onMarkerClick }: MapV
     <MapContainer
       center={center}
       zoom={zoom}
-      style={{ width: '100%', height: '100%' }}
+      style={{ width: '100%', height: '100%', backgroundColor: '#272727' }}
       zoomControl={false}
       className="z-0"
     >
@@ -83,7 +83,7 @@ export function MapView({ center, zoom = 11, markers = [], onMarkerClick }: MapV
             click: () => onMarkerClick?.(marker),
           }}
         >
-          <Popup>
+          <Popup className='bg-surface/40 backdrop-blur-xl rounded-xl shadow-lg text-slate-400 w-max'>
             <div className="text-sm font-medium">{marker.label}</div>
           </Popup>
         </CircleMarker>
