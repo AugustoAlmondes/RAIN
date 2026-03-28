@@ -1,6 +1,7 @@
 import { motion } from 'motion/react'
 import { Droplets, Wind, Thermometer, CloudRain, Loader2, Zap, Sun, Mountain } from 'lucide-react'
 import type { RiskInfo } from '@/utils/riskLevels'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 
 interface WeatherWidgetProps {
   risk: RiskInfo | null
@@ -10,15 +11,19 @@ interface WeatherWidgetProps {
 
 function Stat({ icon: Icon, label, value, unit }: { icon: React.ElementType; label: string; value: string | number; unit: string }) {
   return (
-    <div className="flex flex-col gap-0.5">
-      <div className="flex items-center gap-1.5 text-slate-500 text-[10px] uppercase tracking-wider font-semibold">
-        <Icon className="w-3 h-3" />
-        {label}
-      </div>
-      <div className="text-white font-semibold text-sm">
-        {value}<span className="text-slate-500 text-xs font-normal ml-0.5"> {unit}</span>
-      </div>
-    </div>
+    <Card className="bg-surface/90 backdrop-blur-xl py-2 gap-2 w-40 border border-border-custom rounded shadow-xl shadow-black/30">
+      <CardHeader>
+        <CardDescription className="flex items-center gap-1.5 text-slate-500 uppercase text-sm tracking-wider font-semibold">
+          <Icon className="w-5 h-5"/>
+          {label}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="text-white font-semibold text-xl">
+          {value}<span className="text-slate-500 text-xs font-normal ml-0.5"> {unit}</span>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -41,7 +46,7 @@ export function WeatherWidget({ risk, locationName, loading }: WeatherWidgetProp
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 0.4, duration: 0.5 }}
-      className="bg-surface/90 backdrop-blur-xl border border-border-custom rounded-2xl p-4 shadow-xl shadow-black/30 min-w-[320px]"
+      className="bg-surface/90 backdrop-blur-xl border border-border-custom rounded p-4 shadow-xl shadow-black/30 min-w-[320px]"
     >
       {/* Location header */}
       <div className="flex items-center justify-between mb-3">
@@ -52,7 +57,7 @@ export function WeatherWidget({ risk, locationName, loading }: WeatherWidgetProp
       {risk ? (
         <>
           {/* Risk badge */}
-          <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-semibold mb-4 ${risk.bgColor} ${risk.borderColor} ${risk.textColor}`}>
+          <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded border text-xs font-semibold mb-4 ${risk.bgColor} ${risk.borderColor} ${risk.textColor}`}>
             <DisasterIcon className="w-3.5 h-3.5" />
             {risk.label}
           </div>
@@ -67,11 +72,10 @@ export function WeatherWidget({ risk, locationName, loading }: WeatherWidgetProp
         </>
       ) : (
         <div className="flex flex-col items-center py-4 gap-2 text-slate-500">
-          {/* <Loader2 className="w-5 h-5 animate-spin" /> */}
           {
-            loading?
-            <p className="text-xs">Carregando dados...</p> :
-            <p className="text-xs">Selecione uma localização</p>
+            loading ?
+              <p className="text-xs">Carregando dados...</p> :
+              <p className="text-xs">Selecione uma localização</p>
           }
         </div>
       )}

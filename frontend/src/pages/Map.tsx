@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { MapView, type MapMarker } from '@/components/map/MapView'
-import { MapFilters } from '@/components/map/MapFilters'
+// import { MapFilters } from '@/components/map/MapFilters'
 import { RiskPanel } from '@/components/map/RiskPanel'
 import { WeatherWidget } from '@/components/map/WeatherWidget'
 import { SearchBar } from '@/components/map/SearchBar'
 import { useLocation } from '@/hooks/useLocation'
 import { useWeather } from '@/hooks/useWeather'
-import { computeRisk, type DisasterType, type Period } from '@/utils/riskLevels'
+import { computeRisk, type Period } from '@/utils/riskLevels'
 import { reverseGeocode, type GeoLocation } from '@/services/geocodingService'
 import { ArrowLeftIcon, Home, Locate, NotepadText, PanelRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -23,8 +23,8 @@ export default function MapPage() {
   const [selectedLat, setSelectedLat] = useState<number | null>(null)
   const [selectedLon, setSelectedLon] = useState<number | null>(null)
   const [locationName, setLocationName] = useState('')
-  const [selectedType, setSelectedType] = useState<DisasterType>('all')
-  const [selectedPeriod, setSelectedPeriod] = useState<Period>('24h')
+  // const [selectedType, setSelectedType] = useState<DisasterType>('all')
+  const selectedPeriod = '24h'
   const [panelOpen, setPanelOpen] = useState(false)
 
   const { coords } = useLocation()

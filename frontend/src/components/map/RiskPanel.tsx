@@ -13,6 +13,7 @@ import {
   Legend,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
+import { Card, CardContent, CardDescription } from '../ui/card'
 
 // Register Chart.js components
 ChartJS.register(
@@ -163,36 +164,50 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                   <div>
                     <p className="text-xs text-slate-400 font-medium mb-0.5">Nível de Risco</p>
                     <p className={`text-lg font-bold ${risk.textColor}`}>{risk.label}</p>
+                    <p className="text-sm text-slate-300 leading-relaxed">{risk.description}</p>
                   </div>
                 </div>
 
-                {/* Description */}
-                <div>
-                  <p className="text-sm text-slate-300 leading-relaxed">{risk.description}</p>
-                </div>
-
                 {/* Key stats */}
-                <div className="grid grid-cols-[1fr_1fr] gap-3">
-                  {[
-                    { icon: CloudRain, label: 'Precipitação 24h', value: `${risk.precipNext24h} mm` },
-                    { icon: Droplets, label: 'Umidade', value: `${risk.humidity}%` },
-                    { icon: Wind, label: 'Vento', value: `${risk.windSpeed} km/h` },
-                    { icon: Thermometer, label: 'Temp. máx', value: `${risk.tempMax}°C` },
-                  ].map(({ icon: Icon, label, value }) => (
-                    <div key={label} className="bg-bg/60 rounded-xl p-3 border flex flex-col justify-between border-border-custom">
-                      <div className="flex items-center justify-between gap-1.5 text-slate-500 text-[10px] uppercase tracking-wider font-semibold mb-1.5">
-                        <Icon className="w-4 h-4" />{label}
-                      </div>
-                      <p className="text-white font-semibold text-md">{value}</p>
-                    </div>
-                  ))}
+                <div className="flex items-center flex-col gap-2 mb-3">
+                  <p className="text-sm text-slate-300/20 font-semibold w-full text-start">Principais Métricas</p>
+
+                  <div className="grid grid-cols-[1fr_1fr] w-full gap-3">
+                    {[
+                      { icon: CloudRain, label: 'Precipitação 24h', value: `${risk.precipNext24h} mm` },
+                      { icon: Droplets, label: 'Umidade', value: `${risk.humidity}%` },
+                      { icon: Wind, label: 'Vento', value: `${risk.windSpeed} km/h` },
+                      { icon: Wind, label: 'Rajadas', value: `${risk.windGusts} km/h` },
+                      { icon: Thermometer, label: 'Temp. máx', value: `${risk.tempMax}°C` },
+                      { icon: Thermometer, label: 'Sensação', value: `${risk.apparentTemp}°C` },
+                      { icon: Sun, label: 'Índice UV', value: `${risk.uvIndex}` },
+                      { icon: CloudRain, label: 'Prob. Chuva', value: `${risk.precipProbability}%` },
+                    ].map(({ icon: Icon, label, value }) => (
+                      <Card key={label} className='bg-bg/60 rounded gap-1 p-3 border flex flex-col justify-between border-border-custom'>
+                        <CardDescription>
+                          <div className="flex items-center justify-between gap-1.5 text-slate-500 text-[10px] uppercase tracking-wider font-semibold mb-1.5">
+                            <Icon className="w-4 h-4" />{label}
+                          </div>
+                        </CardDescription>
+                        <CardContent>
+                          <p className="text-white font-semibold text-xl">{value}</p>
+                        </CardContent>
+                      </Card>
+                      // <div key={label} className="bg-bg/60 rounded-xl p-3 border flex flex-col justify-between border-border-custom">
+                      //   <div className="flex items-center justify-between gap-1.5 text-slate-500 text-[10px] uppercase tracking-wider font-semibold mb-1.5">
+                      //     <Icon className="w-4 h-4" />{label}
+                      //   </div>
+                      //   <p className="text-white font-semibold text-md">{value}</p>
+                      // </div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Precipitation chart */}
                 {dailyPrecip.length > 0 && (
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <TrendingUp className="w-4 h-4 text-blue-400" />
+                      {/* <TrendingUp className="w-4 h-4 text-blue-400" /> */}
                       <p className="text-xs font-semibold text-slate-300 uppercase tracking-wider">{getChartTitle()} — Próximos 7 dias</p>
                     </div>
                     <div className="bg-bg/60 rounded p-3 border border-border-custom">
@@ -210,7 +225,7 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                 {dailyProb.length > 0 && (
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <CloudRain className="w-4 h-4 text-cyan-400" />
+                      {/* <CloudRain className="w-4 h-4 text-cyan-400" /> */}
                       <p className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Prob. de Chuva (%)</p>
                     </div>
                     <div className="bg-bg/60 rounded p-3 border border-border-custom">

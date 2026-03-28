@@ -17,9 +17,12 @@ export interface RiskInfo {
   precipNext24h: number
   humidity: number
   windSpeed: number
+  windGusts: number
   tempMax: number
   tempMin: number
+  apparentTemp: number
   precipProbability: number
+  uvIndex: number
 }
 
 /** Compute risk level based on various weather parameters */
@@ -30,14 +33,18 @@ export function computeRisk(weather: WeatherData, period: Period = '24h'): RiskI
   const hourlyPrecip = weather.hourly.precipitation.slice(0, sliceHours)
   const hourlyHumidity = weather.hourly.relativeHumidity2m.slice(0, sliceHours)
   const hourlyWind = weather.hourly.windSpeed10m.slice(0, 24)
+  const hourlyGusts = weather.hourly.windGusts10m.slice(0, 24)
 
   const totalPrecip = hourlyPrecip.reduce((a, b) => a + b, 0)
   const avgHumidity = hourlyHumidity.reduce((a, b) => a + b, 0) / hourlyHumidity.length
   const maxWind = Math.max(...hourlyWind)
+  const maxGusts = Math.max(...hourlyGusts)
   const precipNext24h = weather.hourly.precipitation.slice(0, 24).reduce((a, b) => a + b, 0)
   const precipProbability = weather.daily.precipitationProbabilityMax[0] ?? 0
   const tempMax = weather.daily.temperature2mMax[0] ?? 0
   const tempMin = weather.daily.temperature2mMin[0] ?? 0
+  const apparentTemp = weather.hourly.apparentTemperature[0] ?? tempMax
+  const uvIndex = weather.daily.uvIndexMax[0] ?? 0
 
   // Scaled per-period total
   const dailyEquiv = totalPrecip / (sliceHours / 24)
@@ -72,10 +79,10 @@ export function computeRisk(weather: WeatherData, period: Period = '24h'): RiskI
   }
 
   // 3. Check for STORM (high wind)
-  if (maxWind >= 80) {
+  if (maxWind >= 80 || maxGusts >= 100) {
     level = 'critical'
     disasterType = 'storm'
-  } else if (maxWind >= 50) {
+  } else if (maxWind >= 50 || maxGusts >= 70) {
     if (level !== 'critical') {
       level = 'high'
       disasterType = 'storm'
@@ -203,8 +210,11 @@ export function computeRisk(weather: WeatherData, period: Period = '24h'): RiskI
     precipNext24h: Math.round(precipNext24h * 10) / 10,
     humidity: Math.round(avgHumidity),
     windSpeed: Math.round(maxWind),
+    windGusts: Math.round(maxGusts),
     tempMax: Math.round(tempMax),
     tempMin: Math.round(tempMin),
+    apparentTemp: Math.round(apparentTemp),
     precipProbability,
+    uvIndex: Math.round(uvIndex * 10) / 10,
   }
 }
