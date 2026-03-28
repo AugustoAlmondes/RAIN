@@ -3,6 +3,7 @@ import { DisasterTypes } from '@/components/home/DisasterTypes'
 import { HowItWorks } from '@/components/home/HowItWorks'
 import { MapPreview } from '@/components/home/MapPreview'
 import { NewsPreview } from '@/components/home/NewsPreview'
+import { useRef } from 'react'
 
 export default function Home() {
 
@@ -15,6 +16,8 @@ export default function Home() {
             }
         }
     }
+
+    const mapRef = useRef(null)
 
     return (
         <main className="relative bg-black min-h-screen text-foreground overflow-x-hidden">
@@ -46,25 +49,25 @@ export default function Home() {
                             src="/logo.svg"
                             alt="logo_rain" />
 
-                        <a href="#desastres">
-                            <motion.button
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.5, duration: 1 }}
-                                whileHover={{ scale: 1.01 }}
-                                className='relative px-30 py-3 text-white/40 font-medium rounded-md overflow-hidden transition-all cursor-pointer active:scale-95 group shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 hover:text-white'
-                            >
-                                Começar
-                                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-linear-to-r from-black via-blue-500 to-black translate-y-px group-hover:translate-y-0 transition-transform"></div>
-                            </motion.button>
-                        </a>
+                        <motion.button
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.5, duration: 1 }}
+                            whileHover={{ scale: 1.01 }}
+                            className='relative px-30 py-3 text-white/40 font-medium rounded-md overflow-hidden transition-all cursor-pointer active:scale-95 group shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 hover:text-white'
+                            // @ts-ignore
+                            onClick={() => { mapRef.current?.scrollIntoView({ behavior: 'smooth' }) }}
+                        >
+                            Saiba mais
+                            <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-linear-to-r from-black via-blue-500 to-black translate-y-px group-hover:translate-y-0 transition-transform"></div>
+                        </motion.button>
                     </div>
                 </motion.div>
             </section>
 
             {/* Content Sections */}
             <div className="relative z-20 flex flex-col gap-8 pb-32">
-                <MapPreview />
+                <MapPreview ref={mapRef} />
                 <DisasterTypes />
                 <HowItWorks />
                 <NewsPreview />

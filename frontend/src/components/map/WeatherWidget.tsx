@@ -1,7 +1,7 @@
 import { motion } from 'motion/react'
 import { Droplets, Wind, Thermometer, CloudRain, Loader2, Zap, Sun, Mountain } from 'lucide-react'
 import type { RiskInfo } from '@/utils/riskLevels'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import { Card, CardContent, CardDescription, CardHeader } from '../ui/card'
 
 interface WeatherWidgetProps {
   risk: RiskInfo | null
