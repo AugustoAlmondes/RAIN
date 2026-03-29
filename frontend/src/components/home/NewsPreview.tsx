@@ -1,5 +1,5 @@
 import { motion } from "motion/react"
-import { ExternalLink, Calendar, MapPin } from "lucide-react"
+import { ExternalLink, Calendar } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { useNewStore } from "@/store/newsStore"
 import { useNews } from "@/hooks/useNews"
@@ -97,7 +97,7 @@ export function NewsPreview() {
           <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-linear-to-r from-black via-blue-500 to-black translate-y-px group-hover:translate-y-0 transition-transform"></div>
         </motion.button>
 
-      </div>
+      </div> 
 
       {/* Decorative blurry spot below */}
       <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-900/10 rounded-full blur-[100px] pointer-events-none" />

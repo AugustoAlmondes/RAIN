@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { MapView, type MapMarker } from '@/components/map/MapView'
 // import { MapFilters } from '@/components/map/MapFilters'
@@ -7,7 +7,7 @@ import { WeatherWidget } from '@/components/map/WeatherWidget'
 import { SearchBar } from '@/components/map/SearchBar'
 import { useLocation } from '@/hooks/useLocation'
 import { useWeather } from '@/hooks/useWeather'
-import { computeRisk, type Period } from '@/utils/riskLevels'
+import { computeRisk } from '@/utils/riskLevels'
 import { reverseGeocode, type GeoLocation } from '@/services/geocodingService'
 import { ArrowLeftIcon, Home, Locate, NotepadText, PanelRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -71,6 +71,11 @@ export default function MapPage() {
     setPanelOpen(true)
   }, [])
 
+  // Initial search for São Paulo on map load
+  useEffect(() => {
+    selectLocation(-23.5505, -46.6333, 'São Paulo');
+  }, [selectLocation])
+
   return (
     <>
       {/* <Navbar /> */}
@@ -80,19 +85,19 @@ export default function MapPage() {
 
           <HoverCard>
             <HoverCardTrigger>
-                        <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/')}
-            className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
-          >
-            <ArrowLeftIcon className="w-4 h-4 mr-2" />
-            <Home className="w-4 h-4" />
-          </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/')}
+                className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+              >
+                <ArrowLeftIcon className="w-4 h-4 mr-2" />
+                <Home className="w-4 h-4" />
+              </motion.button>
             </HoverCardTrigger>
-            <HoverCardContent 
-            side='bottom'
-            className='bg-surface/40 mt-1 backdrop-blur-xl rounded-xl shadow-lg text-slate-400 w-max'>
+            <HoverCardContent
+              side='bottom'
+              className='bg-surface/40 mt-1 backdrop-blur-xl rounded-xl shadow-lg text-slate-400 w-max'>
               <p>Voltar</p>
             </HoverCardContent>
           </HoverCard>
@@ -113,9 +118,9 @@ export default function MapPage() {
                 <Locate className="w-4 h-4" />
               </motion.button>
             </HoverCardTrigger>
-            <HoverCardContent 
-            side='bottom'
-            className='bg-surface/40 backdrop-blur-xl mt-1 rounded-xl shadow-lg text-slate-400 w-max'>
+            <HoverCardContent
+              side='bottom'
+              className='bg-surface/40 backdrop-blur-xl mt-1 rounded-xl shadow-lg text-slate-400 w-max'>
               <p>Usar minha localização</p>
             </HoverCardContent>
           </HoverCard>
@@ -124,17 +129,17 @@ export default function MapPage() {
           <HoverCard openDelay={300} closeDelay={100} >
             <HoverCardTrigger>
               <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/noticias')}
-            className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
-          >
-            <NotepadText className="w-4 h-4" />
-          </motion.button>
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/noticias')}
+                className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+              >
+                <NotepadText className="w-4 h-4" />
+              </motion.button>
             </HoverCardTrigger>
-            <HoverCardContent 
-            side='bottom'
-            className='bg-surface/40 mt-1 backdrop-blur-xl rounded-xl shadow-lg text-slate-400 w-max'>
+            <HoverCardContent
+              side='bottom'
+              className='bg-surface/40 mt-1 backdrop-blur-xl rounded-xl shadow-lg text-slate-400 w-max'>
               <p>Notícias</p>
             </HoverCardContent>
           </HoverCard>
