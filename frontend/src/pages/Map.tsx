@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useEffectEvent } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { MapView, type MapMarker } from '@/components/map/MapView'
 // import { MapFilters } from '@/components/map/MapFilters'
@@ -12,6 +12,8 @@ import { reverseGeocode, type GeoLocation } from '@/services/geocodingService'
 import { ArrowLeftIcon, Home, Locate, NotepadText, PanelRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
+import { useTourStore } from '@/store/tourStore'
+import Spotlight from '@/components/map/SpotLight'
 
 // Default: Brazil center
 const BRAZIL_CENTER: [number, number] = [-14.235, -51.925]
@@ -28,6 +30,7 @@ export default function MapPage() {
   const [panelOpen, setPanelOpen] = useState(false)
 
   const { coords } = useLocation()
+  const { openTour, isOpen } = useTourStore()
   const { data: weatherData, loading: weatherLoading } = useWeather({ lat: selectedLat, lon: selectedLon })
 
   const risk = weatherData ? computeRisk(weatherData, selectedPeriod) : null
@@ -71,6 +74,15 @@ export default function MapPage() {
     setPanelOpen(true)
   }, [])
 
+  useEffect(() => {
+    const hasSeenTour = localStorage.getItem('rain_map_tour_seen');
+
+    if (!hasSeenTour) {
+      openTour();
+      localStorage.setItem('rain_map_tour_seen', 'true')
+    }
+  }, [openTour])
+
   // Initial search for São Paulo on map load
   useEffect(() => {
     selectLocation(-23.5505, -46.6333, 'São Paulo');
@@ -82,10 +94,10 @@ export default function MapPage() {
       <div className="fixed inset-0 bg-bg flex flex-col">
         {/* Top overlay bar */}
         <div className="absolute top-0 left-0 right-0 z-30 flex items-center gap-3 px-4 pt-10 pb-4 pointer-events-none">
-
           <HoverCard>
             <HoverCardTrigger>
               <motion.button
+                id="tour-home"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/')}
@@ -103,13 +115,16 @@ export default function MapPage() {
           </HoverCard>
 
           <div className="flex-1 max-w-sm pointer-events-auto">
-            <SearchBar onLocationSelect={handleLocationSelect} />
+            <div id='tour-search' className='flex-1 pointer-events-auto'>
+              <SearchBar onLocationSelect={handleLocationSelect} />
+            </div>
           </div>
 
           {/* Geolocate button */}
           <HoverCard openDelay={300} closeDelay={100} >
             <HoverCardTrigger>
               <motion.button
+                id="tour-geolocate"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleGeolocate}
@@ -129,6 +144,7 @@ export default function MapPage() {
           <HoverCard openDelay={300} closeDelay={100} >
             <HoverCardTrigger>
               <motion.button
+                id="tour-news"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/noticias')}
@@ -167,7 +183,7 @@ export default function MapPage() {
             />
 
             {/* WeatherWidget — top-right overlay (inside map, only on desktop) */}
-            <div className="hidden md:block absolute top-4 right-4 z-20">
+            <div id='tour-weather-widget' className="hidden md:block absolute top-4 right-4 z-20">
               <WeatherWidget risk={risk} locationName={locationName} loading={weatherLoading} />
             </div>
           </div>
@@ -176,6 +192,7 @@ export default function MapPage() {
           <AnimatePresence>
             {panelOpen && (
               <motion.div
+                id='tour-risk-panel'
                 initial={{ width: 'auto', opacity: 0 }}
                 animate={{ width: 'auto', opacity: 1 }}
                 exit={{ width: 'auto', opacity: 0 }}
@@ -215,6 +232,7 @@ export default function MapPage() {
           )}
         </AnimatePresence>
       </div>
+      <Spotlight />
     </>
   )
 }
