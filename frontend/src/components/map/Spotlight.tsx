@@ -1,5 +1,5 @@
-import { useEffect, useState, useLayoutEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useLayoutEffect } from "react"
+import { motion } from "framer-motion";
 import { useTourStore } from "@/store/tourStore";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";

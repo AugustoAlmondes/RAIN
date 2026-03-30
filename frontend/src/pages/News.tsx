@@ -25,7 +25,7 @@ export default function News() {
     if (isLoading) return (<div className="min-h-screen bg-black flex items-center justify-center text-white/50 text-lg">Carregando notícias...</div>)
 
     return (
-        <section className="min-h-screen bg-black flex flex-col pb-20">
+        <section className="min-h-screen bg-background-primary flex flex-col pb-20">
             {lastNews && (
                 <div className="relative w-full h-[60vh] min-h-[400px]">
                     {lastNews.image && (
@@ -34,7 +34,7 @@ export default function News() {
                             style={{ backgroundImage: `url(${lastNews.image})` }}
                         />
                     )}
-                    <div className="absolute inset-0 bg-linear-to-t from-black via-black/60 to-transparent"></div>
+                    <div className="absolute inset-0 bg-linear-to-t from-background-primary via-background-primary/60 to-transparent"></div>
 
                     <div className="absolute bottom-0 left-0 right-0 w-full">
                         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col gap-4">

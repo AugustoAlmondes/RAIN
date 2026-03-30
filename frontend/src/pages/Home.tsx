@@ -20,7 +20,7 @@ export default function Home() {
     const mapRef = useRef(null)
 
     return (
-        <main className="relative bg-black min-h-screen text-foreground overflow-x-hidden">
+        <main className="relative bg-black min-h-screen text-foreground overflow-x-hidden pt-16">
             {/* Hero Section */}
             <section className="relative flex flex-col items-center justify-center min-h-screen w-full pt-16 mt-[-64px]">
                 <motion.video
@@ -66,7 +66,7 @@ export default function Home() {
             </section>
 
             {/* Content Sections */}
-            <div className="relative z-20 flex flex-col gap-8 pb-32">
+            <div className="relative z-20 flex flex-col overflow-hidden">
                 <MapPreview ref={mapRef} />
                 <DisasterTypes />
                 <HowItWorks />

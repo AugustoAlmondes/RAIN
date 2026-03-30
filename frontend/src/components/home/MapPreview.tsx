@@ -4,18 +4,60 @@ import { Link } from "react-router-dom"
 
 export function MapPreview({ref}: any) {
   return (
-    <section ref={ref} className="py-24 px-6 md:px-12 relative w-full h-screen overflow-hidden flex flex-col items-center">
-      {/* Decorative gradient blur behind the map */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-blue-600/15 rounded-[100px] blur-[120px] pointer-events-none" />
+    <section ref={ref} className="bg-black py-16 px-6 md:px-12 relative w-full min-h-screen overflow-hidden flex flex-col items-center border-t border-gradient-top border-gradient-bottom">
+      {/* Soft Aurora Background */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none flex justify-center items-center">
+        {/* Deep Blue Element */}
+        <motion.div
+          animate={{
+            x: ["-20%", "20%", "-10%", "-20%"],
+            y: ["-10%", "10%", "20%", "-10%"],
+            scale: [1, 1.2, 0.9, 1],
+            rotate: [0, 45, -45, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute w-[50vw] h-[50vh] rounded-[100px] blur-[100px] mix-blend-screen opacity-50 bg-gradient-text-secondary"
+        />
+        
+        {/* Accent Light Blue Element */}
+        <motion.div
+          animate={{
+            x: ["20%", "-15%", "10%", "20%"],
+            y: ["15%", "-20%", "5%", "15%"],
+            scale: [0.9, 1.1, 1, 0.9],
+            rotate: [0, -30, 30, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+          className="absolute w-[30vw] h-[30vh] rounded-[100px] blur-[100px] mix-blend-screen opacity-60 bg-gradient-text-primary"
+        />
 
-      <div className="text-center mb-12 relative z-10">
-        <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
-          Monitoramento <span className="text-transparent bg-clip-text bg-linear-to-r from-gradient-text-primary to-gradient-text-secondary">Interativo</span>
-        </h2>
-        <p className="text-slate-400 max-w-2xl mx-auto text-lg">
-          Explore o mapa e visualize em tempo real os alertas e previsões de acordo com os níveis de ameaça.
-        </p>
+        {/* Supporting Mixed Grad Element */}
+        <motion.div
+          animate={{
+            x: ["-10%", "15%", "-5%", "-10%"],
+            y: ["20%", "-5%", "-15%", "20%"],
+            scale: [1.1, 0.9, 1.2, 1.1],
+            rotate: [45, 0, -45, 45],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 5,
+          }}
+          className="absolute w-[60vw] h-[30vh] rounded-[100px] blur-[120px] mix-blend-screen opacity-40 bg-linear-to-r from-gradient-text-secondary to-gradient-text-primary"
+        />
       </div>
+
 
       <motion.div
         initial={{ opacity: 0, y: 50 }}
@@ -24,6 +66,14 @@ export function MapPreview({ref}: any) {
         transition={{ duration: 0.8 }}
         className="w-full max-w-5xl relative z-10 group"
       >
+      <div className="mb-12 text-start w-full mx-auto relative z-10">
+        <h2 className="text-3xl md:text-7xl font-light tracking-tight text-white mb-4">
+          Monitoramento <span className="text-transparent bg-clip-text bg-linear-to-r from-gradient-text-primary to-gradient-text-secondary">Interativo</span>
+        </h2>
+        <p className="text-slate-400 max-w-2xl text-lg">
+          Explore o mapa e visualize em tempo real os alertas e previsões de acordo com os níveis de ameaça.
+        </p>
+      </div>
         <div className="relative rounded-2xl overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface animate-glow-pulse">
 
           <div className="absolute inset-0 bg-linear-to-t from-bg via-transparent to-transparent z-10 pointer-events-none"></div>
@@ -46,7 +96,7 @@ export function MapPreview({ref}: any) {
             alt="Preview do Mapa Interativo"
             className="w-full h-full object-cover hover:scale-102 transition-transform duration-700 ease-in-out border"
           /> */}
-          <video src="/video/map.mp4" autoPlay loop muted className="w-full h-full object-cover transition-transform duration-700 ease-in-out border"></video>
+          <video src="/video/map2.mp4" autoPlay loop muted className="w-full h-full object-cover transition-transform duration-700 ease-in-out"></video>
 
 
         </div>

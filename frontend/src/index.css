@@ -15,6 +15,7 @@
   --color-gradient-text-primary: #4277C0;
   --color-gradient-text-secondary: #03285B;
   --color-gradient-text-tertiary: #000000;
+  --color-background-primary: #000010;
 
   --color-risk-low: #22c55e;
   --color-risk-moderate: #eab308;
@@ -29,16 +30,33 @@
   --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
 
   @keyframes glow-pulse {
-    0%, 100% {
+
+    0%,
+    100% {
       box-shadow: 0 0 80px -20px rgba(59, 130, 246, 0.2);
     }
+
     50% {
       box-shadow: 0 0 100px -10px rgba(59, 130, 246, 0.35);
     }
   }
 }
 
-
+/* border em gradiente */
+.border-gradient-top {
+  border-top: 3px solid transparent;
+  width: 100%;
+  background-image: linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)), linear-gradient(90deg, #000 0%, #03285B 50%, #000 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+.border-gradient-bottom {
+  border-bottom: 3px solid transparent;
+  width: 100%;
+  background-image: linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)), linear-gradient(90deg, #000 0%, #03285B 50%, #000 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
 
 :root {
   font-family: var(--font-inter);
