@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { Home, Newspaper, BrainCircuit, BookOpen, Sun, Globe, Map } from 'lucide-react'
+import { Home, Newspaper, BrainCircuit, BookOpen, Map } from 'lucide-react'
 import { Button } from '../ui/button'
 
 const links = [

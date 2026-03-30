@@ -13,7 +13,8 @@ import { ArrowLeftIcon, Home, Locate, NotepadText, PanelRight } from 'lucide-rea
 import { useNavigate } from 'react-router-dom'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 import { useTourStore } from '@/store/tourStore'
-import Spotlight from '@/components/map/SpotLight'
+import Spotlight from '@/components/map/Spotlight'
+import { toast } from 'sonner'
 
 // Default: Brazil center
 const BRAZIL_CENTER: [number, number] = [-14.235, -51.925]
@@ -63,11 +64,20 @@ export default function MapPage() {
     selectLocation(loc.lat, loc.lon, loc.name)
   }, [selectLocation])
 
-  const handleGeolocate = useCallback(() => {
-    if (coords) {
-      selectLocation(coords.lat, coords.lon)
-    }
-  }, [coords, selectLocation])
+
+  const handleGeolocate = () => {
+    console.log("teste");
+    navigator.geolocation.getCurrentPosition((position) => {
+      selectLocation(position.coords.latitude, position.coords.longitude)
+    },
+      (error) => {
+        toast("Erro ao obter localização",{
+          description: "Seu navegador bloqueou essa ação!"
+        })
+        console.log(error);
+      }
+    )
+  }
 
   const handleMarkerClick = useCallback((marker: MapMarker) => {
     setLocationName(marker.label)

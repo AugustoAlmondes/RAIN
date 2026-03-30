@@ -46,6 +46,8 @@ const disasters = [
 
 export function DisasterTypes() {
   return (
+    <>
+    
     <section className="py-24 px-6 md:px-12 relative z-10 w-full bg-radial from-bg to-gradient-text-secondary/20" id="desastres">
       {/* Decorative background gradients */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
@@ -111,16 +113,16 @@ export function DisasterTypes() {
                         {disaster.description}
                       </CardDescription>
 
-                      <button className="pt-6 flex items-center gap-2 text-blue-400 font-semibold group/btn cursor-pointer hover:text-blue-300 transition-colors">
+                      {/* <button className="pt-6 flex items-center gap-2 text-blue-400 font-semibold group/btn cursor-pointer hover:text-blue-300 transition-colors">
                         Saiba mais
                         <span className="group-hover/btn:translate-x-1 transition-transform">
                           →
                         </span>
-                      </button>
+                      </button> */}
                     </CardContent>
                   </div>
 
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-linear-to-r from-gradient-text-tertiary via-gradient-text-primary to-gradient-text-tertiary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                  <div className="absolute bottom-0 left-0 w-full h-1 bg-linear-to-r from-gradient-surface via-gradient-text-primary to-gradient-text-surface scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </Card>
               </motion.div>
             )
@@ -128,5 +130,7 @@ export function DisasterTypes() {
         </div>
       </div>
     </section>
+    <div className="w-full border-gradient-bottom"></div>
+    </>
   )
 }
