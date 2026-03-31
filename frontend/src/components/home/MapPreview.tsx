@@ -1,10 +1,9 @@
 import { motion } from "motion/react"
-import { Map } from "lucide-react"
 import { Link } from "react-router-dom"
 
 export function MapPreview({ref}: any) {
   return (
-    <section ref={ref} className="bg-black py-16 px-6 md:px-12 relative w-full min-h-screen overflow-hidden flex flex-col items-center border-t border-gradient-top border-gradient-bottom">
+    <section ref={ref} className="bg-black px-6 md:px-12 relative w-full min-h-screen pt-16 pb-30 overflow-hidden flex flex-col items-center border-gradient-bottom">
       {/* Soft Aurora Background */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none flex justify-center items-center">
         {/* Deep Blue Element */}
@@ -67,18 +66,18 @@ export function MapPreview({ref}: any) {
         className="w-full max-w-5xl relative z-10 group"
       >
       <div className="mb-12 text-start w-full mx-auto relative z-10">
-        <h2 className="text-3xl md:text-7xl font-light tracking-tight text-white mb-4">
-          Monitoramento <span className="text-transparent bg-clip-text bg-linear-to-r from-gradient-text-primary to-gradient-text-secondary">Interativo</span>
-        </h2>
-        <p className="text-slate-400 max-w-2xl text-lg">
+        {/* <h2 className="text-3xl md:text-7xl font-light tracking-tight text-white mb-4">
+          Procure por <span className="text-transparent bg-clip-text bg-linear-to-r from-gradient-text-primary to-gradient-text-secondary">locais específicos</span>
+        </h2> */}
+        <p className="text-slate-400 text-lg font-mono text-center">
           Explore o mapa e visualize em tempo real os alertas e previsões de acordo com os níveis de ameaça.
         </p>
       </div>
-        <div className="relative rounded-2xl overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface animate-glow-pulse">
+        <div className="relative rounded overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface animate-glow-pulse">
 
           <div className="absolute inset-0 bg-linear-to-t from-bg via-transparent to-transparent z-10 pointer-events-none"></div>
           {/* Glassmorphism Top Bar */}
-          <div className="absolute top-0 left-0 right-0 h-10 bg-surface/80 backdrop-blur-md border-b border-border-custom z-20 flex items-center px-4 gap-2">
+          {/* <div className="absolute top-0 left-0 right-0 h-10 bg-surface/80 backdrop-blur-md border-b border-border-custom z-20 flex items-center px-4 gap-2">
             <div className="flex gap-1.5">
               <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
               <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
@@ -88,7 +87,7 @@ export function MapPreview({ref}: any) {
               <Map className="w-3 h-3 mr-2" />
               alertaclima.com.br/mapa
             </div>
-          </div>
+          </div> */}
 
           {/* Fictitious Map Image */}
           {/* <img
@@ -108,7 +107,7 @@ export function MapPreview({ref}: any) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 1 }}
               whileHover={{ scale: 1.02 }}
-              className='mt-10 relative px-10 py-3.5 bg-surface text-slate-300 font-medium rounded-full overflow-hidden transition-all cursor-pointer active:scale-95 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/25 border border-border-custom hover:border-blue-500/50 hover:text-white flex items-center gap-2 group'
+              className='mt-10 relative px-10 py-3.5 bg-surface text-slate-300 font-medium rounded overflow-hidden transition-all cursor-pointer active:scale-95 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/25 border border-border-custom hover:border-blue-500/50 hover:text-white flex items-center gap-2 group'
             >
               <span className="relative z-10">Explorar Mapa em Tempo Real</span>
             </motion.button>

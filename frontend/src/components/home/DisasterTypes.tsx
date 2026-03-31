@@ -57,7 +57,7 @@ export function DisasterTypes() {
       <div className="flex flex-col gap-12 w-full max-w-5xl mx-auto px-4 md:px-0">
         <div className="mb-10 relative z-10">
           <h2 className="text-3xl md:text-7xl tracking-tight text-white mb-4">
-            Tipos de <span className="text-transparent bg-clip-text bg-linear-to-r from-gradient-text-primary to-gradient-text-secondary">Desastres Monitorados</span>
+            Monitoramos os mais <span className="text-transparent bg-clip-text bg-linear-to-r from-gradient-text-primary to-gradient-text-secondary">variados tipos de desastres</span>
           </h2>
           <p className="text-slate-400 max-w-2xl text-lg">
             Acompanhamos e analisamos constantemente as ameaças naturais para fornecer as informações que podem salvar vidas.

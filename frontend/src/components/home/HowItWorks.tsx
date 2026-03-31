@@ -41,7 +41,7 @@ export function HowItWorks() {
         <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <div className="flex flex-col md:flex-row items-center justify-between mb-20 gap-8">
+          {/* <div className="flex flex-col md:flex-row items-center justify-between mb-20 gap-8">
             <div className="md:w-1/2">
               <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
                 Como Funciona
@@ -50,7 +50,7 @@ export function HowItWorks() {
                 Entenda seu risco de forma simples. Nós processamos os dados complexos e disponibilizamos informações que protegem sua família e comunidade.
               </p>
             </div>
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative">
             {/* Connecting line for desktop */}

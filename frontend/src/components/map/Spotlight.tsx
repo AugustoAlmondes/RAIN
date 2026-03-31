@@ -28,7 +28,6 @@ export default function Spotlight() {
         const element = document.getElementById(step.targetId);
 
         if (element) {
-            // pega o retângulo do componente atual
             const rect = element.getBoundingClientRect();
             setCoords({
                 x: rect.x,
@@ -54,7 +53,6 @@ export default function Spotlight() {
 
     return (
         <div className="fixed inset-0 z-100 pointer-events-none">
-            {/* Overlay */}
             <svg className="absolute inset-0 w-full h-full">
                 <defs>
                     <mask id="spotlight-mask">
@@ -66,7 +64,6 @@ export default function Spotlight() {
                             fill="white"
                         />
 
-                        {/* A parte transparente do Spotlight */}
                         <motion.rect
                             animate={{
                                 x: coords.x - coords.padding,
@@ -93,16 +90,12 @@ export default function Spotlight() {
                 />
             </svg>
 
-            {/* <AnimatePresence mode="wait"> */}
             <motion.div
-                // key={currentStep}
-                // initial={{ opacity: 0, y: 20 }}
                 animate={{
                     opacity: 1,
                     transition: { type: 'spring', damping: 25, stiffness: 200 },
-                    // Lógica de posicionamento baseada no currentStepData.position
                     ...(() => {
-                        const gap = 20; // Espaço entre o destaque e o card
+                        const gap = 20;
                         switch (currentStepData.position) {
                             case 'top':
                                 return {
