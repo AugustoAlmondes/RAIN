@@ -3,7 +3,6 @@ import { HowItWorks } from '@/components/home/HowItWorks'
 import { NewsPreview } from '@/components/home/NewsPreview'
 import { useRef } from 'react'
 import Hero from '@/components/home/Hero'
-import { MapPreview } from '@/components/home/MapPreview'
 
 export default function Home() {
 
@@ -15,9 +14,8 @@ export default function Home() {
             <Hero mapRef={mapRef} />
             {/* Content Sections */}
             <div className="relative z-20 flex flex-col overflow-hidden">
-                {/* <MapPreview ref={mapRef} /> */}
-                <DisasterTypes />
                 <HowItWorks />
+                <DisasterTypes />
                 <NewsPreview />
             </div>
 

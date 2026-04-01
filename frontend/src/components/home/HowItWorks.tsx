@@ -35,7 +35,7 @@ export function HowItWorks() {
           backgroundRepeat: "no-repeat",
           backgroundBlendMode: "overlay"
         }}
-        className="py-20 relative overflow-hidden bg-surface">
+        className="pb-18 pt-24 relative overflow-hidden bg-surface">
         {/* Decorative background gradients */}
         <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px] pointer-events-none" />

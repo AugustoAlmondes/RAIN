@@ -41,10 +41,9 @@ export function NewsPreview() {
               >
                 <CardContent className="p-none">
 
-                  {/* Topo */}
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex flex-wrap items-center gap-3">
-                      <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20">
+                      <Badge className="bg-blue-500/10 text-blue-400 border-blue-500/20 px-3 mb-2">
                         {article.category}
                       </Badge>
                     </div>
@@ -62,12 +61,10 @@ export function NewsPreview() {
                     </h3>
                   </a>
 
-                  {/* Descrição */}
                   <p className="text-slate-400 line-clamp-2 md:line-clamp-none text-sm leading-relaxed mb-4">
                     {article.description}
                   </p>
 
-                  {/* Footer */}
                   <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-custom">
                     <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
                       Fonte: <span className="text-slate-300">{article.reference}</span>
