@@ -36,9 +36,10 @@ interface MapViewProps {
   markers?: MapMarker[]
   onMarkerClick?: (marker: MapMarker) => void
   weatherLayer?: WeatherLayer
+  mapStyle?: string
 }
 
-export function MapView({ center, zoom = 11, markers = [], onMarkerClick, weatherLayer = 'temp_new' }: MapViewProps) {
+export function MapView({ center, zoom = 11, markers = [], onMarkerClick, weatherLayer = 'temp_new', mapStyle = 'dark_all' }: MapViewProps) {
   return (
     <MapContainer
       center={center}
@@ -48,15 +49,17 @@ export function MapView({ center, zoom = 11, markers = [], onMarkerClick, weathe
       className="z-0"
     >
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png"
+        url={`https://{s}.basemaps.cartocdn.com/rastertiles/${mapStyle}/{z}/{x}/{y}{r}.png`}
         attribution="&copy; OpenStreetMap &copy; CARTO"
-      /> {/* Mapa do fundo */}
+      />
+      {/* Mapa do fundo */}
 
       <TileLayer
         url={`https://tile.openweathermap.org/map/${weatherLayer}/{z}/{x}/{y}.png?appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}&tm=${Date.now()}`}
         attribution="&copy; OpenWeather"
         opacity={1}
-      /> {/* Efeito do vento, nuvem, chuva, pressão e temperatura */}
+      />
+      {/* Efeito do vento, nuvem, chuva, pressão e temperatura */}
 
 
       <MapCenter lat={center[0]} lon={center[1]} zoom={zoom} />

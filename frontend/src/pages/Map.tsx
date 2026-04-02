@@ -8,25 +8,58 @@ import { SearchBar } from '@/components/map/SearchBar'
 import { useWeather } from '@/hooks/useWeather'
 import { computeRisk } from '@/utils/riskLevels'
 import { reverseGeocode, type GeoLocation } from '@/services/geocodingService'
-import { ArrowLeftIcon, Home, Loader2, Locate, NotepadText, PanelRight } from 'lucide-react'
+import { ArrowLeftIcon, CircleGauge, CloudRainIcon, CloudyIcon, Home, Loader2, Locate, NotepadText, PanelRight, ThermometerIcon, WindIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 import { useTourStore } from '@/store/tourStore'
 import { useLocationStore } from '@/store/locationStore'
 import Spotlight from '@/components/map/Spotlight'
 import { toast } from 'sonner'
-import { Card, CardDescription, CardHeader } from '@/components/ui/card'
+
 
 const BRAZIL_CENTER: [number, number] = [-14.235, -51.925]
 const BRAZIL_ZOOM = 6
 
-export const WEATHER_LAYERS: Record<WeatherLayer, string> = {
-  clouds_new: 'Nuvens',
-  precipitation_new: 'Precipitação',
-  pressure_new: 'Pressão',
-  wind_new: 'Vento',
-  temp_new: 'Temperatura',
+export const WEATHER_LAYERS: Record<WeatherLayer, React.ReactNode> = {
+  clouds_new: <CloudyIcon className="w-4 h-4" />,
+  precipitation_new: <CloudRainIcon className="w-4 h-4" />,
+  pressure_new: <CircleGauge className="w-4 h-4" />,
+  wind_new: <WindIcon className="w-4 h-4" />,
+  temp_new: <ThermometerIcon className="w-4 h-4" />,
 }
+
+const MAP_STYLES = [
+  {
+    style: 'light_all',
+    name: 'Claro',
+    description: 'Mapa claro e equilibrado para uso geral'
+  },
+  {
+    style: 'dark_all',
+    name: 'Escuro',
+    description: 'Mapa escuro ideal para destacar camadas e dados'
+  },
+  {
+    style: 'voyager',
+    name: 'Colorido',
+    description: 'Mapa mais detalhado e colorido, próximo de mapas tradicionais'
+  },
+  {
+    style: 'light_nolabels',
+    name: 'Claro sem rótulos',
+    description: 'Mapa claro sem nomes de ruas ou cidades'
+  },
+  {
+    style: 'dark_nolabels',
+    name: 'Escuro sem rótulos',
+    description: 'Mapa escuro sem textos, útil para overlays'
+  },
+  {
+    style: 'voyager_labels_under',
+    name: 'Colorido com rótulos abaixo',
+    description: 'Mantém os nomes abaixo das suas camadas e marcadores'
+  }
+]
 
 export default function MapPage() {
   const [mapCenter, setMapCenter] = useState<[number, number]>(BRAZIL_CENTER)
@@ -35,6 +68,7 @@ export default function MapPage() {
   const [selectedLon, setSelectedLon] = useState<number | null>(null)
   const [locationName, setLocationName] = useState('')
   const [layer, setLayer] = useState<WeatherLayer>('temp_new')
+  const [mapStyle, setMapStyle] = useState<string>('dark_all')
   const [panelOpen, setPanelOpen] = useState(false)
   const selectedPeriod = '24h'
   const { openTour } = useTourStore()
@@ -124,7 +158,7 @@ export default function MapPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/')}
-                className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+                className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
               >
                 <ArrowLeftIcon className="w-4 h-4 mr-2" />
                 <Home className="w-4 h-4" />
@@ -132,7 +166,7 @@ export default function MapPage() {
             </HoverCardTrigger>
             <HoverCardContent
               side='bottom'
-              className='bg-surface/40 mt-1 backdrop-blur-xl rounded-xl shadow-lg text-slate-400 w-max'>
+              className='bg-gray-800 mt-1 backdrop-blur-xl rounded shadow-lg text-slate-400 w-max'>
               <p>Voltar</p>
             </HoverCardContent>
           </HoverCard>
@@ -150,14 +184,14 @@ export default function MapPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleGeolocate}
-                className="pointer-events-auto flex items-center justify-center w-11 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+                className="pointer-events-auto flex items-center justify-center w-11 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
               >
                 <Locate className="w-4 h-4" />
               </motion.button>
             </HoverCardTrigger>
             <HoverCardContent
               side='bottom'
-              className='bg-surface/40 backdrop-blur-xl mt-1 rounded-xl shadow-lg text-slate-400 w-max'>
+              className='bg-gray-800 backdrop-blur-xl mt-1 rounded shadow-lg text-slate-400 w-max'>
               <p>Usar minha localização</p>
             </HoverCardContent>
           </HoverCard>
@@ -170,14 +204,14 @@ export default function MapPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => navigate('/noticias')}
-                className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+                className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
               >
                 <NotepadText className="w-4 h-4" />
               </motion.button>
             </HoverCardTrigger>
             <HoverCardContent
               side='bottom'
-              className='bg-surface/40 mt-1 backdrop-blur-xl rounded-xl shadow-lg text-slate-400 w-max'>
+              className='bg-gray-800 mt-1 backdrop-blur-xl rounded shadow-lg text-slate-400 w-max'>
               <p>Notícias</p>
             </HoverCardContent>
           </HoverCard>
@@ -187,7 +221,7 @@ export default function MapPage() {
             whileTap={{ scale: 0.95 }}
             onClick={() => setPanelOpen(o => !o)}
             title="Painel de risco"
-            className="pointer-events-auto md:hidden flex items-center justify-center w-11 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded-xl shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+            className="pointer-events-auto md:hidden flex items-center justify-center w-11 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
           >
             <PanelRight className="w-4 h-4" />
           </motion.button>
@@ -201,37 +235,84 @@ export default function MapPage() {
               markers={markers}
               onMarkerClick={handleMarkerClick}
               weatherLayer={layer}
+              mapStyle={mapStyle}
             />
 
             <div id='tour-weather-widget' className="hidden md:block absolute top-4 right-4 z-20">
               <WeatherWidget risk={risk} locationName={locationName} loading={weatherLoading} />
             </div>
 
-            <div className='absolute bottom-4 left-4 z-20'>
-              <div className='bg-surface/90 backdrop-blur-xl border border-border-custom rounded p-4 shadow-xl shadow-black/30 min-w-[320px]'>
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-xs text-slate-400 font-medium truncate max-w-[130px]">Exibir</p>
+            <div className='absolute bottom-4 left-4 z-20 flex flex-row gap-4 items-end'>
+              <div className='bg-surface/90 backdrop-blur-xl border border-border-custom rounded p-2 shadow-xl shadow-black/30 flex flex-col gap-2'>
+                {Object.entries(WEATHER_LAYERS).map(([layerObj, icon]) => (
+                  <HoverCard key={layerObj} openDelay={300} closeDelay={100}>
+                    <HoverCardTrigger asChild>
+                      <button
+                        onClick={() => setLayer(layerObj as WeatherLayer)}
+                        className={`relative flex items-center justify-center w-10 h-10 rounded transition-all duration-200 cursor-pointer
+                          ${layer === layerObj 
+                            ? 'text-white' 
+                            : 'bg-white/3 border border-border-custom text-slate-400 hover:text-slate-200 hover:bg-white/6 hover:border-blue-500/50'}`}
+                      >
+                        {layer === layerObj && (
+                          <motion.div
+                            layoutId="active-layer"
+                            className="absolute inset-0 bg-blue-600/30 border border-blue-500/50 rounded"
+                            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                          />
+                        )}
+                        <span className="relative z-10">{icon}</span>
+                      </button>
+                    </HoverCardTrigger>
+                    <HoverCardContent side='right' className='bg-gray-800 ml-2 backdrop-blur-xl border border-border-custom rounded shadow-lg text-slate-400 w-max'>
+                      <p className="capitalize text-xs leading-none">Camada: {
+                        layerObj === 'clouds_new' ? 'Nuvens' :
+                        layerObj === 'precipitation_new' ? 'Precipitação' :
+                        layerObj === 'pressure_new' ? 'Pressão' :
+                        layerObj === 'wind_new' ? 'Vento' :
+                        layerObj === 'temp_new' ? 'Temperatura' : layerObj
+                      }</p>
+                    </HoverCardContent>
+                  </HoverCard>
+                ))}
+              </div>
+
+              <div className='bg-surface backdrop-blur-xl border border-border-custom rounded p-4 shadow-xl shadow-black/30 max-w-[340px] font-mono'>
+                <div className="flex items-center justify-between mb-3 text-slate-400">
+                  <p className="text-[10px] uppercase tracking-widest font-semibold px-1">Estilo do mapa</p>
                   {weatherLoading && <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />}
                 </div>
-                <ul className='grid grid-cols-2 gap-2'>
-                  {Object.entries(WEATHER_LAYERS).map(([layerObj, label]) => (
-                    <li key={layerObj}>
-                      <Card
-                        onClick={() => setLayer(layerObj as WeatherLayer)}
-                        className={`bg-surface/90 backdrop-blur-xl py-2 gap-2 w-40 border border-border-custom rounded shadow-xl shadow-black/30 hover:bg-white/6 hover:border-blue-500/50 transitio-all duration-200 cursor-pointer ${layer === layerObj ? 'border-blue-500/50' : ''}`}>
-                        <CardHeader>
-                          <CardDescription className="flex items-center gap-1.5 text-slate-500 uppercase text-sm tracking-wider font-semibold">
-                            {label}
-                          </CardDescription>
-                        </CardHeader>
-                      </Card>
-                    </li>
+                <div className='grid grid-cols-2 gap-2'>
+                  {MAP_STYLES.map(({ style, name, description }) => (
+                    <HoverCard key={style} openDelay={300} closeDelay={100}>
+                      <HoverCardTrigger asChild>
+                        <button
+                          onClick={() => setMapStyle(style)}
+                          className={`relative flex items-center justify-center px-3 py-2 w-full h-full min-h-[40px] rounded text-xs font-medium transition-all duration-200 cursor-pointer text-center
+                            ${mapStyle === style 
+                              ? 'text-white' 
+                              : 'text-slate-400 hover:text-slate-200 bg-white/3 hover:bg-white/6 border border-border-custom hover:border-blue-500/50'}`}
+                        >
+                          {mapStyle === style && (
+                            <motion.div
+                              layoutId="active-style"
+                              className="absolute inset-0 bg-blue-600/30 border border-blue-500/50 rounded"
+                              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                            />
+                          )}
+                          <span className="relative z-10">{name}</span>
+                        </button>
+                      </HoverCardTrigger>
+                      <HoverCardContent side='top' className='bg-gray-800 mb-1 border border-border-custom rounded shadow-lg text-slate-400 w-56'>
+                        <p className="text-xs">{description}</p>
+                      </HoverCardContent>
+                    </HoverCard>
                   ))}
-                </ul>
+                </div>
               </div>
             </div>
-          </div>
 
+          </div>
 
           <AnimatePresence>
             {panelOpen && (
