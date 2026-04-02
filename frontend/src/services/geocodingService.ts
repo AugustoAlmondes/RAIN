@@ -1,13 +1,17 @@
 const USER_AGENT = 'AlertaClima/1.0'
 
 export interface Address {
-city_district: string
-country: string
-country_code: string
-state: string
-state_district: string
-town?: string
-village?: string
+  city_district?: string
+  city?: string
+  town?: string
+  village?: string
+  municipality?: string
+  hamlet?: string
+  country: string
+  county?: string
+  country_code: string
+  state: string
+  state_district: string
 }
 
 export interface GeoLocation {
@@ -38,7 +42,20 @@ export async function searchCity(query: string): Promise<GeoLocation[]> {
     address: item.address
   }))
 
-  return result
+  return result.filter((item: GeoLocation) => {
+    const addr = item.address;
+
+    if (!addr) return false;
+    const hasCityLevel = !!(
+      addr.city ||
+      addr.town ||
+      addr.village ||
+      addr.municipality ||
+      addr.hamlet ||
+      addr.city_district
+    );
+    return hasCityLevel;
+  });
 }
 
 export async function reverseGeocode(lat: number, lon: number): Promise<string> {

@@ -13,6 +13,7 @@ import { ArrowLeftIcon, Home, Locate, NotepadText, PanelRight } from 'lucide-rea
 import { useNavigate } from 'react-router-dom'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 import { useTourStore } from '@/store/tourStore'
+import { useLocationStore } from '@/store/locationStore'
 import Spotlight from '@/components/map/Spotlight'
 import { toast } from 'sonner'
 
@@ -32,6 +33,7 @@ export default function MapPage({seachLocation}: {seachLocation?: string}) {
 
   const { coords } = useLocation()
   const { openTour, isOpen } = useTourStore()
+  const { searchLocation, setSearchLocation } = useLocationStore()
   const { data: weatherData, loading: weatherLoading } = useWeather({ lat: selectedLat, lon: selectedLon })
 
   const risk = weatherData ? computeRisk(weatherData, selectedPeriod) : null
@@ -100,11 +102,14 @@ export default function MapPage({seachLocation}: {seachLocation?: string}) {
   }, [openTour])
 
   useEffect(() => {
-    selectLocation(-23.5505, -46.6333, 'São Paulo');
-    // if(seachLocation){
-    //   searchCity
-    // }
-  }, [selectLocation])
+    if (searchLocation) {
+      console.log(searchLocation)
+      selectLocation(searchLocation.lat, searchLocation.lon, searchLocation.name)
+      setSearchLocation(null)
+    } else {
+      selectLocation(-23.5505, -46.6333, 'São Paulo')
+    }
+  }, [])
 
   return (
     <>

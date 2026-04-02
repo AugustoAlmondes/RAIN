@@ -1,7 +1,9 @@
-import { motion } from "framer-motion"
-import { Search } from "lucide-react"
-import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Search, MapPin, Loader2, X } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { searchCity, type GeoLocation } from "@/services/geocodingService"
+import { useLocationStore } from "@/store/locationStore"
 
 const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -25,14 +27,83 @@ const container = {
 
 export default function Hero({ mapRef }: { mapRef: any }) {
     const [query, setQuery] = useState("")
+    const [results, setResults] = useState<GeoLocation[]>([])
+    const [loading, setLoading] = useState(false)
+    const [open, setOpen] = useState(false)
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const containerRef = useRef<HTMLDivElement>(null)
+    
+    const navigate = useNavigate()
+    const { setSearchLocation } = useLocationStore()
 
-    const handleSearch = (e: React.SubmitEvent) => {
+    useEffect(() => {
+        const handleClick = (e: MouseEvent) => {
+            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+                setOpen(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClick)
+        return () => document.removeEventListener('mousedown', handleClick)
+    }, [])
+
+    const handleSearchChange = (value: string) => {
+        setQuery(value)
+        if (debounceRef.current) clearTimeout(debounceRef.current)
+        
+        if (value.trim().length < 2) {
+            setResults([])
+            setOpen(false)
+            return
+        }
+
+        debounceRef.current = setTimeout(async () => {
+            setLoading(true)
+            try {
+                const data = await searchCity(value)
+                setResults(data)
+                setOpen(true)
+            } catch {
+                setResults([])
+            } finally {
+                setLoading(false)
+            }
+        }, 500)
+    }
+
+    const handleSelect = (loc: GeoLocation) => {
+        setSearchLocation(loc)
+        navigate('/mapa')
+    }
+
+    const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault()
         if (query.trim()) {
-            // navigate(`/mapa?cidade=${encodeURIComponent(query.trim())}`)
+            if (results.length > 0) {
+                handleSelect(results[0])
+            } else {
+                setLoading(true)
+                try {
+                    const data = await searchCity(query)
+                    if (data.length > 0) {
+                        handleSelect(data[0])
+                    } else {
+                        navigate('/mapa')
+                    }
+                } catch {
+                    navigate('/mapa')
+                } finally {
+                    setLoading(false)
+                }
+            }
         } else {
             mapRef.current?.scrollIntoView({ behavior: "smooth" })
         }
+    }
+
+    const handleClear = () => {
+        setQuery('')
+        setResults([])
+        setOpen(false)
     }
 
     return (
@@ -98,49 +169,86 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                 </motion.p>
 
                 {/* Search */}
-                <motion.form
+                <motion.div
                     variants={itemVariants}
-                    onSubmit={handleSearch}
-                    className="w-full max-w-lg group"
+                    className="w-full max-w-lg relative group"
+                    ref={containerRef}
                 >
-                    <div
-                        className="relative flex items-center rounded border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_0_40px_-10px_rgba(66,119,192,0.3)] hover:border-gradient-text-primary/40 hover:shadow-[0_0_60px_-10px_rgba(66,119,192,0.4)] focus-within:border-gradient-text-primary/60 focus-within:shadow-[0_0_80px_-5px_rgba(66,119,192,0.5)] transition-all duration-500"
-                    >
-                        <Search
-                            className="absolute left-5 w-4 h-4 text-slate-500 group-focus-within:text-gradient-text-primary transition-colors duration-300 shrink-0"
-                        />
-                        <input
-                            type="text"
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Digite o nome da cidade..."
-                            className="flex-1 bg-transparent pl-12 pr-4 py-4 text-sm text-white placeholder:text-slate-500 font-mono outline-none"
-                        />
-                        <button
-                            type="submit"
-                            className="mr-2 px-5 py-2.5 rounded bg-gradient-text-secondary hover:bg-gradient-text-primary text-white text-sm font-medium border border-gradient-text-primary/20 hover:border-gradient-text-primary/60 transition-all duration-300 cursor-pointer active:scale-95 shrink-0"
+                    <form onSubmit={handleSearch} className="w-full">
+                        <div
+                            className="relative flex items-center rounded border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_0_40px_-10px_rgba(66,119,192,0.3)] hover:border-gradient-text-primary/40 hover:shadow-[0_0_60px_-10px_rgba(66,119,192,0.4)] focus-within:border-gradient-text-primary/60 focus-within:shadow-[0_0_80px_-5px_rgba(66,119,192,0.5)] transition-all duration-500"
                         >
-                            Pesquisar
-                        </button>
-                    </div>
-                </motion.form>
+                            <Search
+                                className="absolute left-5 w-4 h-4 text-slate-500 group-focus-within:text-gradient-text-primary transition-colors duration-300 shrink-0"
+                            />
+                            <input
+                                type="text"
+                                value={query}
+                                onChange={(e) => handleSearchChange(e.target.value)}
+                                onFocus={() => results.length > 0 && setOpen(true)}
+                                placeholder="Digite o nome da cidade..."
+                                className="flex-1 bg-transparent pl-12 pr-12 py-4 text-sm text-white placeholder:text-slate-500 font-mono outline-none"
+                            />
+                            
+                            {loading && (
+                                <Loader2 className="absolute right-32 w-4 h-4 text-slate-500 animate-spin" />
+                            )}
+                            
+                            {query && !loading && (
+                                <button 
+                                    type="button"
+                                    onClick={handleClear} 
+                                    className="absolute right-32 cursor-pointer"
+                                >
+                                    <X className="w-4 h-4 text-slate-500 hover:text-white transition-colors" />
+                                </button>
+                            )}
 
-                {/* Scroll hint */}
-                {/* <motion.button
-                    variants={itemVariants}
-                    onClick={() => mapRef.current?.scrollIntoView({ behavior: "smooth" })}
-                    className="mt-10 flex flex-col items-center gap-2 text-slate-600 hover:text-slate-400 transition-colors duration-300 cursor-pointer group"
-                    aria-label="Rolar para o mapa"
-                >
-                    <span className="text-xs font-mono tracking-widest uppercase">ou explore o mapa</span>
-                    <motion.div
-                        animate={{ y: [0, 5, 0] }}
-                        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-                        className="w-5 h-5 border border-slate-600 group-hover:border-slate-400 rounded-full flex items-center justify-center transition-colors"
-                    >
-                        <div className="w-1 h-1 bg-slate-600 group-hover:bg-slate-400 rounded-full transition-colors" />
-                    </motion.div>
-                </motion.button> */}
+                            <button
+                                type="submit"
+                                className="mr-2 px-5 py-2.5 rounded bg-gradient-text-secondary hover:bg-gradient-text-primary text-white text-sm font-medium border border-gradient-text-primary/20 hover:border-gradient-text-primary/60 transition-all duration-300 cursor-pointer active:scale-95 shrink-0"
+                            >
+                                Pesquisar
+                            </button>
+                        </div>
+                    </form>
+
+                    {/* Autocomplete Dropdown */}
+                    <AnimatePresence>
+                        {open && results.length > 0 && (
+                            <motion.ul
+                                initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                exit={{ opacity: 0, y: -10, scale: 0.98 }}
+                                transition={{ duration: 0.2 }}
+                                className="absolute top-full left-0 right-0 mt-3 p-1 bg-surface/90 backdrop-blur-2xl border border-white/10 rounded overflow-hidden shadow-2xl z-100 text-left"
+                            >
+                                {results.map((loc, i) => (
+                                    <li key={i}>
+                                        <button
+                                            onClick={() => handleSelect(loc)}
+                                            className="w-full text-left flex items-start gap-4 px-4 py-3 hover:bg-white/5 transition-colors group rounded overflow-hidden"
+                                        >
+                                            <div className="w-8 h-8 rounded bg-blue-500/10 flex items-center justify-center shrink-0 group-hover:bg-blue-500/20 transition-colors">
+                                                <MapPin className="w-4 h-4 text-blue-400" />
+                                            </div>
+                                            <div className="min-w-0 flex-1">
+                                                <p className="text-sm text-white font-medium truncate group-hover:text-blue-100 transition-colors">
+                                                    {loc.name}
+                                                </p>
+                                                <p className="text-xs text-slate-400 truncate mt-0.5">
+                                                    {loc.address.state ? `${loc.address.state}, ` : ''}{loc.address.country}
+                                                </p>
+                                            </div>
+                                        </button>
+                                    </li>
+                                ))}
+                            </motion.ul>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
+
+                {/* Scroll hint omitted as per original code comment out */}
             </motion.div>
 
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none flex justify-center items-center opacity-30">
@@ -201,13 +309,12 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8 }}
-                className="w-full max-w-5xl my-40 relative z-10 group"
+                className="w-full max-w-5xl my-40 relative z-1 group"
             >
                 <div className="relative rounded overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface animate-glow-pulse">
 
                     <div className="absolute inset-0 bg-linear-to-t from-bg via-transparent to-transparent z-10 pointer-events-none"></div>
-                    <video src="/video/map2.mp4" autoPlay loop muted className="w-full h-full object-cover transition-transform duration-700 ease-in-out"></video>
-
+                    <video src="/video/map2.mp4" autoPlay loop muted className="relative z-10 w-full h-full object-cover transition-transform duration-700 ease-in-out"></video>
 
                 </div>
 

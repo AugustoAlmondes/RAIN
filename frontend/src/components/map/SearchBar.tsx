@@ -103,7 +103,7 @@ export function SearchBar({ onLocationSelect }: SearchBarProps) {
                     <p className="text-sm text-white font-medium truncate group-hover:text-blue-100 transition-colors">
                       {loc.name}
                     </p>
-                    <p className="text-xs text-slate-500 truncate mt-0.5">{loc.address.state} - {loc.address.country}</p>
+                    <p className="text-xs text-slate-500 truncate mt-0.5">{loc.address.state ? loc.address.state : loc.address.town} - {loc.address.country}</p>
                   </div>
                 </button>
               </li>
