@@ -32,7 +32,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
     const [open, setOpen] = useState(false)
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const containerRef = useRef<HTMLDivElement>(null)
-    
+
     const navigate = useNavigate()
     const { setSearchLocation } = useLocationStore()
 
@@ -49,7 +49,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
     const handleSearchChange = (value: string) => {
         setQuery(value)
         if (debounceRef.current) clearTimeout(debounceRef.current)
-        
+
         if (value.trim().length < 2) {
             setResults([])
             setOpen(false)
@@ -189,15 +189,15 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                                 placeholder="Digite o nome da cidade..."
                                 className="flex-1 bg-transparent pl-12 pr-12 py-4 text-sm text-white placeholder:text-slate-500 font-mono outline-none"
                             />
-                            
+
                             {loading && (
                                 <Loader2 className="absolute right-32 w-4 h-4 text-slate-500 animate-spin" />
                             )}
-                            
+
                             {query && !loading && (
-                                <button 
+                                <button
                                     type="button"
-                                    onClick={handleClear} 
+                                    onClick={handleClear}
                                     className="absolute right-32 cursor-pointer"
                                 >
                                     <X className="w-4 h-4 text-slate-500 hover:text-white transition-colors" />
@@ -237,7 +237,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                                                     {loc.name}
                                                 </p>
                                                 <p className="text-xs text-slate-400 truncate mt-0.5">
-                                                    {loc.address.state ? `${loc.address.state}, ` : ''}{loc.address.country}
+                                                    {loc.address.state ? loc.address.state : loc.address.town} - {loc.address.country}
                                                 </p>
                                             </div>
                                         </button>
