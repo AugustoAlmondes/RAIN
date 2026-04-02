@@ -1,45 +1,49 @@
-import { useState, useCallback, useEffect, useEffectEvent } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { MapView, type MapMarker } from '@/components/map/MapView'
-// import { MapFilters } from '@/components/map/MapFilters'
+import { MapView } from '@/components/map/MapView'
+import { type MapMarker, type WeatherLayer } from '@/types/mapTypes'
 import { RiskPanel } from '@/components/map/RiskPanel'
 import { WeatherWidget } from '@/components/map/WeatherWidget'
 import { SearchBar } from '@/components/map/SearchBar'
-import { useLocation } from '@/hooks/useLocation'
 import { useWeather } from '@/hooks/useWeather'
 import { computeRisk } from '@/utils/riskLevels'
 import { reverseGeocode, type GeoLocation } from '@/services/geocodingService'
-import { ArrowLeftIcon, Home, Locate, NotepadText, PanelRight } from 'lucide-react'
+import { ArrowLeftIcon, Home, Loader2, Locate, NotepadText, PanelRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 import { useTourStore } from '@/store/tourStore'
 import { useLocationStore } from '@/store/locationStore'
 import Spotlight from '@/components/map/Spotlight'
 import { toast } from 'sonner'
+import { Card, CardDescription, CardHeader } from '@/components/ui/card'
 
-// Default: Brazil center
 const BRAZIL_CENTER: [number, number] = [-14.235, -51.925]
-const BRAZIL_ZOOM = 4
+const BRAZIL_ZOOM = 6
 
-export default function MapPage({seachLocation}: {seachLocation?: string}) {
+export const WEATHER_LAYERS: Record<WeatherLayer, string> = {
+  clouds_new: 'Nuvens',
+  precipitation_new: 'Precipitação',
+  pressure_new: 'Pressão',
+  wind_new: 'Vento',
+  temp_new: 'Temperatura',
+}
+
+export default function MapPage() {
   const [mapCenter, setMapCenter] = useState<[number, number]>(BRAZIL_CENTER)
   const [mapZoom, setMapZoom] = useState(BRAZIL_ZOOM)
   const [selectedLat, setSelectedLat] = useState<number | null>(null)
   const [selectedLon, setSelectedLon] = useState<number | null>(null)
   const [locationName, setLocationName] = useState('')
-  // const [selectedType, setSelectedType] = useState<DisasterType>('all')
-  const selectedPeriod = '24h'
+  const [layer, setLayer] = useState<WeatherLayer>('temp_new')
   const [panelOpen, setPanelOpen] = useState(false)
-
-  const { coords } = useLocation()
-  const { openTour, isOpen } = useTourStore()
+  const selectedPeriod = '24h'
+  const { openTour } = useTourStore()
   const { searchLocation, setSearchLocation } = useLocationStore()
   const { data: weatherData, loading: weatherLoading } = useWeather({ lat: selectedLat, lon: selectedLon })
 
   const risk = weatherData ? computeRisk(weatherData, selectedPeriod) : null
   const navigate = useNavigate()
 
-  // Markers: selected location + simulated region markers around it
   const markers: MapMarker[] = selectedLat && selectedLon && risk ? [
     { lat: selectedLat, lon: selectedLon, label: locationName || 'Selecionado', risk: risk.level },
   ] : []
@@ -106,15 +110,12 @@ export default function MapPage({seachLocation}: {seachLocation?: string}) {
       console.log(searchLocation)
       selectLocation(searchLocation.lat, searchLocation.lon, searchLocation.name)
       setSearchLocation(null)
-    } else {
-      selectLocation(-23.5505, -46.6333, 'São Paulo')
     }
   }, [])
 
   return (
     <>
       <div className="fixed inset-0 bg-bg flex flex-col">
-        {/* Top overlay bar */}
         <div className="absolute top-0 left-0 right-0 z-30 flex items-center gap-3 px-4 pt-10 pb-4 pointer-events-none">
           <HoverCard>
             <HoverCardTrigger>
@@ -142,7 +143,6 @@ export default function MapPage({seachLocation}: {seachLocation?: string}) {
             </div>
           </div>
 
-          {/* Geolocate button */}
           <HoverCard openDelay={300} closeDelay={100} >
             <HoverCardTrigger>
               <motion.button
@@ -182,7 +182,6 @@ export default function MapPage({seachLocation}: {seachLocation?: string}) {
             </HoverCardContent>
           </HoverCard>
 
-          {/* Toggle panel (mobile) */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -195,22 +194,45 @@ export default function MapPage({seachLocation}: {seachLocation?: string}) {
         </div>
 
         <div className="flex-1 flex overflow-hidden bg-black">
-          {/* Map fills remaining space */}
           <div className="relative flex-1 overflow-hidden">
             <MapView
               center={mapCenter}
               zoom={mapZoom}
               markers={markers}
               onMarkerClick={handleMarkerClick}
+              weatherLayer={layer}
             />
 
-            {/* WeatherWidget — top-right overlay (inside map, only on desktop) */}
             <div id='tour-weather-widget' className="hidden md:block absolute top-4 right-4 z-20">
               <WeatherWidget risk={risk} locationName={locationName} loading={weatherLoading} />
             </div>
+
+            <div className='absolute bottom-4 left-4 z-20'>
+              <div className='bg-surface/90 backdrop-blur-xl border border-border-custom rounded p-4 shadow-xl shadow-black/30 min-w-[320px]'>
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-xs text-slate-400 font-medium truncate max-w-[130px]">Exibir</p>
+                  {weatherLoading && <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />}
+                </div>
+                <ul className='grid grid-cols-2 gap-2'>
+                  {Object.entries(WEATHER_LAYERS).map(([layerObj, label]) => (
+                    <li key={layerObj}>
+                      <Card
+                        onClick={() => setLayer(layerObj as WeatherLayer)}
+                        className={`bg-surface/90 backdrop-blur-xl py-2 gap-2 w-40 border border-border-custom rounded shadow-xl shadow-black/30 hover:bg-white/6 hover:border-blue-500/50 transitio-all duration-200 cursor-pointer ${layer === layerObj ? 'border-blue-500/50' : ''}`}>
+                        <CardHeader>
+                          <CardDescription className="flex items-center gap-1.5 text-slate-500 uppercase text-sm tracking-wider font-semibold">
+                            {label}
+                          </CardDescription>
+                        </CardHeader>
+                      </Card>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
 
-          {/* Risk Panel — right column on desktop, bottom sheet on mobile */}
+
           <AnimatePresence>
             {panelOpen && (
               <motion.div
@@ -233,7 +255,6 @@ export default function MapPage({seachLocation}: {seachLocation?: string}) {
           </AnimatePresence>
         </div>
 
-        {/* Mobile bottom sheet */}
         <AnimatePresence>
           {panelOpen && (
             <motion.div

@@ -48,7 +48,6 @@ export function WeatherWidget({ risk, locationName, loading }: WeatherWidgetProp
       transition={{ delay: 0.4, duration: 0.5 }}
       className="bg-surface/90 backdrop-blur-xl border border-border-custom rounded p-4 shadow-xl shadow-black/30 min-w-[320px]"
     >
-      {/* Location header */}
       <div className="flex items-center justify-between mb-3">
         <p className="text-xs text-slate-400 font-medium truncate max-w-[130px]">{locationName || 'Localização'}</p>
         {loading && <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />}
@@ -56,13 +55,11 @@ export function WeatherWidget({ risk, locationName, loading }: WeatherWidgetProp
 
       {risk ? (
         <>
-          {/* Risk badge */}
           <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded border text-xs font-semibold mb-4 ${risk.bgColor} ${risk.borderColor} ${risk.textColor}`}>
             <DisasterIcon className="w-3.5 h-3.5" />
             {risk.label}
           </div>
 
-          {/* Stats grid */}
           <div className="grid grid-cols-2 gap-3">
             <Stat icon={CloudRain} label="Precip." value={risk.precipNext24h} unit="mm" />
             <Stat icon={Droplets} label="Umidade" value={risk.humidity} unit="%" />

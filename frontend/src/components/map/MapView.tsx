@@ -5,6 +5,7 @@ import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet'
 import { useEffect } from 'react'
+import { RISK_COLORS, type MapMarker, type WeatherLayer } from '@/types/mapTypes'
 
 // Fix Leaflet default icon paths broken by Vite bundling
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,30 +15,8 @@ L.Icon.Default.mergeOptions({
   iconUrl: markerIcon,
   shadowUrl: markerShadow,
 })
-import type { RiskLevel } from '@/utils/riskLevels'
 
-const RISK_COLORS: Record<RiskLevel, string> = {
-  low: '#22c55e',
-  moderate: '#eab308',
-  high: '#f97316',
-  critical: '#ef4444',
-}
-
-type WeatherLayer =
-  | 'clouds_new'
-  | 'precipitation_new'
-  | 'pressure_new'
-  | 'wind_new'
-  | 'temp_new'
-
-export interface MapMarker {
-  lat: number
-  lon: number
-  label: string
-  risk: RiskLevel
-}
-
-interface MapCenterProps {
+export interface MapCenterProps {
   lat: number
   lon: number
   zoom?: number
@@ -74,7 +53,7 @@ export function MapView({ center, zoom = 11, markers = [], onMarkerClick, weathe
       /> {/* Mapa do fundo */}
 
       <TileLayer
-        url={`https://tile.openweathermap.org/map/${weatherLayer}/{z}/{x}/{y}.png?appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`}
+        url={`https://tile.openweathermap.org/map/${weatherLayer}/{z}/{x}/{y}.png?appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}&tm=${Date.now()}`}
         attribution="&copy; OpenWeather"
         opacity={1}
       /> {/* Efeito do vento, nuvem, chuva, pressão e temperatura */}
