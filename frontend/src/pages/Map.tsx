@@ -20,7 +20,7 @@ import { toast } from 'sonner'
 const BRAZIL_CENTER: [number, number] = [-14.235, -51.925]
 const BRAZIL_ZOOM = 4
 
-export default function MapPage() {
+export default function MapPage({seachLocation}: {seachLocation?: string}) {
   const [mapCenter, setMapCenter] = useState<[number, number]>(BRAZIL_CENTER)
   const [mapZoom, setMapZoom] = useState(BRAZIL_ZOOM)
   const [selectedLat, setSelectedLat] = useState<number | null>(null)
@@ -66,15 +66,21 @@ export default function MapPage() {
 
 
   const handleGeolocate = () => {
-    console.log("teste");
     navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position)
+      console.log('teste')
       selectLocation(position.coords.latitude, position.coords.longitude)
     },
       (error) => {
-        toast("Erro ao obter localização",{
+        toast("Erro ao obter localização", {
           description: "Seu navegador bloqueou essa ação!"
         })
         console.log(error);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 4000,
+        maximumAge: 0
       }
     )
   }
@@ -93,14 +99,15 @@ export default function MapPage() {
     }
   }, [openTour])
 
-  // Initial search for São Paulo on map load
   useEffect(() => {
     selectLocation(-23.5505, -46.6333, 'São Paulo');
+    // if(seachLocation){
+    //   searchCity
+    // }
   }, [selectLocation])
 
   return (
     <>
-      {/* <Navbar /> */}
       <div className="fixed inset-0 bg-bg flex flex-col">
         {/* Top overlay bar */}
         <div className="absolute top-0 left-0 right-0 z-30 flex items-center gap-3 px-4 pt-10 pb-4 pointer-events-none">

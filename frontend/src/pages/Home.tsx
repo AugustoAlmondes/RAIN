@@ -10,9 +10,7 @@ export default function Home() {
 
     return (
         <main className="relative bg-black min-h-screen text-foreground overflow-x-hidden pt-16">
-            {/* Hero Section */}
             <Hero mapRef={mapRef} />
-            {/* Content Sections */}
             <div className="relative z-20 flex flex-col overflow-hidden">
                 <HowItWorks />
                 <DisasterTypes />

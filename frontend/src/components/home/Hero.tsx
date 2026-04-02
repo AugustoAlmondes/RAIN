@@ -25,12 +25,11 @@ const container = {
 
 export default function Hero({ mapRef }: { mapRef: any }) {
     const [query, setQuery] = useState("")
-    const navigate = useNavigate()
 
-    const handleSearch = (e: React.FormEvent) => {
+    const handleSearch = (e: React.SubmitEvent) => {
         e.preventDefault()
         if (query.trim()) {
-            navigate(`/mapa?cidade=${encodeURIComponent(query.trim())}`)
+            // navigate(`/mapa?cidade=${encodeURIComponent(query.trim())}`)
         } else {
             mapRef.current?.scrollIntoView({ behavior: "smooth" })
         }
@@ -79,16 +78,11 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                     className="
             text-4xl md:text-6xl lg:text-7xl
             font-light tracking-tight text-white
-            leading-[1.1] mb-5
-          "
+            leading-[1.1] mb-5"
                 >
                     Antecipe o amanhã,{" "}
                     <span
-                        className="
-              font-medium
-              text-transparent bg-clip-text
-              bg-linear-to-r from-gradient-text-primary to-[#6ba3d6]
-            "
+                        className="font-medium text-transparent bg-clip-text bg-linear-to-r from-gradient-text-primary to-[#6ba3d6]"
                     >
                         proteja o agora
                     </span>
@@ -97,10 +91,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                 {/* Subtitle */}
                 <motion.p
                     variants={itemVariants}
-                    className="
-            text-slate-400 text-sm md:text-base
-            font-mono max-w-xl leading-relaxed mb-10
-          "
+                    className="text-slate-400 text-sm md:text-base font-mono max-w-xl leading-relaxed mb-10"
                 >
                     Alertas meteorológicos, áreas de risco e previsões de chuva —
                     tudo em um único painel de monitoramento.
@@ -113,15 +104,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                     className="w-full max-w-lg group"
                 >
                     <div
-                        className="
-              relative flex items-center
-              rounded border border-white/10
-              bg-white/5 backdrop-blur-xl
-              shadow-[0_0_40px_-10px_rgba(66,119,192,0.3)]
-              hover:border-gradient-text-primary/40 hover:shadow-[0_0_60px_-10px_rgba(66,119,192,0.4)]
-              focus-within:border-gradient-text-primary/60 focus-within:shadow-[0_0_80px_-5px_rgba(66,119,192,0.5)]
-              transition-all duration-500
-            "
+                        className="relative flex items-center rounded border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_0_40px_-10px_rgba(66,119,192,0.3)] hover:border-gradient-text-primary/40 hover:shadow-[0_0_60px_-10px_rgba(66,119,192,0.4)] focus-within:border-gradient-text-primary/60 focus-within:shadow-[0_0_80px_-5px_rgba(66,119,192,0.5)] transition-all duration-500"
                     >
                         <Search
                             className="absolute left-5 w-4 h-4 text-slate-500 group-focus-within:text-gradient-text-primary transition-colors duration-300 shrink-0"
@@ -131,23 +114,11 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="Digite o nome da cidade..."
-                            className="
-                flex-1 bg-transparent pl-12 pr-4 py-4
-                text-sm text-white placeholder:text-slate-500
-                font-mono outline-none
-              "
+                            className="flex-1 bg-transparent pl-12 pr-4 py-4 text-sm text-white placeholder:text-slate-500 font-mono outline-none"
                         />
                         <button
                             type="submit"
-                            className="
-                mr-2 px-5 py-2.5 rounded
-                bg-[#03285B] hover:bg-gradient-text-primary
-                text-white text-sm font-medium
-                border border-gradient-text-primary/20 hover:border-gradient-text-primary/60
-                transition-all duration-300 cursor-pointer
-                active:scale-95
-                shrink-0
-              "
+                            className="mr-2 px-5 py-2.5 rounded bg-gradient-text-secondary hover:bg-gradient-text-primary text-white text-sm font-medium border border-gradient-text-primary/20 hover:border-gradient-text-primary/60 transition-all duration-300 cursor-pointer active:scale-95 shrink-0"
                         >
                             Pesquisar
                         </button>
