@@ -4,7 +4,7 @@ export interface TourStep {
     targetId: string;
     title: string;
     content: string;
-    position: 'top' | 'bottom' | 'left' | 'right';
+    position?: 'top' | 'bottom' | 'left' | 'right';
 }
 
 export interface TourStore {
@@ -56,6 +56,17 @@ export const useTourStore = create<TourStore>((set) => ({
             title: "Painel de Riscos",
             content: "Veja as condições climáticas e riscos de desastres na cidade selecionada.",
             position: "left"
+        },
+        {
+            targetId: "tour-map-styles",
+            title: "Estilos do Mapa",
+            content: "Selecione os estilos que deseja visualizar no mapa.",
+            position: "top"
+        },
+        {
+            targetId: "tour-map-layers",
+            title: "Camadas do Mapa",
+            content: "Selecione as camadas que deseja visualizar no mapa.",
         },
     ],
     openTour: () => set({ isOpen: true, currentStep: 0 }),

@@ -19,6 +19,11 @@ import { toast } from 'sonner'
 
 const BRAZIL_CENTER: [number, number] = [-14.235, -51.925]
 const BRAZIL_ZOOM = 6
+const DEFAULT_LOCATION = {
+  lat: -23.5505,
+  lon: -46.6333,
+  name: 'São Paulo'
+}
 
 export const WEATHER_LAYERS: Record<WeatherLayer, React.ReactNode> = {
   clouds_new: <CloudyIcon className="w-4 h-4" />,
@@ -107,15 +112,12 @@ export default function MapPage() {
 
   const handleGeolocate = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position)
-      console.log('teste')
       selectLocation(position.coords.latitude, position.coords.longitude)
     },
-      (error) => {
+      () => {
         toast("Erro ao obter localização", {
           description: "Seu navegador bloqueou essa ação!"
         })
-        console.log(error);
       },
       {
         enableHighAccuracy: true,
@@ -141,9 +143,10 @@ export default function MapPage() {
 
   useEffect(() => {
     if (searchLocation) {
-      console.log(searchLocation)
       selectLocation(searchLocation.lat, searchLocation.lon, searchLocation.name)
       setSearchLocation(null)
+    } else {
+      selectLocation(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lon, DEFAULT_LOCATION.name)
     }
   }, [])
 
@@ -243,15 +246,16 @@ export default function MapPage() {
             </div>
 
             <div className='absolute bottom-4 left-4 z-20 flex flex-row gap-4 items-end'>
-              <div className='bg-surface/90 backdrop-blur-xl border border-border-custom rounded p-2 shadow-xl shadow-black/30 flex flex-col gap-2'>
+              <div id="tour-map-layers" className='bg-surface/90 backdrop-blur-xl border border-border-custom rounded p-2 shadow-xl shadow-black/30 flex flex-col gap-2'>
+                <h1 className='text-[14px] uppercase tracking-widest font-semibold px-1 text-slate-400 font-mono'>Ver:</h1>
                 {Object.entries(WEATHER_LAYERS).map(([layerObj, icon]) => (
                   <HoverCard key={layerObj} openDelay={300} closeDelay={100}>
                     <HoverCardTrigger asChild>
                       <button
                         onClick={() => setLayer(layerObj as WeatherLayer)}
                         className={`relative flex items-center justify-center w-10 h-10 rounded transition-all duration-200 cursor-pointer
-                          ${layer === layerObj 
-                            ? 'text-white' 
+                          ${layer === layerObj
+                            ? 'text-white'
                             : 'bg-white/3 border border-border-custom text-slate-400 hover:text-slate-200 hover:bg-white/6 hover:border-blue-500/50'}`}
                       >
                         {layer === layerObj && (
@@ -265,21 +269,21 @@ export default function MapPage() {
                       </button>
                     </HoverCardTrigger>
                     <HoverCardContent side='right' className='bg-gray-800 ml-2 backdrop-blur-xl border border-border-custom rounded shadow-lg text-slate-400 w-max'>
-                      <p className="capitalize text-xs leading-none">Camada: {
+                      <p className="capitalize text-xs leading-none"> {
                         layerObj === 'clouds_new' ? 'Nuvens' :
-                        layerObj === 'precipitation_new' ? 'Precipitação' :
-                        layerObj === 'pressure_new' ? 'Pressão' :
-                        layerObj === 'wind_new' ? 'Vento' :
-                        layerObj === 'temp_new' ? 'Temperatura' : layerObj
+                          layerObj === 'precipitation_new' ? 'Precipitação' :
+                            layerObj === 'pressure_new' ? 'Pressão' :
+                              layerObj === 'wind_new' ? 'Vento' :
+                                layerObj === 'temp_new' ? 'Temperatura' : layerObj
                       }</p>
                     </HoverCardContent>
                   </HoverCard>
                 ))}
               </div>
 
-              <div className='bg-surface backdrop-blur-xl border border-border-custom rounded p-4 shadow-xl shadow-black/30 max-w-[340px] font-mono'>
+              <div id="tour-map-styles" className='bg-surface backdrop-blur-xl border border-border-custom rounded p-4 shadow-xl shadow-black/30 max-w-[340px] font-mono'>
                 <div className="flex items-center justify-between mb-3 text-slate-400">
-                  <p className="text-[10px] uppercase tracking-widest font-semibold px-1">Estilo do mapa</p>
+                  <p className="text-[14px] uppercase tracking-widest font-semibold px-1">Estilo do mapa</p>
                   {weatherLoading && <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />}
                 </div>
                 <div className='grid grid-cols-2 gap-2'>
@@ -289,8 +293,8 @@ export default function MapPage() {
                         <button
                           onClick={() => setMapStyle(style)}
                           className={`relative flex items-center justify-center px-3 py-2 w-full h-full min-h-[40px] rounded text-xs font-medium transition-all duration-200 cursor-pointer text-center
-                            ${mapStyle === style 
-                              ? 'text-white' 
+                            ${mapStyle === style
+                              ? 'text-white'
                               : 'text-slate-400 hover:text-slate-200 bg-white/3 hover:bg-white/6 border border-border-custom hover:border-blue-500/50'}`}
                         >
                           {mapStyle === style && (

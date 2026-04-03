@@ -127,10 +127,10 @@ export default function Spotlight() {
                                 };
                             default:
                                 return {
-                                    top: coords.y + coords.height + gap,
-                                    left: coords.x,
+                                    top: coords.y + coords.height / 2,
+                                    left: coords.x + coords.width + gap,
                                     x: 0,
-                                    y: 0
+                                    y: "-50%"
                                 };
                         }
                     })()

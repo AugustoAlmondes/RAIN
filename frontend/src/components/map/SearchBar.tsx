@@ -62,7 +62,7 @@ export function SearchBar({ onLocationSelect }: SearchBarProps) {
 
   return (
     <div ref={containerRef} className="relative w-full max-w-sm">
-      {/* Input */}
+
       <div className="relative flex items-center bg-surface/90 backdrop-blur-xl border border-border-custom rounded overflow-hidden shadow-lg shadow-black/30 focus-within:border-blue-500/50 transition-colors">
         <Search className="absolute left-3 w-4 h-4 text-slate-500 shrink-0" />
         <input
@@ -82,7 +82,6 @@ export function SearchBar({ onLocationSelect }: SearchBarProps) {
         ) : null}
       </div>
 
-      {/* Dropdown */}
       <AnimatePresence>
         {open && results.length > 0 && (
           <motion.ul
