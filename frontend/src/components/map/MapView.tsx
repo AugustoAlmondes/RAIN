@@ -55,9 +55,10 @@ export function MapView({ center, zoom = 11, markers = [], onMarkerClick, weathe
       {/* Mapa do fundo */}
 
       <TileLayer
-        url={`https://tile.openweathermap.org/map/${weatherLayer}/{z}/{x}/{y}.png?appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}&tm=${Date.now()}`}
+        url={`https://tile.openweathermap.org/map/${weatherLayer}/{z}/{x}/{y}.png?appid=${import.meta.env.VITE_OPENWEATHER_API_KEY}`}
         attribution="&copy; OpenWeather"
         opacity={1}
+        className="saturate-[1.5] contrast-[1.2]"
       />
       {/* Efeito do vento, nuvem, chuva, pressão e temperatura */}
 

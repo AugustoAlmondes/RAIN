@@ -76,7 +76,8 @@ export default function MapPage() {
   const [mapStyle, setMapStyle] = useState<string>('dark_all')
   const [panelOpen, setPanelOpen] = useState(false)
   const selectedPeriod = '24h'
-  const { openTour } = useTourStore()
+  // const { openTour } = useTourStore()
+  const openTour = useTourStore(state => state.openTour)
   const { searchLocation, setSearchLocation } = useLocationStore()
   const { data: weatherData, loading: weatherLoading } = useWeather({ lat: selectedLat, lon: selectedLon })
 
@@ -145,9 +146,10 @@ export default function MapPage() {
     if (searchLocation) {
       selectLocation(searchLocation.lat, searchLocation.lon, searchLocation.name)
       setSearchLocation(null)
-    } else {
-      selectLocation(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lon, DEFAULT_LOCATION.name)
-    }
+    } 
+    // else {
+    //   selectLocation(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lon, DEFAULT_LOCATION.name)
+    // }
   }, [])
 
   return (
