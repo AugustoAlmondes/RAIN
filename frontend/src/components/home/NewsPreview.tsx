@@ -1,5 +1,5 @@
 import { motion } from "motion/react"
-import { ExternalLink, Calendar } from "lucide-react"
+import { Calendar } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { useNewStore } from "@/store/newsStore"
 import { useNews } from "@/hooks/useNews"
@@ -17,15 +17,12 @@ export function NewsPreview() {
   return (
     <section className="py-24 md:px-12 w-full bg-radial from-bg to-gradient-text-secondary/20 relative">
 
-      <div className="mx-auto w-full max-w-4xl flex flex-col items-center gap-6">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-        <div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">
+      <div className="mx-auto w-full max-w-4xl flex flex-col items-center gap-3">
+      <div className="flex flex-col w-full md:flex-row md:items-end justify-between">
+        <div className="w-full">
+          <h2 className="text-3xl w-full md:text-4xl font-medium font-mono tracking-tight text-white mb-2">
             Últimas Notícias
           </h2>
-          <p className="text-slate-400 max-w-4xl">
-            Fique por dentro dos principais acontecimentos envolvendo desastres naturais em diferentes regiões do mundo. Acompanhe notícias atualizadas em tempo real sobre enchentes, deslizamentos, secas, ciclones, granizo, geadas e outros eventos climáticos, reunidas a partir de fontes oficiais e veículos confiáveis.
-          </p>
         </div>
       </div>
         {
@@ -37,7 +34,7 @@ export function NewsPreview() {
             filteredNews(data, category, search)?.slice(0, 5).map((article: Article, index: number) => (
               <Card
                 key={index}
-                className="w-full max-w-4xl group border-border-custom rounded-none border-y bg-transparent hover:border-slate-500 transition-all duration-300 hover:shadow-lg shadow-black/20"
+                className="w-full max-w-4xl group border-border-custom rounded-none border-y bg-transparent hover:border-slate-500 transition-all pb-0 pt-2 duration-300 hover:shadow-lg shadow-black/20"
               >
                 <CardContent className="p-none">
 
@@ -56,16 +53,16 @@ export function NewsPreview() {
 
                   {/* Título */}
                   <a href={article.url} target="_blank">
-                    <h3 className="text-xl font-bold text-white  group-hover:text-blue-400 transition-colors cursor-pointer">
+                    <h3 className="text-lg font-bold text-white  group-hover:text-blue-400 transition-colors cursor-pointer">
                       {article.title}
                     </h3>
                   </a>
 
-                  <p className="text-slate-400 line-clamp-2 md:line-clamp-none text-sm leading-relaxed mb-4">
+                  <p className="text-slate-400 font-mono line-clamp-2 md:line-clamp-none text-sm leading-relaxed mb-4">
                     {article.description}
                   </p>
 
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-custom">
+                  {/* <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-custom">
                     <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
                       Fonte: <span className="text-slate-300">{article.reference}</span>
                     </span>
@@ -74,7 +71,7 @@ export function NewsPreview() {
                       Ler matéria
                       <ExternalLink className="w-4 h-4 ml-1" />
                     </a>
-                  </div>
+                  </div> */}
 
                 </CardContent>
               </Card>)

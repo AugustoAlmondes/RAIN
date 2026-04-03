@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react'
-import { X, AlertTriangle, Droplets, Wind, Thermometer, CloudRain, Zap, Sun, Mountain, TrendingUp, ChevronDown } from 'lucide-react'
+import { X, AlertTriangle, Droplets, Wind, Thermometer, CloudRain, Zap, Sun, Mountain, ChevronDown } from 'lucide-react'
 import type { RiskInfo } from '@/utils/riskLevels'
 import type { WeatherData } from '@/services/weatherService'
 import { useState } from 'react'

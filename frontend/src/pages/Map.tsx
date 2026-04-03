@@ -146,10 +146,10 @@ export default function MapPage() {
     if (searchLocation) {
       selectLocation(searchLocation.lat, searchLocation.lon, searchLocation.name)
       setSearchLocation(null)
-    } 
-    // else {
-    //   selectLocation(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lon, DEFAULT_LOCATION.name)
-    // }
+    }
+    else {
+      selectLocation(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lon, DEFAULT_LOCATION.name)
+    }
   }, [])
 
   return (
