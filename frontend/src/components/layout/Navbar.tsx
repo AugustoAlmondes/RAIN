@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react'
 
 const links = [
   { to: '/', label: 'Início', icon: Home },
+  { to: '/analise', label: 'AI Análise', icon: BrainCircuit },
   { to: '/noticias', label: 'Notícias', icon: Newspaper },
-  { to: '/analise', label: 'Análise IA', icon: BrainCircuit },
   { to: '/guia', label: 'Guia', icon: BookOpen },
 ]
 
@@ -37,7 +37,6 @@ export function Navbar() {
         `}
       >
         <div className="flex items-center justify-between w-full max-w-7xl px-6 md:px-12 gap-8">
-          {/* Logo Section */}
           <div className="relative w-40 flex items-center h-full">
             <AnimatePresence mode="wait">
               <motion.img

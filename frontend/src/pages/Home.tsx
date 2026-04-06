@@ -16,7 +16,7 @@ export default function Home() {
                 <meta name="description" content="RAIN é uma plataforma de monitoramento em tempo real de desastres naturais, com foco em inundações, deslizamentos e outros eventos climáticos extremos. O sistema utiliza dados de satélite, radares meteorológicos e sensores em campo para fornecer alertas precisos e em tempo real, ajudando a proteger vidas e propriedades." />
                 <link
                     rel="canonical"
-                    href="https://rain.augustogomes.dev"
+                    href="https://rain-weather-forecast.netlify.app/"
                 />
             </Helmet>
             <main className="relative bg-black min-h-screen text-foreground overflow-x-hidden pt-16">

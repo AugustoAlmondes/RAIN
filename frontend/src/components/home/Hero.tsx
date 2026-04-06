@@ -114,10 +114,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
         bg-[url('/images/mapa-bg.png')] bg-cover bg-center
         overflow-hidden border-b-2 border-border-custom"
         >
-            {/* Dark overlay to improve text legibility over the map image */}
             <div className="absolute inset-0 bg-black/10 z-0" />
-
-            {/* Bottom fade to blend seamlessly into MapPreview aurora */}
             <div
                 className="absolute bottom-0 left-0 right-0 h-48 z-10 pointer-events-none"
                 style={{
@@ -126,14 +123,12 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                 }}
             />
 
-            {/* Content */}
             <motion.div
                 variants={container}
                 initial="hidden"
                 animate="show"
                 className="relative z-10 flex flex-col items-center text-center px-6 pt-30 max-w-4xl mx-auto"
             >
-                {/* Badge */}
                 <motion.div variants={itemVariants}>
                     <span
                         className=" inline-flex items-center gap-2 px-3 py-1 mb-8 rounded-full border border-gradient-text-primary/30 bg-gradient-text-primary/10 backdrop-blur-md text-gradient-text-primary text-xs font-mono tracking-widest uppercase"
@@ -143,7 +138,6 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                     </span>
                 </motion.div>
 
-                {/* Headline */}
                 <motion.h1
                     variants={itemVariants}
                     className="
@@ -159,7 +153,6 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                     </span>
                 </motion.h1>
 
-                {/* Subtitle */}
                 <motion.p
                     variants={itemVariants}
                     className="text-slate-400 text-sm md:text-base font-mono max-w-xl leading-relaxed mb-10"
@@ -168,7 +161,6 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                     tudo em um único painel de monitoramento.
                 </motion.p>
 
-                {/* Search */}
                 <motion.div
                     variants={itemVariants}
                     className="w-full max-w-lg relative group"
@@ -213,7 +205,6 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                         </div>
                     </form>
 
-                    {/* Autocomplete Dropdown */}
                     <AnimatePresence>
                         {open && results.length > 0 && (
                             <motion.ul
@@ -248,11 +239,9 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                     </AnimatePresence>
                 </motion.div>
 
-                {/* Scroll hint omitted as per original code comment out */}
             </motion.div>
 
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none flex justify-center items-center opacity-30">
-                {/* Deep Blue Element */}
                 <motion.div
                     animate={{
                         x: ["-20%", "20%", "-10%", "-20%"],
@@ -268,7 +257,6 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                     className="absolute w-[50vw] h-[50vh] rounded-[100px] blur-[100px] mix-blend-screen opacity-50 bg-gradient-text-secondary"
                 />
 
-                {/* Accent Light Blue Element */}
                 <motion.div
                     animate={{
                         x: ["20%", "-15%", "10%", "20%"],
@@ -285,7 +273,6 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                     className="absolute w-[30vw] h-[30vh] rounded-[100px] blur-[100px] mix-blend-screen opacity-60 bg-gradient-text-primary"
                 />
 
-                {/* Supporting Mixed Grad Element */}
                 <motion.div
                     animate={{
                         x: ["-10%", "15%", "-5%", "-10%"],
