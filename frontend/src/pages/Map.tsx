@@ -15,6 +15,7 @@ import { useTourStore } from '@/store/tourStore'
 import { useLocationStore } from '@/store/locationStore'
 import Spotlight from '@/components/map/Spotlight'
 import { toast } from 'sonner'
+import { Helmet } from 'react-helmet-async'
 
 
 const BRAZIL_CENTER: [number, number] = [-14.235, -51.925]
@@ -154,6 +155,10 @@ export default function MapPage() {
 
   return (
     <>
+    <Helmet>
+      <title>RAIN - Mapa</title>
+      <meta name="description" content="Mapa de monitoramento de desastres naturais em tempo real com dados de satélite, radares meteorológicos e sensores em campo. Layers de chuva, vento, temperatura e pressão. Mapas de calor e alertas de desastres" />
+    </Helmet>
       <div className="fixed inset-0 bg-bg flex flex-col">
         <div className="absolute top-0 left-0 right-0 z-30 flex items-center gap-3 px-4 pt-10 pb-4 pointer-events-none">
           <HoverCard>

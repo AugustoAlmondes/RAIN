@@ -53,25 +53,14 @@ export function NewsPreview() {
 
                   {/* Título */}
                   <a href={article.url} target="_blank">
-                    <h3 className="text-lg font-bold text-white  group-hover:text-blue-400 transition-colors cursor-pointer">
+                    <h3 className="text-lg font-medium text-white  group-hover:text-blue-400 transition-colors cursor-pointer">
                       {article.title}
                     </h3>
                   </a>
 
-                  <p className="text-slate-400 font-mono line-clamp-2 md:line-clamp-none text-sm leading-relaxed mb-4">
+                  <p className="text-slate-400 font-mono font-light line-clamp-2 mt-2 md:line-clamp-none text-sm leading-relaxed mb-4">
                     {article.description}
                   </p>
-
-                  {/* <div className="flex items-center justify-between mt-4 pt-4 border-t border-border-custom">
-                    <span className="text-xs uppercase tracking-wider text-slate-500 font-semibold">
-                      Fonte: <span className="text-slate-300">{article.reference}</span>
-                    </span>
-
-                    <a href={article.url} target="_blank" className="text-blue-400 text-sm group-hover:translate-x-1 transition-transform inline-flex items-center opacity-0 group-hover:opacity-100 cursor-pointer">
-                      Ler matéria
-                      <ExternalLink className="w-4 h-4 ml-1" />
-                    </a>
-                  </div> */}
 
                 </CardContent>
               </Card>)
