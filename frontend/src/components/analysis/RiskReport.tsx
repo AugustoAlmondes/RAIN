@@ -1,17 +1,20 @@
 import { motion } from 'motion/react'
 import { Calendar, MapPin, Wind, CloudRain, Droplets, ArrowRight } from 'lucide-react'
 import type { RiskResult, CalculatedRisk } from '@/utils/riskLevels'
+import type { GeoLocation } from '@/services/geocodingService'
 import { RiskBadge } from './RiskBadge'
 import { WeatherDataCards } from './WeatherDataCards'
 import { RecommendationsList } from './RecommendationsList'
+import { MapPreview } from './MapPreview'
 
 interface RiskReportProps {
   data: RiskResult
   city: string
+  location?: GeoLocation | null
   onViewOnMap?: () => void
 }
 
-export function RiskReport({ data, city, onViewOnMap }: RiskReportProps) {
+export function RiskReport({ data, city, location, onViewOnMap }: RiskReportProps) {
   const currentDate = new Date().toLocaleString('pt-BR', {
     day: '2-digit',
     month: 'long',
@@ -71,16 +74,6 @@ export function RiskReport({ data, city, onViewOnMap }: RiskReportProps) {
                   {primaryRisk.label}
                 </p>
               </div>
-
-              {onViewOnMap && (
-                <button
-                  onClick={onViewOnMap}
-                  className="mt-2 flex items-center gap-2 px-4 py-2 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 rounded transition-all duration-300 font-bold text-sm cursor-pointer shadow-lg shadow-blue-900/10"
-                >
-                  <MapPin className="w-4 h-4" />
-                  <span>Ver no Mapa</span>
-                </button>
-              )}
             </div>
           </div>
 
@@ -143,9 +136,25 @@ export function RiskReport({ data, city, onViewOnMap }: RiskReportProps) {
         </div>
       </div>
 
+      
+      {/* Map Preview */}
+      {location && onViewOnMap && (
+        <div className="space-y-3 px-2">
+          <h3 className="text-2xl font-mono text-white/40 flex items-center gap-3">
+            Localização
+          </h3>
+          <MapPreview
+            lat={location.lat}
+            lon={location.lon}
+            city={city}
+            onViewOnMap={onViewOnMap}
+          />
+        </div>
+      )}
+
       {/* Seção de Dados Brutos */}
       <div className="space-y-4 px-2">
-        <h3 className="text-2xl font-mono text-white flex items-center gap-3">
+        <h3 className="text-2xl font-mono text-white/40 flex items-center gap-3">
           Dados Climáticos Utilizados
         </h3>
         <WeatherDataCards data={data} />

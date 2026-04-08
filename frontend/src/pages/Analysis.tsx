@@ -141,6 +141,7 @@ export default function Analysis() {
                   <RiskReport
                     data={result}
                     city={city || ""}
+                    location={location}
                     onViewOnMap={handleViewOnMap}
                   />
                 </motion.div>

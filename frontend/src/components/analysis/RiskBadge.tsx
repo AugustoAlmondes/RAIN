@@ -68,8 +68,8 @@ export function RiskBadge({ level, showIcon = true, className = "" }: RiskBadgeP
         } : {})
       }}
       className={`
-        inline-flex items-center gap-2 px-4 py-1.5 rounded-full border-2 font-bold text-sm tracking-wide 
-        ${config.color}/10 ${config.borderColor} ${config.textColor} ${config.shadow} shadow-lg backdrop-blur-xl
+        inline-flex items-center gap-2 px-4 py-1.5 rounded border-2 font-bold text-sm tracking-wide 
+        ${config.color}/10 ${config.borderColor} ${config.textColor} ${config.shadow} backdrop-blur-xl
         ${className}
       `}
     >
