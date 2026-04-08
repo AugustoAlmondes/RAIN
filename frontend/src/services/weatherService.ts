@@ -44,6 +44,8 @@ export async function fetchWeather(lat: number, lon: number): Promise<WeatherDat
 
   const data = await response.json()
 
+  console.log(data);
+
   return {
     latitude: data.latitude,
     longitude: data.longitude,  

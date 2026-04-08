@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react'
-import { X, AlertTriangle, Droplets, Wind, Thermometer, CloudRain, Zap, Sun, Mountain, ChevronDown } from 'lucide-react'
+import { X, AlertTriangle, Droplets, Wind, Thermometer, CloudRain, Zap, Sun, Mountain, ChevronDown, Info } from 'lucide-react'
 import type { RiskInfo } from '@/utils/riskLevels'
 import type { WeatherData } from '@/services/weatherService'
 import { useState } from 'react'
@@ -14,6 +14,7 @@ import {
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
 import { Card, CardContent, CardDescription } from '../ui/card'
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card'
 
 // Register Chart.js components
 ChartJS.register(
@@ -33,7 +34,7 @@ interface RiskPanelProps {
   onClose?: () => void
 }
 
-function Chart({ values, labels, color, label = 'Precipitação (%)' }: { values: number[]; labels: string[]; color: string; label?: string }) {
+function Chart({ values, labels, color, label = 'Precipitação (%)', max }: { values: number[]; labels: string[]; color: string; label?: string; max?: number }) {
   const data = {
     labels: labels.map(l => l.slice(5)),
     datasets: [
@@ -58,6 +59,7 @@ function Chart({ values, labels, color, label = 'Precipitação (%)' }: { values
     scales: {
       y: {
         beginAtZero: true,
+        max: max,
         grid: {
           color: 'rgba(255, 255, 255, 0.05)',
         },
@@ -170,7 +172,38 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
 
                 {/* Key stats */}
                 <div className="flex items-center flex-col gap-2 mb-3">
-                  <p className="text-sm text-slate-300/20 font-semibold w-full text-start">Principais Métricas</p>
+                  <div className='flex gap-2 w-full mb-3'>
+                    <p className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Principais Métricas</p>
+                    <HoverCard>
+                      {/* Explicar o que significa probabilidade de chuva */}
+                      <HoverCardContent className='bg-gray-800 mb-1 border border-border-custom rounded shadow-lg text-slate-400 w-100'>
+                        {/* Criar uma lista explicando cada campo Ex. Item: Explicação do significado  */}
+                        <ul className='flex flex-col gap-2'>
+                          <li>
+                            <span className="font-semibold">Precipitação 24h:</span> É a quantidade de chuva que se espera cair em um período de 24 horas, medida em milímetros (mm). Quanto maior o valor, maior a quantidade de chuva esperada.
+                          </li>
+                          <li>
+                            <span className="font-semibold">Umidade:</span> É a quantidade de vapor de água presente na atmosfera, medida em porcentagem (%). Quanto maior o valor, maior a quantidade de vapor de água presente na atmosfera.
+                          </li>
+                          <li>
+                            <span className="font-semibold">Vento:</span> É a velocidade com que o ar se move na atmosfera, medida em quilômetros por hora (km/h). Quanto maior o valor, mais forte o vento.
+                          </li>
+                          <li>
+                            <span className="font-semibold">Rajadas:</span> É a velocidade máxima do vento em um determinado período, medida em quilômetros por hora (km/h). Quanto maior o valor, mais forte o vento.
+                          </li>
+                          <li>
+                            <span className="font-semibold">Temp. máx:</span> É a temperatura máxima que se espera atingir em um determinado período, medida em graus Celsius (°C). Quanto maior o valor, mais quente o dia.
+                          </li>
+                          <li>
+                            <span className="font-semibold">Temp. min:</span> É a temperatura mínima que se espera atingir em um determinado período, medida em graus Celsius (°C). Quanto menor o valor, mais frio o dia.
+                          </li>
+                        </ul>
+                      </HoverCardContent>
+                      <HoverCardTrigger>
+                        <Info className="w-4 h-4 text-slate-500 cursor-pointer" />
+                      </HoverCardTrigger>
+                    </HoverCard>
+                  </div>
 
                   <div className="grid grid-cols-[1fr_1fr] w-full gap-3">
                     {[
@@ -209,6 +242,15 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                     <div className="flex items-center gap-2 mb-3">
                       {/* <TrendingUp className="w-4 h-4 text-blue-400" /> */}
                       <p className="text-xs font-semibold text-slate-300 uppercase tracking-wider">{getChartTitle()} — Próximos 7 dias</p>
+                      <HoverCard>
+                        {/* Explicar o que significa precipitação */}
+                        <HoverCardContent className='bg-gray-800 mb-1 border border-border-custom rounded shadow-lg text-slate-400 w-100'>
+                          Precipitação é o nome dado a toda água que cai da atmosfera para a superfície da Terra. Ela pode ocorrer na forma de chuva, garoa, granizo ou neve. Nas previsões do tempo, esse termo geralmente se refere à possibilidade e à quantidade de chuva esperada para um determinado local e período. Quando a previsão indica uma porcentagem de precipitação, ela mostra a chance de ocorrer chuva; quando indica milímetros, mostra o volume estimado de água que pode cair.
+                        </HoverCardContent>
+                        <HoverCardTrigger>
+                          <Info className="w-4 h-4 text-slate-500 cursor-pointer" />
+                        </HoverCardTrigger>
+                      </HoverCard>
                     </div>
                     <div className="bg-bg/60 rounded p-3 border border-border-custom">
                       <Chart
@@ -216,6 +258,7 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                         labels={dailyLabels}
                         color={risk.disasterType === 'drought' ? '#f97316' : (risk.disasterType === 'storm' ? '#a855f7' : '#3b82f6')}
                         label={getChartTitle()}
+                        max={getChartTitle().includes('%') ? 100 : undefined}
                       />
                     </div>
                   </div>
@@ -227,9 +270,18 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                     <div className="flex items-center gap-2 mb-3">
                       {/* <CloudRain className="w-4 h-4 text-cyan-400" /> */}
                       <p className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Prob. de Chuva (%)</p>
+                      <HoverCard>
+                        {/* Explicar o que significa probabilidade de chuva */}
+                        <HoverCardContent className='bg-gray-800 mb-1 border border-border-custom rounded shadow-lg text-slate-400 w-100'>
+                          Probabilidade de chuva é a chance de ocorrer precipitação em um local durante um determinado período, normalmente expressa em porcentagem. Por exemplo, uma previsão de 70% de probabilidade de chuva significa que há grande chance de chover naquele lugar e horário, mas não indica necessariamente que a chuva será forte ou durará o tempo todo. Quanto maior a porcentagem, maior a possibilidade de chuva acontecer.
+                        </HoverCardContent>
+                        <HoverCardTrigger>
+                          <Info className="w-4 h-4 text-slate-500 cursor-pointer" />
+                        </HoverCardTrigger>
+                      </HoverCard>
                     </div>
                     <div className="bg-bg/60 rounded p-3 border border-border-custom">
-                      <Chart values={dailyProb} labels={dailyLabels} color="#06b6d4" />
+                      <Chart values={dailyProb} labels={dailyLabels} color="#06b6d4" max={100} />
                     </div>
                   </div>
                 )}

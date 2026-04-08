@@ -38,7 +38,7 @@ export function RecommendationsList({ recommendations, level }: RecommendationsL
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="flex items-start gap-4 p-4 rounded bg-surface/40 backdrop-blur-3xl border border-white/10 hover:bg-white/5 transition-colors group"
+            className="flex items-start gap-4 p-4 rounded bg-surface/40 backdrop-blur-3xl border border-white/10 hover:bg-surface/60 transition-colors group"
           >
             <div className="mt-1 shrink-0">
               <div className={`w-2 h-2 rounded-full mt-1.5 ${level === 'critical' ? 'bg-risk-critical' :

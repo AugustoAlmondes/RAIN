@@ -21,7 +21,7 @@ export function AnalysisHistory({ history, onHistoryClick, onClear }: AnalysisHi
         </div>
         <button
           onClick={onClear}
-          className="text-[10px] text-slate-500 hover:text-red-400 transition-colors uppercase tracking-wider font-bold"
+          className="text-[10px] text-slate-500 hover:text-red-400 transition-colors uppercase tracking-wider font-bold cursor-pointer"
         >
           Limpar Tudo
         </button>
@@ -34,7 +34,7 @@ export function AnalysisHistory({ history, onHistoryClick, onClear }: AnalysisHi
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.05 }}
-            className="flex items-center pl-3 bg-surface/40 backdrop-blur-3xl rounded hover:bg-white/10 transition-all border border-white/10 group cursor-pointer"
+            className="flex items-center pl-3 bg-surface/40 backdrop-blur-3xl rounded hover:bg-surface/60 transition-all border border-white/10 group cursor-pointer"
             onClick={() => onHistoryClick(city)}
           >
             <MapPin className="w-3 h-3 text-blue-500 mr-2 opacity-70 group-hover:opacity-100 transition-opacity" />
