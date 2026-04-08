@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
-import { Sparkles, AlertCircle, RefreshCw } from 'lucide-react'
+import {  AlertCircle, RefreshCw } from 'lucide-react'
 import { CitySearchBar } from '@/components/analysis/CitySearchBar'
 import { AnalysisLoading } from '@/components/analysis/AnalysisLoading'
 import { RiskReport } from '@/components/analysis/RiskReport'
