@@ -177,7 +177,7 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                 {/* Secondary Risks */}
                 {secondary.length > 0 && (
                   <div>
-                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Riscos Secundários</p>
+                    <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Outros Riscos</p>
                     <div className="flex flex-wrap gap-2">
                       {secondary.map(r => (
                         <SecondaryRiskBadge key={r.type} risk={r} />

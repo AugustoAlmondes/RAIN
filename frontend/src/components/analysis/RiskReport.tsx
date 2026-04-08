@@ -92,7 +92,7 @@ export function RiskReport({ data, city, location, onViewOnMap }: RiskReportProp
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-slate-400">
                   <ArrowRight className="w-4 h-4 text-blue-500" />
-                  <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500">Riscos Secundários</h4>
+                  <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500">Outros Riscos</h4>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {secondaryRisks.map((risk: CalculatedRisk) => (

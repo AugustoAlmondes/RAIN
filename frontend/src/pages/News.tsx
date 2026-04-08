@@ -55,7 +55,7 @@ export default function News() {
                                         <Badge variant="secondary" className="bg-blue-500/20 hover:bg-blue-500/30 text-blue-100 border border-blue-500/30 rounded">{formatDate(lastNews.publishedAt)}</Badge>
                                     }
                                 </div>
-                                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white max-w-4xl tracking-tight leading-tight">
+                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white max-w-4xl tracking-tight leading-tight">
                                     {lastNews.title}
                                 </h1>
                                 {lastNews.description && (

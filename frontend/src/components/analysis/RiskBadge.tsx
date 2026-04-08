@@ -45,7 +45,7 @@ const riskConfig = {
 
 export function RiskBadge({ level, showIcon = true, className = "" }: RiskBadgeProps) {
   const config = riskConfig[level] || riskConfig.low
-  const isHighRisk = level === 'high' || level === 'critical'
+  // const isHighRisk = level === 'high' || level === 'critical'
 
   return (
     <motion.div
@@ -53,19 +53,19 @@ export function RiskBadge({ level, showIcon = true, className = "" }: RiskBadgeP
       animate={{ 
         scale: 1, 
         opacity: 1,
-        ...(isHighRisk ? {
-          scale: [1, 1.05, 1],
-        } : {})
+        // ...(isHighRisk ? {
+        //   scale: [1, 1.05, 1],
+        // } : {})
       }}
       transition={{ 
         duration: 0.3,
-        ...(isHighRisk ? {
-          scale: {
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }
-        } : {})
+        // ...(isHighRisk ? {
+        //   scale: {
+        //     duration: 2,
+        //     repeat: Infinity,
+        //     ease: "easeInOut"
+        //   }
+        // } : {})
       }}
       className={`
         inline-flex items-center gap-2 px-4 py-1.5 rounded border-2 font-bold text-sm tracking-wide 
