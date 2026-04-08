@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { searchCity, type GeoLocation } from '@/services/geocodingService'
 import { fetchWeather } from '@/services/weatherService'
-import { computeRisk, type RiskInfo } from '@/utils/riskLevels'
+import { computeRiskResult, type RiskResult } from '@/utils/riskLevels'
 
 const HISTORY_KEY = 'alertaclima_history'
 const MAX_HISTORY = 5
@@ -9,7 +9,7 @@ const MAX_HISTORY = 5
 export interface AnalysisState {
   loading: boolean
   error: string | null
-  result: RiskInfo | null
+  result: RiskResult | null
   city: string | null
   location: GeoLocation | null
   step: 'idle' | 'searching' | 'fetching_weather' | 'analyzing'
@@ -69,7 +69,7 @@ export function useAnalysis() {
       // Simulate a small delay for better UX (so the user can see the steps)
       await new Promise((resolve) => setTimeout(resolve, 800))
 
-      const riskInfo = computeRisk(weather)
+      const riskInfo = computeRiskResult(weather)
 
       setState({
         loading: false,

@@ -6,7 +6,7 @@ import { RiskPanel } from '@/components/map/RiskPanel'
 import { WeatherWidget } from '@/components/map/WeatherWidget'
 import { SearchBar } from '@/components/map/SearchBar'
 import { useWeather } from '@/hooks/useWeather'
-import { computeRisk } from '@/utils/riskLevels'
+import { computeRiskResult } from '@/utils/riskLevels'
 import { reverseGeocode, type GeoLocation } from '@/services/geocodingService'
 import { ArrowLeftIcon, CircleGauge, CloudRainIcon, CloudyIcon, Home, Loader2, Locate, NotepadText, PanelRight, ThermometerIcon, WindIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
@@ -76,17 +76,16 @@ export default function MapPage() {
   const [layer, setLayer] = useState<WeatherLayer>('temp_new')
   const [mapStyle, setMapStyle] = useState<string>('dark_all')
   const [panelOpen, setPanelOpen] = useState(false)
-  const selectedPeriod = '24h'
   // const { openTour } = useTourStore()
   const openTour = useTourStore(state => state.openTour)
   const { searchLocation, setSearchLocation } = useLocationStore()
   const { data: weatherData, loading: weatherLoading } = useWeather({ lat: selectedLat, lon: selectedLon })
 
-  const risk = weatherData ? computeRisk(weatherData, selectedPeriod) : null
+  const risk = weatherData ? computeRiskResult(weatherData) : null
   const navigate = useNavigate()
 
   const markers: MapMarker[] = selectedLat && selectedLon && risk ? [
-    { lat: selectedLat, lon: selectedLon, label: locationName || 'Selecionado', risk: risk.level },
+    { lat: selectedLat, lon: selectedLon, label: locationName || 'Selecionado', risk: risk.primaryRisk.level },
   ] : []
 
   const selectLocation = useCallback(async (lat: number, lon: number, name?: string) => {

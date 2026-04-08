@@ -33,7 +33,7 @@ export async function fetchWeather(lat: number, lon: number): Promise<WeatherDat
     hourly: 'precipitation,relative_humidity_2m,wind_speed_10m,precipitation_probability,wind_gusts_10m,apparent_temperature',
     daily: 'precipitation_sum,precipitation_probability_max,temperature_2m_max,temperature_2m_min,uv_index_max',
     timezone: 'America/Sao_Paulo',
-    forecast_days: '7',
+    forecast_days: '16',
   })
 
   const response = await fetch(`${BASE_URL}?${params}`)

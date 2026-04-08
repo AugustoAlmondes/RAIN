@@ -1,12 +1,12 @@
 import { motion } from 'motion/react'
 import { Calendar, MapPin, Wind, CloudRain, Droplets, ArrowRight } from 'lucide-react'
-import type { RiskInfo } from '@/utils/riskLevels'
+import type { RiskResult, CalculatedRisk } from '@/utils/riskLevels'
 import { RiskBadge } from './RiskBadge'
 import { WeatherDataCards } from './WeatherDataCards'
 import { RecommendationsList } from './RecommendationsList'
 
 interface RiskReportProps {
-  data: RiskInfo
+  data: RiskResult
   city: string
   onViewOnMap?: () => void
 }
@@ -20,7 +20,8 @@ export function RiskReport({ data, city, onViewOnMap }: RiskReportProps) {
     minute: '2-digit'
   })
 
-  const isCritical = data.level === 'critical' || data.level === 'high'
+  const { primaryRisk, metrics, secondaryRisks } = data
+  const isCritical = primaryRisk.level === 'critical' || primaryRisk.level === 'high'
 
   return (
     <motion.div
@@ -63,11 +64,11 @@ export function RiskReport({ data, city, onViewOnMap }: RiskReportProps) {
             </div>
 
             <div className="flex flex-col items-start md:items-end gap-3">
-              <RiskBadge level={data.level} className="text-lg py-2.5 px-6" />
+              <RiskBadge level={primaryRisk.level} className="text-lg py-2.5 px-6" />
               <div className="text-right">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Status de Alerta</p>
-                <p className={`text-xl font-bold tracking-tight ${data.textColor}`}>
-                  {data.label}
+                <p className={`text-xl font-bold tracking-tight ${primaryRisk.textColor}`}>
+                  {primaryRisk.label}
                 </p>
               </div>
 
@@ -90,16 +91,35 @@ export function RiskReport({ data, city, onViewOnMap }: RiskReportProps) {
                 <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500">Resumo da Análise</h4>
               </div>
               <p className="text-lg text-slate-300 leading-relaxed font-mono">
-                {data.description}
+                {primaryRisk.description}
               </p>
             </div>
+
+            {secondaryRisks.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 text-slate-400">
+                  <ArrowRight className="w-4 h-4 text-blue-500" />
+                  <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500">Riscos Secundários</h4>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {secondaryRisks.map((risk: CalculatedRisk) => (
+                    <div 
+                      key={risk.type} 
+                      className={`px-3 py-1 rounded-full text-xs font-bold border ${risk.bgColor} ${risk.borderColor} ${risk.textColor}`}
+                    >
+                      {risk.label}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="flex items-center justify-center p-6 rounded bg-surface/40 backdrop-blur-3xl border border-white/10 space-x-6">
               <div className="text-center space-y-1">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Precipitação</p>
                 <div className="flex items-center gap-2 text-2xl font-bold text-white">
                   <CloudRain className="w-5 h-5 text-blue-400" />
-                  <span>{data.precipNext24h}mm</span>
+                  <span>{metrics.precip24h}mm</span>
                 </div>
               </div>
               <div className="w-px h-10 bg-white/10" />
@@ -107,7 +127,7 @@ export function RiskReport({ data, city, onViewOnMap }: RiskReportProps) {
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Vento Máx.</p>
                 <div className="flex items-center gap-2 text-2xl font-bold text-white">
                   <Wind className="w-5 h-5 text-cyan-400" />
-                  <span>{data.windSpeed}km/h</span>
+                  <span>{metrics.windSpeed}km/h</span>
                 </div>
               </div>
               <div className="w-px h-10 bg-white/10" />
@@ -115,7 +135,7 @@ export function RiskReport({ data, city, onViewOnMap }: RiskReportProps) {
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Umidade</p>
                 <div className="flex items-center gap-2 text-2xl font-bold text-white">
                   <Droplets className="w-5 h-5 text-blue-300" />
-                  <span>{data.humidity}%</span>
+                  <span>{metrics.humidity}%</span>
                 </div>
               </div>
             </div>
@@ -134,8 +154,8 @@ export function RiskReport({ data, city, onViewOnMap }: RiskReportProps) {
       {/* Seção de Recomendações */}
       <div className="px-2">
         <RecommendationsList
-          recommendations={data.recommendations}
-          level={data.level}
+          recommendations={primaryRisk.recommendations}
+          level={primaryRisk.level}
         />
       </div>
 

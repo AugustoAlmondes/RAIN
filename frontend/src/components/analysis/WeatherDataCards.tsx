@@ -7,10 +7,10 @@ import {
   CloudLightning,
   Sun
 } from 'lucide-react'
-import type { RiskInfo } from '@/utils/riskLevels'
+import type { RiskResult } from '@/utils/riskLevels'
 
 interface WeatherDataCardsProps {
-  data: RiskInfo
+  data: RiskResult
 }
 
 interface StatCardProps {
@@ -58,55 +58,55 @@ export function WeatherDataCards({ data }: WeatherDataCardsProps) {
       <StatCard
         icon={<CloudRain className="w-5 h-5" />}
         label="Precipitação (24h)"
-        value={data.precipNext24h}
+        value={data.metrics.precip24h}
         unit="mm"
         delay={0.1}
       />
       <StatCard
         icon={<CloudLightning className="w-5 h-5" />}
         label="Prob. de Chuva"
-        value={data.precipProbability}
+        value={data.metrics.precipProbability}
         unit="%"
         delay={0.2}
       />
       <StatCard
         icon={<Droplets className="w-5 h-5" />}
         label="Umidade do Ar"
-        value={data.humidity}
+        value={data.metrics.humidity}
         unit="%"
         delay={0.3}
       />
       <StatCard
         icon={<Wind className="w-5 h-5" />}
         label="Vel. do Vento"
-        value={data.windSpeed}
+        value={data.metrics.windSpeed}
         unit="km/h"
         delay={0.4}
       />
       <StatCard
         icon={<Thermometer className="w-5 h-5" />}
         label="Temp. Máxima"
-        value={data.tempMax}
+        value={data.metrics.tempMax}
         unit="°C"
         delay={0.5}
       />
       <StatCard
         icon={<Thermometer className="w-5 h-5 opacity-70" />}
         label="Temp. Mínima"
-        value={data.tempMin}
+        value={data.metrics.tempMin}
         unit="°C"
         delay={0.6}
       />
       <StatCard
         icon={<Sun className="w-5 h-5" />}
         label="Índice UV"
-        value={data.uvIndex}
+        value={data.metrics.uvIndex}
         delay={0.7}
       />
       <StatCard
         icon={<Wind className="w-5 h-5 opacity-70" />}
         label="Rajadas"
-        value={data.windGusts}
+        value={data.metrics.windGusts}
         unit="km/h"
         delay={0.8}
       />
