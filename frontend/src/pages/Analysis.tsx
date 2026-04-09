@@ -9,6 +9,7 @@ import { AnalysisHistory } from '@/components/analysis/AnalysisHistory'
 import { useAnalysis } from '@/hooks/useAnalysis'
 import { useLocationStore } from '@/store/locationStore'
 import Spotlight from '@/components/map/Spotlight'
+import { CallToAction } from '@/components/layout/CallToAction'
 
 export default function Analysis() {
   const {
@@ -41,7 +42,7 @@ export default function Analysis() {
         <link rel="canonical" href="https://rain-weather-forecast.netlify.app/analise" />
       </Helmet>
 
-      <main className="relative min-h-screen bg-black text-foreground pt-32 pb-20 px-4 flex flex-col items-center">
+      <main className="relative min-h-screen bg-background-primary text-foreground pt-32 pb-20 px-4 flex flex-col items-center">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full animate-pulse" />
@@ -132,6 +133,7 @@ export default function Analysis() {
                   key="result"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
+                  className='bg-surface/30 p-5'
                 >
                   <div className="flex items-center justify-between px-2 mb-6">
                     <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest font-mono">
@@ -151,6 +153,9 @@ export default function Analysis() {
         </div>
 
         <Spotlight />
+        <div className="w-full relative z-20 mt-16">
+          <CallToAction current="analise" />
+        </div>
       </main>
     </>
   )

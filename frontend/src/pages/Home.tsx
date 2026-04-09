@@ -4,6 +4,7 @@ import { NewsPreview } from '@/components/home/NewsPreview'
 import { Helmet } from "react-helmet-async"
 import { useRef } from 'react'
 import Hero from '@/components/home/Hero'
+import { CallToAction } from '@/components/layout/CallToAction'
 
 export default function Home() {
 
@@ -26,7 +27,7 @@ export default function Home() {
                     <DisasterTypes />
                     <NewsPreview />
                 </div>
-
+                <CallToAction current="home" />
             </main>
         </>
     )

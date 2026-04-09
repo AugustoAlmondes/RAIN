@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion"
 import { detectCategory, filteredNews, formatDate } from "@/utils/newsManager";
 import { Helmet } from "react-helmet-async";
+import { CallToAction } from '@/components/layout/CallToAction'
 
 export default function News() {
     const { data, isLoading } = useNews();
@@ -105,6 +106,9 @@ export default function News() {
                             Nenhuma notícia encontrada para esta categoria ou busca.
                         </div>
                     )}
+                </div>
+                <div className="w-full mt-12 z-20">
+                   <CallToAction current="noticias" />
                 </div>
             </section>
         </>
