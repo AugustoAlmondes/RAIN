@@ -1,7 +1,27 @@
 import { detectCategory } from "@/utils/newsManager";
 
-const API_KEY = import.meta.env.VITE_GNEWS_API_KEY;
-const BASE_URL = "https://gnews.io/api/v4/search?q=chuva OR enchente OR vendaval OR temporal OR alagamento OR desmoronamento OR deslizamento OR inundação&lang=pt&country=br&max=200&apikey="
+
+export interface Source {
+  id: string | null;
+  name: string;
+}
+
+export interface Articles {
+  source: Source;
+  author: string | null;
+  title: string | null;
+  description: string;
+  url: string;
+  urlToImage: string;
+  publishedAt: string;
+  content: string;
+}
+
+export interface Main {
+  status: string;
+  totalResults: number;
+  articles: Articles[];
+}
 
 export interface Article {
     title: string,
@@ -18,20 +38,25 @@ export interface Article {
 
 export async function fetchNews() {
     try {
-        const response = await fetch(BASE_URL + API_KEY)
-        const data = await response.json();
+        const response = await fetch('/.netlify/functions/news');
+        const data: Main = await response.json();
 
-        return data.articles.map((article: Article) => ({
-            title: article.title,
-            description: article.description,
-            image: article.image,
-            url: article.url,
-            publishedAt: article.publishedAt,
-            source: article.source.name,
-            reference: article.source.name,
-            category: detectCategory(article.title)
-        }));
+        if (!response.ok) {
+            throw new Error((data as any).error || "Failed to fetch news");
+        }
+
+        return data.articles.map((article: Articles) => ({
+            title: article.title || "",
+            description: article.description || "",
+            image: article.urlToImage || "",
+            url: article.url || "",
+            publishedAt: article.publishedAt || "",
+            source: { name: article.source.name || "Desconhecido" },
+            reference: article.source.name || "",
+            category: detectCategory(article.title || "")
+        })) as Article[];
     } catch (error) {
         console.error(error)
+        return [];
     }
 }
