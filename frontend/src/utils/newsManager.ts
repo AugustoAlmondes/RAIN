@@ -10,7 +10,7 @@ export function formatDate(date?: string) {
     });
 }
 
-export const filteredNews = (data: Article[], category: string, search: string) => data?.filter((item: Article) => {
+export const filteredNews = (data: Article[] | undefined, category: string, search: string) => data?.filter((item: Article) => {
     const matchesCategory =
         category === "all" || detectCategory(item.title) === category;
 

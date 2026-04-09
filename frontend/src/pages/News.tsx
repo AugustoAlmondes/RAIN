@@ -81,7 +81,7 @@ export default function News() {
                 <div className="max-w-7xl mx-auto w-full px-6 md:px-12 mt-12 md:mt-20">
                     <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/20">
                         <h2 className="text-2xl font-semibold text-white">Últimas notícias</h2>
-                        {filteredNews(data, category, search)?.length > 0 && (
+                        {(filteredNews(data, category, search)?.length ?? 0) > 0 && (
                             <span className="text-sm text-white/50">{filteredNews(data, category, search)?.length} resultados</span>
                         )}
                     </div>
@@ -101,7 +101,7 @@ export default function News() {
                         ))}
                     </div>
 
-                    {filteredNews?.length === 0 && (
+                    {(filteredNews(data, category, search)?.length ?? 0) === 0 && (
                         <div className="text-center py-20 text-white/50 border border-white/5 rounded">
                             Nenhuma notícia encontrada para esta categoria ou busca.
                         </div>
