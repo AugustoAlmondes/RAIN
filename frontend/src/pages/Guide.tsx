@@ -160,7 +160,7 @@ const riskLevels = [
   { level: 'Alerta Máximo', color: 'bg-red-500', text: 'text-red-400', border: 'border-red-500/20', desc: 'Desastre iminente ou em curso. Evacue imediatamente se em área de risco.' },
 ]
 
-const cardBase = 'rounded border border-white/10 bg-white/[0.04]'
+const cardBase = 'rounded border border-white/10 bg-white/4'
 
 export default function Guide() {
   const [activeProtocol, setActiveProtocol] = useState<string>('floods')
@@ -209,7 +209,7 @@ export default function Guide() {
             </div>
 
             {/* Tab selector */}
-            <div className="flex flex-wrap gap-2 mb-8 p-1 bg-white/[0.04] border border-white/10 rounded w-full sm:w-fit" role="tablist" aria-label="Tipos de desastres">
+            <div className="flex flex-wrap gap-2 mb-8 p-1 bg-white/4 border border-white/10 rounded w-full sm:w-fit" role="tablist" aria-label="Tipos de desastres">
               {protocols.map(p => (
                 <button
                   key={p.id}
@@ -297,7 +297,7 @@ export default function Guide() {
                   <button
                     key={idx}
                     onClick={() => toggleKitItem(idx)}
-                    className={`w-full flex items-center justify-between min-h-[44px] gap-4 px-5 py-4 text-left transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 group ${cardBase} ${isChecked ? 'bg-white/[0.08]' : 'hover:bg-white/[0.06]'}`}
+                    className={`w-full flex items-center justify-between min-h-[44px] gap-4 px-5 py-4 text-left transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 group ${cardBase} ${isChecked ? 'bg-white/8' : 'hover:bg-white/6'}`}
                   >
                     <div>
                       <p className={`text-sm font-medium transition-colors ${isChecked ? 'text-white/55 line-through' : 'text-white/80'}`}>{item.label}</p>
@@ -333,7 +333,7 @@ export default function Guide() {
                   { num: '192', name: 'SAMU', role: 'Emergências médicas', iconColor: 'text-blue-400' },
                   { num: '190', name: 'Polícia Militar', role: 'Segurança e ordem pública', iconColor: 'text-slate-400' },
                 ].map((contact, i) => (
-                  <div key={contact.num} className={`flex items-center justify-between px-5 py-4 ${cardBase} ${i !== 0 ? 'bg-white/[0.02]' : ''}`}>
+                  <div key={contact.num} className={`flex items-center justify-between px-5 py-4 ${cardBase} ${i !== 0 ? 'bg-white/2' : ''}`}>
                     <div>
                       <p className={`text-xl font-bold font-mono tabular-nums ${contact.iconColor} mb-1`}>{contact.num}</p>
                       <p className="text-sm font-medium text-white/80">{contact.name}</p>

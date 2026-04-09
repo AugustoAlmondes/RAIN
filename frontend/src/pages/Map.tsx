@@ -8,7 +8,7 @@ import { SearchBar } from '@/components/map/SearchBar'
 import { useWeather } from '@/hooks/useWeather'
 import { computeRiskResult } from '@/utils/riskLevels'
 import { reverseGeocode, type GeoLocation } from '@/services/geocodingService'
-import { ArrowLeftIcon, CircleGauge, CloudRainIcon, CloudyIcon, Home, Loader2, Locate, NotepadText, PanelRight, ThermometerIcon, WindIcon } from 'lucide-react'
+import { ArrowLeftIcon, BrainCircuit, CircleGauge, CloudRainIcon, CloudyIcon, Home, Loader2, Locate, NotepadText, PanelRight, ThermometerIcon, WindIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 import { useTourStore } from '@/store/tourStore'
@@ -222,6 +222,25 @@ export default function MapPage() {
               side='bottom'
               className='bg-gray-800 mt-1 backdrop-blur-xl rounded shadow-lg text-slate-400 w-max'>
               <p>Notícias</p>
+            </HoverCardContent>
+          </HoverCard>
+
+          <HoverCard openDelay={300} closeDelay={100} >
+            <HoverCardTrigger>
+              <motion.button
+                id="tour-analysis-btn"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/analise')}
+                className="pointer-events-auto flex items-center justify-center px-3 h-11 bg-surface/90 backdrop-blur-xl border border-border-custom rounded shadow-lg text-slate-400 hover:text-blue-400 hover:border-blue-500/50 transition-all cursor-pointer"
+              >
+                <BrainCircuit className="w-4 h-4" />
+              </motion.button>
+            </HoverCardTrigger>
+            <HoverCardContent
+              side='bottom'
+              className='bg-gray-800 mt-1 backdrop-blur-xl rounded shadow-lg text-slate-400 w-max'>
+              <p>Análise AI</p>
             </HoverCardContent>
           </HoverCard>
 

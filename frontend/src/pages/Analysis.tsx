@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { Helmet } from 'react-helmet-async'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +26,14 @@ export default function Analysis() {
   } = useAnalysis()
 
   const navigate = useNavigate()
-  const setSearchLocation = useLocationStore(state => state.setSearchLocation)
+  const { searchLocation, setSearchLocation } = useLocationStore()
+
+  useEffect(() => {
+    if (searchLocation) {
+      analyze(searchLocation.name)
+      setSearchLocation(null)
+    }
+  }, [searchLocation, analyze, setSearchLocation])
 
   const handleViewOnMap = () => {
     if (location) {

@@ -22,7 +22,7 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const springTransition = { type: 'spring' as const, stiffness: 300, damping: 30 }
+  // const springTransition = { type: 'spring' as const, stiffness: 300, damping: 30 }
 
   return (
     <motion.nav
@@ -68,9 +68,9 @@ export function Navbar() {
                 >
                   {isActive && (
                     <motion.span
-                      layoutId="nav-pill"
+                      // layoutId="nav-pill"
                       className="absolute inset-0 bg-white/10 border border-white/20 rounded z-0"
-                      transition={springTransition}
+                      // transition={springTransition}
                     />
                   )}
 

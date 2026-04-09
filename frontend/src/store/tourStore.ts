@@ -46,6 +46,12 @@ export const useTourStore = create<TourStore>((set) => ({
             position: "bottom"
         },
         {
+            targetId: "tour-analysis-btn",
+            title: "Análise AI",
+            content: "Obtenha um relatório detalhado de riscos climáticos processado por inteligência artificial.",
+            position: "bottom"
+        },
+        {
             targetId: "tour-weather-widget",
             title: "Widget de Tempo",
             content: "Veja as condições climáticas atuais na cidade selecionada.",
@@ -56,6 +62,12 @@ export const useTourStore = create<TourStore>((set) => ({
             title: "Painel de Riscos",
             content: "Veja as condições climáticas e riscos de desastres na cidade selecionada.",
             position: "left"
+        },
+        {
+            targetId: "tour-guide-btn",
+            title: "Guia de Proteção",
+            content: "Acesse nosso guia completo de como se proteger em diversas situações de desastres.",
+            position: "top"
         },
         {
             targetId: "tour-map-styles",

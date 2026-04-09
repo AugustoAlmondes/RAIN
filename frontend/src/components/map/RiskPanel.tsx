@@ -1,8 +1,9 @@
 import { motion, AnimatePresence } from 'motion/react'
-import { X, AlertTriangle, Droplets, Wind, Thermometer, CloudRain, Zap, Sun, Mountain, ChevronDown, Info, Snowflake } from 'lucide-react'
+import { X, AlertTriangle, Droplets, Wind, Thermometer, CloudRain, Zap, Sun, Mountain, ChevronDown, Info, Snowflake, BookOpen } from 'lucide-react'
 import type { RiskResult, CalculatedRisk } from '@/utils/riskLevels'
 import type { WeatherData } from '@/services/weatherService'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -99,6 +100,7 @@ function SecondaryRiskBadge({ risk }: { risk: CalculatedRisk }) {
 
 export function RiskPanel({ risk, weather, locationName, loading, onClose }: RiskPanelProps) {
   const [expanded, setExpanded] = useState(true)
+  const navigate = useNavigate()
 
   const dailyLabels = weather?.daily.time ?? []
   const dailyPrecip = weather?.daily.precipitationSum ?? []
@@ -307,6 +309,18 @@ export function RiskPanel({ risk, weather, locationName, loading, onClose }: Ris
                       </li>
                     ))}
                   </ul>
+                </div>
+
+                {/* Guide Button */}
+                <div className="pt-2 mt-2 border-t border-border-custom">
+                  <button
+                    id="tour-guide-btn"
+                    onClick={() => navigate('/guia')}
+                    className="w-full flex items-center justify-center gap-2 py-3.5 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/30 hover:border-blue-500/50 rounded text-blue-400 font-bold transition-all cursor-pointer group"
+                  >
+                    <BookOpen className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                    <span>Ver Guia de Proteção</span>
+                  </button>
                 </div>
               </div>
             ) : (

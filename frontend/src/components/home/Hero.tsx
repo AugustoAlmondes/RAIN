@@ -30,6 +30,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
     const [results, setResults] = useState<GeoLocation[]>([])
     const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(false)
+    const [videoLoaded, setVideoLoaded] = useState(false)
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
@@ -72,7 +73,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
 
     const handleSelect = (loc: GeoLocation) => {
         setSearchLocation(loc)
-        navigate('/mapa')
+        navigate('/analise')
     }
 
     const handleSearch = async (e: React.FormEvent) => {
@@ -87,10 +88,10 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                     if (data.length > 0) {
                         handleSelect(data[0])
                     } else {
-                        navigate('/mapa')
+                        navigate('/analise')
                     }
                 } catch {
-                    navigate('/mapa')
+                    navigate('/analise')
                 } finally {
                     setLoading(false)
                 }
@@ -298,10 +299,20 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                 transition={{ duration: 0.8 }}
                 className="w-full max-w-5xl my-40 relative z-1 group"
             >
-                <div className="relative rounded overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface animate-glow-pulse">
+                <div className="relative rounded overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface">
 
                     <div className="absolute inset-0 bg-linear-to-t from-bg via-transparent to-transparent z-10 pointer-events-none"></div>
-                    <video src="/video/map2.mp4" autoPlay loop muted className="relative z-10 w-full h-full object-cover transition-transform duration-700 ease-in-out"></video>
+                    <video
+                        src="/video/map2.mp4"
+                        poster="/images/map_poster.png"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        preload="auto"
+                        onLoadedData={() => setVideoLoaded(true)}
+                        className={`relative z-10 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    ></video>
 
                 </div>
 
