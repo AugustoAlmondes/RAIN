@@ -3,7 +3,7 @@ import { Search, MapPin, Loader2, X } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { searchCity, type GeoLocation } from "@/services/geocodingService"
-import { useLocationStore } from "@/store/locationStore"
+import { useAnalysis } from "@/hooks/useAnalysis"
 
 const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -35,7 +35,6 @@ export default function Hero({ mapRef }: { mapRef: any }) {
     const containerRef = useRef<HTMLDivElement>(null)
 
     const navigate = useNavigate()
-    const { setSearchLocation } = useLocationStore()
 
     useEffect(() => {
         const handleClick = (e: MouseEvent) => {
@@ -72,7 +71,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
     }
 
     const handleSelect = (loc: GeoLocation) => {
-        setSearchLocation(loc)
+        useAnalysis.getState().analyze(loc.name)
         navigate('/analise')
     }
 
@@ -297,11 +296,11 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8 }}
-                className="w-full max-w-5xl my-16 md:my-40 relative z-10 group px-4 md:px-0"
+                className="w-full max-w-5xl my-16 md:my-40 relative z-9 group px-4 md:px-0"
             >
-                <div className="relative rounded-xl overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface">
+                <div className="relative rounded overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface">
 
-                    <div className="absolute inset-0 bg-linear-to-t from-bg via-transparent to-transparent z-10 pointer-events-none"></div>
+                    <div className="absolute inset-0 bg-linear-to-t from-bg via-transparent to-transparent z-9 pointer-events-none"></div>
                     <video
                         src="/video/map2.mp4"
                         poster="/images/map_poster.png"
@@ -311,7 +310,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                         playsInline
                         preload="auto"
                         onLoadedData={() => setVideoLoaded(true)}
-                        className={`relative z-10 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                        className={`relative z-9 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}
                     ></video>
 
                 </div>
@@ -323,9 +322,9 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.5, duration: 1 }}
                             whileHover={{ scale: 1.02 }}
-                            className='mt-10 relative px-7 py-2.5 bg-surface text-slate-300 font-medium rounded overflow-hidden transition-all cursor-pointer active:scale-95 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/25 border border-border-custom hover:border-blue-500/50 hover:text-white flex items-center gap-2 group'
+                            className='mt-5 mb-15 md:mt-10 relative px-7 py-2.5 bg-surface text-slate-300 font-medium rounded overflow-hidden transition-all cursor-pointer active:scale-95 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/25 border border-border-custom hover:border-blue-500/50 hover:text-white flex items-center gap-2 group'
                         >
-                            <span className="relative z-10">Explorar Mapa</span>
+                            <span className="relative z-9">Explorar Mapa</span>
                         </motion.button>
                     </Link>
                 </div>

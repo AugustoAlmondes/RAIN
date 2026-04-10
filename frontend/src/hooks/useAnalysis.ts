@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { create } from 'zustand'
 import { searchCity, type GeoLocation } from '@/services/geocodingService'
 import { fetchWeather } from '@/services/weatherService'
 import { computeRiskResult, type RiskResult } from '@/utils/riskLevels'
@@ -13,41 +13,30 @@ export interface AnalysisState {
   city: string | null
   location: GeoLocation | null
   step: 'idle' | 'searching' | 'fetching_weather' | 'analyzing'
+  history: string[]
+  analyze: (query: string) => Promise<void>
+  clearHistory: () => void
 }
 
-export function useAnalysis() {
-  const [state, setState] = useState<AnalysisState>({
-    loading: false,
-    error: null,
-    result: null,
-    city: null,
-    location: null,
-    step: 'idle',
-  })
-
-  const [history, setHistory] = useState<string[]>(() => {
+export const useAnalysis = create<AnalysisState>((set, get) => ({
+  loading: false,
+  error: null,
+  result: null,
+  city: null,
+  location: null,
+  step: 'idle',
+  history: (() => {
     const stored = localStorage.getItem(HISTORY_KEY)
     return stored ? JSON.parse(stored) : []
-  })
-
-  const saveToHistory = useCallback((cityName: string) => {
-    setHistory((prev) => {
-      const filtered = prev.filter((item) => item.toLowerCase() !== cityName.toLowerCase())
-      const newHistory = [cityName, ...filtered].slice(0, MAX_HISTORY)
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory))
-      return newHistory
-    })
-  }, [])
-
-  const clearHistory = useCallback(() => {
-    setHistory([])
+  })(),
+  clearHistory: () => {
+    set({ history: [] })
     localStorage.removeItem(HISTORY_KEY)
-  }, [])
-
-  const analyze = useCallback(async (query: string) => {
+  },
+  analyze: async (query: string) => {
     if (!query.trim()) return
 
-    setState((prev) => ({ ...prev, loading: true, error: null, step: 'searching', city: query }))
+    set({ loading: true, error: null, step: 'searching', city: query })
 
     try {
       // 1. Search city
@@ -60,18 +49,18 @@ export function useAnalysis() {
       const cityName = location.name
 
       // 2. Fetch weather
-      setState((prev) => ({ ...prev, step: 'fetching_weather', city: cityName }))
+      set({ step: 'fetching_weather', city: cityName })
       const weather = await fetchWeather(location.lat, location.lon)
 
       // 3. Compute Risk (Deterministic local analysis)
-      setState((prev) => ({ ...prev, step: 'analyzing' }))
+      set({ step: 'analyzing' })
       
       // Simulate a small delay for better UX (so the user can see the steps)
       await new Promise((resolve) => setTimeout(resolve, 800))
 
       const riskInfo = computeRiskResult(weather)
 
-      setState({
+      set({
         loading: false,
         error: null,
         result: riskInfo,
@@ -80,21 +69,18 @@ export function useAnalysis() {
         step: 'idle',
       })
 
-      saveToHistory(cityName)
+      // History logic
+      const { history } = get()
+      const filtered = history.filter((item) => item.toLowerCase() !== cityName.toLowerCase())
+      const newHistory = [cityName, ...filtered].slice(0, MAX_HISTORY)
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory))
+      set({ history: newHistory })
     } catch (err: any) {
-      setState((prev) => ({
-        ...prev,
+      set({
         loading: false,
         error: err.message || 'Ocorreu um erro inesperado.',
         step: 'idle',
-      }))
+      })
     }
-  }, [saveToHistory])
-
-  return {
-    ...state,
-    analyze,
-    history,
-    clearHistory,
   }
-}
+}))

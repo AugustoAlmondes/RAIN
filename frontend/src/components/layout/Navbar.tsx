@@ -111,7 +111,7 @@ export function Navbar() {
             <Button
               onClick={() => navigate('/mapa')}
               className={`group overflow-hidden rounded transition-all duration-500 ease-in-out border border-white/30
-                ${isScrolled ? 'w-11 h-11 p-0 justify-center bg-white/10' : 'w-11 md:w-44 px-0 md:px-6 justify-center md:justify-start h-11 bg-white/5'}
+                ${isScrolled ? 'w-11 h-11 p-0 justify-center bg-white/10' : 'w-11 md:w-44 px-0 md:px-6 justify-center md:justify-center h-11 bg-white/5'}
                 hover:bg-white/20 hover:border-white/60 text-white cursor-pointer
               `}
             >

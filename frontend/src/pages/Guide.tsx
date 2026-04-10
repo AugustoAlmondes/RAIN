@@ -202,7 +202,7 @@ export default function Guide() {
         <div className="max-w-5xl mx-auto px-6 py-20 space-y-16 lg:space-y-20">
 
           {/* ── Protocolos de Emergência ── */}
-          <section>
+          <section className='bg-surface/40 p-5 rounded mb-10'>
             <div className="mb-10">
               <h2 className="text-2xl font-semibold tracking-tight mb-1">Protocolos de Emergência</h2>
               <p className="text-white/60 text-sm">Selecione o tipo de desastre para ver as instruções detalhadas.</p>
@@ -284,13 +284,13 @@ export default function Guide() {
           </section>
 
           {/* ── Checklist ── */}
-          <section>
+          <section className='bg-surface/40 p-5 rounded mb-10'>
             <div className="mb-10">
               <h2 className="text-2xl font-semibold tracking-tight mb-1">Kit de Emergência</h2>
               <p className="text-white/60 text-sm">Itens essenciais para se manter preparado para 72 horas autônomas.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 ">
               {kitItems.map((item, idx) => {
                 const isChecked = checkedItems.includes(idx)
                 return (
@@ -317,7 +317,7 @@ export default function Guide() {
           </section>
 
           {/* ── Two-col Section: Contatos + Glossário ── */}
-          <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <section className=" bg-surface/40 p-5 rounded grid grid-cols-1 lg:grid-cols-2 gap-8 ">
 
             {/* Contatos */}
             <div>

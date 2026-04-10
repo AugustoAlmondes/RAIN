@@ -271,14 +271,14 @@ export default function MapPage() {
             </div>
 
             <div className='absolute bottom-4 left-4 right-4 sm:right-auto z-20 flex flex-col sm:flex-row gap-4 items-start sm:items-end'>
-              <div id="tour-map-layers" className='bg-surface/90 backdrop-blur-xl border border-border-custom rounded p-2 shadow-xl shadow-black/30 flex flex-row sm:flex-col gap-2 w-full sm:w-auto overflow-x-auto'>
+              <div id="tour-map-layers" className='bg-surface backdrop-blur-xl border border-border-custom rounded p-2 shadow-xl shadow-black/30 flex flex-row sm:flex-col gap-2 w-full sm:w-auto overflow-x-auto'>
                 <h1 className='text-[14px] uppercase tracking-widest font-semibold px-1 text-slate-400 font-mono hidden sm:block'>Ver:</h1>
                 {Object.entries(WEATHER_LAYERS).map(([layerObj, icon]) => (
                   <HoverCard key={layerObj} openDelay={300} closeDelay={100}>
                     <HoverCardTrigger asChild>
                       <button
                         onClick={() => setLayer(layerObj as WeatherLayer)}
-                        className={`relative flex items-center justify-center w-10 h-10 rounded transition-all duration-200 cursor-pointer
+                        className={`relative flex flex-1 sm:flex-none items-center justify-center w-10 h-10 rounded transition-all duration-200 cursor-pointer
                           ${layer === layerObj
                             ? 'text-white'
                             : 'bg-white/3 border border-border-custom text-slate-400 hover:text-slate-200 hover:bg-white/6 hover:border-blue-500/50'}`}
@@ -306,7 +306,7 @@ export default function MapPage() {
                 ))}
               </div>
 
-              <div id="tour-map-styles" className='bg-surface backdrop-blur-xl border border-border-custom rounded p-4 shadow-xl shadow-black/30 max-w-[340px] font-mono'>
+              <div id="tour-map-styles" className='bg-surface backdrop-blur-xl border border-border-custom rounded p-4 shadow-xl shadow-black/30 w-full sm:max-w-[340px] font-mono'>
                 <div className="flex items-center justify-between mb-3 text-slate-400">
                   <p className="text-[14px] uppercase tracking-widest font-semibold px-1">Estilo do mapa</p>
                   {weatherLoading && <Loader2 className="w-3.5 h-3.5 text-blue-400 animate-spin" />}

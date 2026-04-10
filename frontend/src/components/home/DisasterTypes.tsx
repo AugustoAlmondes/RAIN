@@ -79,7 +79,7 @@ export function DisasterTypes() {
                 variados tipos de desastres
               </span>
             </h2>
-            <p className="text-slate-400 max-w-2xl text-lg">
+            <p className="text-slate-400 max-w-2xl font-mono text-lg">
               Acompanhamos e analisamos constantemente as ameaças naturais para fornecer as informações que podem salvar vidas.
             </p>
           </motion.div>
