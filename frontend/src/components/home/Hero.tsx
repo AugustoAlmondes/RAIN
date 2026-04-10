@@ -112,7 +112,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
             className="
         relative flex flex-col items-center justify-center
         w-full min-h-screen pt-16 mt-[-64px]
-        bg-[url('/images/mapa-bg.png')] bg-cover bg-center
+        bg-[url('/images/mapa-bg2.png')] bg-cover bg-center
         overflow-hidden border-b-2 border-border-custom"
         >
             <div className="absolute inset-0 bg-black/10 z-0" />
@@ -297,9 +297,9 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.8 }}
-                className="w-full max-w-5xl my-40 relative z-1 group"
+                className="w-full max-w-5xl my-16 md:my-40 relative z-10 group px-4 md:px-0"
             >
-                <div className="relative rounded overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface">
+                <div className="relative rounded-xl overflow-hidden shadow-[0_0_100px_-20px_rgba(59,130,246,0.25)] hover:shadow-[0_0_300px_20px_rgba(59,130,246,0.4)] border border-border-custom hover:border-slate-500/50 transition-all duration-700 aspect-video bg-surface">
 
                     <div className="absolute inset-0 bg-linear-to-t from-bg via-transparent to-transparent z-10 pointer-events-none"></div>
                     <video
@@ -323,9 +323,9 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.5, duration: 1 }}
                             whileHover={{ scale: 1.02 }}
-                            className='mt-10 relative px-10 py-3.5 bg-surface text-slate-300 font-medium rounded overflow-hidden transition-all cursor-pointer active:scale-95 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/25 border border-border-custom hover:border-blue-500/50 hover:text-white flex items-center gap-2 group'
+                            className='mt-10 relative px-7 py-2.5 bg-surface text-slate-300 font-medium rounded overflow-hidden transition-all cursor-pointer active:scale-95 shadow-lg shadow-blue-500/10 hover:shadow-blue-500/25 border border-border-custom hover:border-blue-500/50 hover:text-white flex items-center gap-2 group'
                         >
-                            <span className="relative z-10">Explorar Mapa em Tempo Real</span>
+                            <span className="relative z-10">Explorar Mapa</span>
                         </motion.button>
                     </Link>
                 </div>

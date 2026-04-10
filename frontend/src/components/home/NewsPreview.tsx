@@ -20,7 +20,7 @@ export function NewsPreview() {
       <div className="mx-auto w-full max-w-4xl flex flex-col items-center gap-3">
       <div className="flex flex-col w-full md:flex-row md:items-end justify-between">
         <div className="w-full">
-          <h2 className="text-3xl w-full md:text-4xl font-medium font-mono tracking-tight text-white mb-2">
+          <h2 className="text-3xl px-5 w-full md:text-4xl font-medium font-mono tracking-tight text-white mb-2">
             Últimas Notícias
           </h2>
         </div>

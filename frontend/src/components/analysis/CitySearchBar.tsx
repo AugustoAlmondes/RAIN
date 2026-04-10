@@ -90,20 +90,20 @@ export function CitySearchBar({ onSearch, isLoading }: CitySearchBarProps) {
             onChange={(e) => handleChange(e.target.value)}
             onFocus={() => results.length > 0 && setOpen(true)}
             placeholder="Digite o nome de uma cidade para analisar..."
-            className="flex-1 bg-transparent pl-12 pr-12 py-4 text-sm text-white placeholder:text-slate-500 font-mono outline-none"
+            className="flex-1 bg-transparent pl-12 pr-12 md:pr-14 py-3 md:py-4 text-xs md:text-sm text-white placeholder:text-slate-500 font-mono outline-none"
             disabled={isLoading}
           />
 
 
           {isSearching && (
-            <Loader2 className="absolute right-32 w-4 h-4 text-slate-500 animate-spin" />
+            <Loader2 className="absolute right-14 md:right-32 w-4 h-4 text-slate-500 animate-spin" />
           )}
 
           {query && !isSearching && (
             <button
               type="button"
               onClick={handleClear}
-              className="absolute right-32 cursor-pointer"
+              className="absolute right-14 md:right-32 cursor-pointer p-2"
             >
               <X className="w-4 h-4 text-slate-500 hover:text-white transition-colors" />
             </button>
@@ -112,10 +112,10 @@ export function CitySearchBar({ onSearch, isLoading }: CitySearchBarProps) {
           <Button
             type="submit"
             disabled={isLoading || !query.trim()}
-            className="mr-2 px-5 py-2.5 rounded bg-gradient-text-secondary hover:bg-gradient-text-primary text-white text-sm font-medium border border-gradient-text-primary/20 hover:border-gradient-text-primary/60 transition-all duration-300 cursor-pointer active:scale-95 shrink-0"
+            className="mr-1 md:mr-2 px-3 md:px-5 py-2 md:py-2.5 rounded bg-gradient-text-secondary hover:bg-gradient-text-primary text-white text-xs md:text-sm font-medium border border-gradient-text-primary/20 hover:border-gradient-text-primary/60 transition-all duration-300 cursor-pointer active:scale-95 shrink-0"
           >
-            <Sparkles className="w-4 h-4" />
-            <span>Analisar</span>
+            <Sparkles className="w-4 h-4 mr-0 md:mr-2" />
+            <span className="hidden md:inline">Analisar</span>
           </Button>
 
         </div>

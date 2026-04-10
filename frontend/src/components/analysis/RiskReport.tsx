@@ -56,7 +56,7 @@ export function RiskReport({ data, city, location, onViewOnMap }: RiskReportProp
                     {city}
                   </h2>
                 </div>
-                <p className="text-slate-400 text-sm font-mono flex items-center gap-1">
+                <p className="text-slate-400 text-sm font-mono flex flex-wrap items-center gap-1">
                   Relatório gerado pelas API públicas.
                   <span className="text-blue-500 text-sm underline cursor-pointer">
                     Clique aqui
@@ -107,7 +107,7 @@ export function RiskReport({ data, city, location, onViewOnMap }: RiskReportProp
               </div>
             )}
 
-            <div className="flex items-center justify-center p-6 rounded bg-surface/40 backdrop-blur-3xl border border-white/10 space-x-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center p-6 rounded bg-surface/40 backdrop-blur-3xl border border-white/10 gap-6 sm:gap-0 sm:space-x-6">
               <div className="text-center space-y-1">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Precipitação</p>
                 <div className="flex items-center gap-2 text-2xl font-bold text-white">
@@ -115,7 +115,7 @@ export function RiskReport({ data, city, location, onViewOnMap }: RiskReportProp
                   <span>{metrics.precip24h}mm</span>
                 </div>
               </div>
-              <div className="w-px h-10 bg-white/10" />
+              <div className="w-full h-px sm:w-px sm:h-10 bg-white/10" />
               <div className="text-center space-y-1">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Vento Máx.</p>
                 <div className="flex items-center gap-2 text-2xl font-bold text-white">
@@ -123,7 +123,7 @@ export function RiskReport({ data, city, location, onViewOnMap }: RiskReportProp
                   <span>{metrics.windSpeed}km/h</span>
                 </div>
               </div>
-              <div className="w-px h-10 bg-white/10" />
+              <div className="w-full h-px sm:w-px sm:h-10 bg-white/10" />
               <div className="text-center space-y-1">
                 <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Umidade</p>
                 <div className="flex items-center gap-2 text-2xl font-bold text-white">

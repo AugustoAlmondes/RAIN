@@ -49,7 +49,7 @@ export function Navbar() {
                 src={isScrolled ? '/logo_one.svg' : '/logo2.svg'}
                 alt="logo"
                 onClick={() => navigate('/')}
-                className={`cursor-pointer transition-all ${isScrolled ? 'w-8 h-8' : 'w-32 h-8'}`}
+                className={`cursor-pointer transition-all ${isScrolled ? 'w-5 h-5 md:h-8 md:w-8' : 'w-32 h-8'}`}
               />
             </AnimatePresence>
           </div>
@@ -93,8 +93,10 @@ export function Navbar() {
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: 5 }}
                           transition={{ duration: 0.2 }}
+                          className="flex items-center"
                         >
-                          {label}
+                          <Icon size={18} className="block md:hidden" />
+                          <span className="hidden md:block">{label}</span>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -105,15 +107,15 @@ export function Navbar() {
           </nav>
 
           {/* Action Button */}
-          <div className="flex items-center justify-end w-40">
+          <div className="flex items-center justify-end w-auto md:w-40">
             <Button
               onClick={() => navigate('/mapa')}
               className={`group overflow-hidden rounded transition-all duration-500 ease-in-out border border-white/30
-                ${isScrolled ? 'w-11 h-11 p-0 justify-center bg-white/10' : 'w-44 px-6 h-11 bg-white/5'}
+                ${isScrolled ? 'w-11 h-11 p-0 justify-center bg-white/10' : 'w-11 md:w-44 px-0 md:px-6 justify-center md:justify-start h-11 bg-white/5'}
                 hover:bg-white/20 hover:border-white/60 text-white cursor-pointer
               `}
             >
-              <motion.div layout className="flex items-center gap-3">
+              <motion.div layout className="flex items-center md:gap-3">
                 <Map size={18} className="shrink-0" />
                 <AnimatePresence>
                   {!isScrolled && (
@@ -122,7 +124,7 @@ export function Navbar() {
                       animate={{ opacity: 1, width: 'auto', x: 0 }}
                       exit={{ opacity: 0, width: 0, x: 10 }}
                       transition={{ duration: 0.3 }}
-                      className="whitespace-nowrap font-mono text-xs tracking-wider"
+                      className="hidden md:block whitespace-nowrap font-mono text-xs tracking-wider"
                     >
                       IR AO MAPA
                     </motion.span>

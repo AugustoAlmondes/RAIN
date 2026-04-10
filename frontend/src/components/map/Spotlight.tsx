@@ -159,7 +159,7 @@ export default function Spotlight() {
                                 variant="ghost"
                                 onClick={prevStep}
                                 size="sm"
-                                className="px-3 text-xs text-white/50 hover:text-white hover:bg-white/5"
+                                className="px-3 text-xs cursor-pointer text-white/50 hover:text-white hover:bg-white/5"
                             >
                                 Anterior
                             </Button>
@@ -167,7 +167,7 @@ export default function Spotlight() {
                         <Button
                             onClick={currentStep === steps.length - 1 ? closeTour : nextStep}
                             size="sm"
-                            className="flex-1 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded shadow-lg shadow-blue-600/20 transition-all active:scale-95"
+                            className="flex-1 cursor-pointer bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded shadow-lg shadow-blue-600/20 transition-all active:scale-95"
                         >
                             {currentStep === steps.length - 1 ? "Finalizar" : "Próximo"}
                         </Button>

@@ -63,7 +63,7 @@ export function CallToAction({ current }: CallToActionProps) {
       <div className="max-w-5xl w-full px-6 md:px-12">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-semibold tracking-tight text-white mb-3">Explore mais recursos</h2>
-          <p className="text-white/50 text-base max-w-xl mx-auto">
+          <p className="text-white/50 text-base font-mono max-w-xl mx-auto">
             Aprofunde-se nos recursos do sistema para ficar sempre atualizado e preparado.
           </p>
         </div>
@@ -77,7 +77,7 @@ export function CallToAction({ current }: CallToActionProps) {
                   <Icon className="w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-medium text-white mb-3">{card.title}</h3>
-                <p className="text-white/60 text-sm mb-8 grow">{card.description}</p>
+                <p className="text-white/60 text-sm mb-8 font-mono grow">{card.description}</p>
                 <Link to={card.href} className="w-full">
                   <Button variant="outline" className="w-full border-white/10 hover:bg-white/5 text-white hover:text-white transition-colors cursor-pointer bg-transparent">
                     Acessar {card.title}

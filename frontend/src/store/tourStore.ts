@@ -64,12 +64,6 @@ export const useTourStore = create<TourStore>((set) => ({
             position: "left"
         },
         {
-            targetId: "tour-guide-btn",
-            title: "Guia de Proteção",
-            content: "Acesse nosso guia completo de como se proteger em diversas situações de desastres.",
-            position: "top"
-        },
-        {
             targetId: "tour-map-styles",
             title: "Estilos do Mapa",
             content: "Selecione os estilos que deseja visualizar no mapa.",

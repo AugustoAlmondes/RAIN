@@ -67,9 +67,9 @@ export function HowItWorks() {
                   transition={{ delay: index * 0.2, duration: 0.6 }}
                   className="relative z-10 flex flex-col items-center text-center"
                 >
-                  <div className="w-24 h-24 mb-8 rounded-full bg-surface border border-border-custom flex items-center justify-center shadow-[0_0_40px_-10px_rgba(59,130,246,0.3)] relative">
+                  <div className="w-16 h-16 md:w-24 md:h-24 mb-8 rounded-full bg-surface border border-border-custom flex items-center justify-center shadow-[0_0_40px_-10px_rgba(59,130,246,0.3)] relative">
                     <div className={`absolute inset-0 rounded-full bg-linear-to-tr ${step.gradient} opacity-20 blur-md`} />
-                    <Icon className="w-10 h-10 text-white relative z-10" />
+                    <Icon className="w-7 h-7 md:w-10 md:h-10 text-white relative z-10" />
 
                     {/* Step number badge */}
                     <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-blue-600 border-4 border-bg text-white font-bold flex items-center justify-center text-sm">
@@ -77,8 +77,8 @@ export function HowItWorks() {
                     </div>
                   </div>
 
-                  <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                  <p className="text-slate-400 max-w-sm leading-relaxed">
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4">{step.title}</h3>
+                  <p className="text-slate-400 font-mono max-w-sm leading-relaxed">
                     {step.description}
                   </p>
                 </motion.div>

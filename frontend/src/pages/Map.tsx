@@ -159,7 +159,7 @@ export default function MapPage() {
       <meta name="description" content="Mapa de monitoramento de desastres naturais em tempo real com dados de satélite, radares meteorológicos e sensores em campo. Layers de chuva, vento, temperatura e pressão. Mapas de calor e alertas de desastres" />
     </Helmet>
       <div className="fixed inset-0 bg-bg flex flex-col">
-        <div className="absolute top-0 left-0 right-0 z-30 flex items-center gap-3 px-4 pt-10 pb-4 pointer-events-none">
+        <div className="absolute top-0 left-0 right-0 z-30 flex flex-wrap md:flex-nowrap items-center gap-2 md:gap-3 px-2 md:px-4 pt-10 pb-4 pointer-events-none">
           <HoverCard>
             <HoverCardTrigger>
               <motion.button
@@ -270,9 +270,9 @@ export default function MapPage() {
               <WeatherWidget risk={risk} locationName={locationName} loading={weatherLoading} />
             </div>
 
-            <div className='absolute bottom-4 left-4 z-20 flex flex-row gap-4 items-end'>
-              <div id="tour-map-layers" className='bg-surface/90 backdrop-blur-xl border border-border-custom rounded p-2 shadow-xl shadow-black/30 flex flex-col gap-2'>
-                <h1 className='text-[14px] uppercase tracking-widest font-semibold px-1 text-slate-400 font-mono'>Ver:</h1>
+            <div className='absolute bottom-4 left-4 right-4 sm:right-auto z-20 flex flex-col sm:flex-row gap-4 items-start sm:items-end'>
+              <div id="tour-map-layers" className='bg-surface/90 backdrop-blur-xl border border-border-custom rounded p-2 shadow-xl shadow-black/30 flex flex-row sm:flex-col gap-2 w-full sm:w-auto overflow-x-auto'>
+                <h1 className='text-[14px] uppercase tracking-widest font-semibold px-1 text-slate-400 font-mono hidden sm:block'>Ver:</h1>
                 {Object.entries(WEATHER_LAYERS).map(([layerObj, icon]) => (
                   <HoverCard key={layerObj} openDelay={300} closeDelay={100}>
                     <HoverCardTrigger asChild>

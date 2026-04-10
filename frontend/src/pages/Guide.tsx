@@ -189,11 +189,11 @@ export default function Guide() {
               <div className="h-px w-8 bg-blue-500/60" />
               <span className="text-xs font-mono text-blue-400 tracking-widest uppercase">Guia de Prevenção</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.1] mb-6">
-              Informação que<br />
-              <span className="text-blue-300">salva vidas.</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight leading-[1.1] mb-6">
+              Informação que 
+              <span className="bg-linear-to-r from-gradient-text-primary to-[#6ba3d6] bg-clip-text text-transparent"> Salva Vidas.</span>
             </h1>
-            <p className="text-white/70 text-lg max-w-xl leading-relaxed font-light">
+            <p className="text-slate-400 font-mono text-lg max-w-xl leading-relaxed">
               Protocolos de emergência, kit de sobrevivência e contatos essenciais — tudo que você precisa saber antes que seja necessário.
             </p>
           </div>
