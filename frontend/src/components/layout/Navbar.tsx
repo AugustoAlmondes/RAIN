@@ -49,9 +49,17 @@ export function Navbar() {
                 src={isScrolled ? '/logo_one.svg' : '/logo2.svg'}
                 alt="logo"
                 onClick={() => navigate('/')}
-                className={`cursor-pointer transition-all ${isScrolled ? 'w-5 h-5 md:h-8 md:w-8' : 'w-32 h-8'}`}
+                className={`cursor-pointer transition-all hidden md:block ${isScrolled ? 'md:h-8 md:w-8' : 'w-32 h-8'}`}
               />
             </AnimatePresence>
+            <motion.img
+              initial={{ opacity: 0.6 }}
+              whileHover={{ opacity: 1, scale: 1.05 }}
+              src="/logo_one.svg"
+              alt="logo"
+              onClick={() => navigate('/')}
+              className="cursor-pointer transition-all md:hidden w-32 h-8 opacity-60"
+            />
           </div>
 
           {/* Navigation Links */}

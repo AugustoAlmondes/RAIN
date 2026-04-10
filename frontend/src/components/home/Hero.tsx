@@ -171,7 +171,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                             className="relative flex items-center rounded border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_0_40px_-10px_rgba(66,119,192,0.3)] hover:border-gradient-text-primary/40 hover:shadow-[0_0_60px_-10px_rgba(66,119,192,0.4)] focus-within:border-gradient-text-primary/60 focus-within:shadow-[0_0_80px_-5px_rgba(66,119,192,0.5)] transition-all duration-500"
                         >
                             <Search
-                                className="absolute left-5 w-4 h-4 text-slate-500 group-focus-within:text-gradient-text-primary transition-colors duration-300 shrink-0"
+                                className="absolute hidden md:block left-5 w-4 h-4 text-slate-500 group-focus-within:text-gradient-text-primary transition-colors duration-300 shrink-0"
                             />
                             <input
                                 type="text"
@@ -179,7 +179,7 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                                 onChange={(e) => handleSearchChange(e.target.value)}
                                 onFocus={() => results.length > 0 && setOpen(true)}
                                 placeholder="Digite o nome da cidade..."
-                                className="flex-1 bg-transparent pl-12 pr-12 py-4 text-sm text-white placeholder:text-slate-500 font-mono outline-none"
+                                className="flex-1 bg-transparent pl-5 md:pl-12 pr-5 md:pr-12 py-4 text-sm text-white placeholder:text-slate-500 font-mono outline-none"
                             />
 
                             {loading && (
@@ -200,7 +200,12 @@ export default function Hero({ mapRef }: { mapRef: any }) {
                                 type="submit"
                                 className="mr-2 px-5 py-2.5 rounded bg-gradient-text-secondary hover:bg-gradient-text-primary text-white text-sm font-medium border border-gradient-text-primary/20 hover:border-gradient-text-primary/60 transition-all duration-300 cursor-pointer active:scale-95 shrink-0"
                             >
-                                Pesquisar
+                                <span className="hidden md:block">
+                                    Pesquisar
+                                </span>
+                                <Search
+                                    className="w-4 h-4 md:hidden text-slate-500 group-focus-within:text-gradient-text-primary transition-colors duration-300 shrink-0"
+                                />
                             </button>
                         </div>
                     </form>
